@@ -1,6 +1,9 @@
 services:
-  server:
+  server-dev:
     image: keuzewijzer-server
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
     expose:
       - "8080"
       - "8081"
