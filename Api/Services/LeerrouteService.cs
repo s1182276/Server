@@ -7,24 +7,24 @@ namespace KeuzeWijzerApi.Services
     {
         private static readonly List<LeerrouteDto> leerroutes = new()
         {
-            new LeerrouteDto {
-                Id = 1,
-                Name = "Route1",
-                Modules = new List<ModuleDto>()
-                {
-                    new ModuleDto { id = 1, description = "", name = "" },
-                    new ModuleDto { id = 2, description = "", name = "" }
-                }
-            },
-            new LeerrouteDto {
-                Id = 2,
-                Name = "Route2",
-                Modules = new List<ModuleDto>()
-                {
-                    new ModuleDto { id = 3, description = "", name = "" },
-                    new ModuleDto { id = 4, description = "", name = "" }
-                }
-            }
+            //new LeerrouteDto {
+            //    Id = 1,
+            //    Name = "Route1",
+            //    Modules = new List<ModuleDto>()
+            //    {
+            //        new ModuleDto { id = 1, description = "", name = "" },
+            //        new ModuleDto { id = 2, description = "", name = "" }
+            //    }
+            //},
+            //new LeerrouteDto {
+            //    Id = 2,
+            //    Name = "Route2",
+            //    Modules = new List<ModuleDto>()
+            //    {
+            //        new ModuleDto { id = 3, description = "", name = "" },
+            //        new ModuleDto { id = 4, description = "", name = "" }
+            //    }
+            //}
         };
 
         /// <summary>
@@ -32,13 +32,13 @@ namespace KeuzeWijzerApi.Services
         /// </summary>
         private LeerrouteDto tempNotFound = new()
         {
-            Id = 999,
-            Name = "NotFound",
-            Modules = new List<ModuleDto>()
-                {
-                    new ModuleDto { id = 777, description = "NotFound", name = "NotFound" },
-                    new ModuleDto { id = 888, description = "NotFound", name = "NotFound" }
-                }
+            //Id = 999,
+            //Name = "NotFound",
+            //Modules = new List<ModuleDto>()
+            //    {
+            //        new ModuleDto { id = 777, description = "NotFound", name = "NotFound" },
+            //        new ModuleDto { id = 888, description = "NotFound", name = "NotFound" }
+            //    }
         };
 
         public LeerrouteService()
