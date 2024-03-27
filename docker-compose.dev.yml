@@ -1,6 +1,5 @@
 services:
   server:
-    image: keuzewijzer-server
     environment:
       ASPNETCORE_ENVIRONMENT: development
       DB_CONNECTION_STRING: $${{ secrets.DB_CONNECTION_STRING_DEV }}
