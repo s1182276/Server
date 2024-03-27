@@ -1,0 +1,18 @@
+services:
+  server:
+    image: keuzewijzer-server
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+      - "8081"
+    environment:
+      ASPNETCORE_ENVIRONMENT: production
+      DB_CONNECTION_STRING: $${{ secrets.DB_CONNECTION_STRING_PRD }}
+    networks:
+      - prod_network
+
+networks:
+  prod_network:
+    external: true

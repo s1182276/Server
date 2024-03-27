@@ -1,0 +1,15 @@
+services:
+  server:
+    image: keuzewijzer-server
+    expose:
+      - "8080"
+      - "8081"
+    environment:
+      ASPNETCORE_ENVIRONMENT: development
+      DB_CONNECTION_STRING: $${{ secrets.DB_CONNECTION_STRING_DEV }}
+    networks:
+      - dev_network
+
+networks:
+  dev_network:
+    external: true
