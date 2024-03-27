@@ -3,9 +3,8 @@ on:
   push:
     branches:
       - master
-      # - development
-      # - test
-      # - acceptance
+      - development
+      # Add other branches as needed
 
 jobs:
   deploy_dev:
@@ -13,28 +12,31 @@ jobs:
     if: github.ref == 'refs/heads/development'
     runs-on: self-hosted
     steps:
-    - name: Update repository
-      run: |
-        cd /home/student/Server
-        git pull
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
     - name: Prune old images
       run: docker image prune -a -f
-    - name: Build image and compose up
+      working-directory: ${{ github.workspace }}
+
+    - name: Build and start container for Development
       run: |
-        docker compose up -f ./docker-compose.yml -f docker-compose.dev.yml -p dev -d --remove-orphans
+        docker compose -f docker-compose.yml -f docker-compose.dev.yml -p dev up -d --remove-orphans
+      working-directory: ${{ github.workspace }}
         
   deploy_prod:
     name: PRD
     if: github.ref == 'refs/heads/master'
     runs-on: self-hosted
     steps:
-      - name: Update repository
-        run: |
-          cd /home/student/Server
-          git pull
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Prune old images
         run: docker image prune -a -f
-      - name: Start containers for Production
+        working-directory: ${{ github.workspace }}
+
+      - name: Build and start container for Production
         run: |
-          docker compose -f ./docker-compose.yml -f -p prod up -d
-          
+          docker compose -f docker-compose.yml -p prod up -d --remove-orphans
+        working-directory: ${{ github.workspace }}
