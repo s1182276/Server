@@ -1,0 +1,40 @@
+name: DTAP Deployment
+on:
+  push:
+    branches:
+      - master
+      # - development
+      # - test
+      # - acceptance
+
+jobs:
+  deploy_dev:
+    name: DEV
+    if: github.ref == 'refs/heads/development'
+    runs-on: self-hosted
+    steps:
+    - name: Update repository
+      run: |
+        cd /home/student/Server
+        git pull
+    - name: Prune old images
+      run: docker image prune -a -f
+    - name: Build image and compose up
+      run: |
+        docker compose up -f docker-compose.yml -f docker-compose.dev.yml -p dev -d --remove-orphans
+        
+  deploy_prod:
+    name: PRD
+    if: github.ref == 'refs/heads/master'
+    runs-on: self-hosted
+    steps:
+      - name: Update repository
+        run: |
+          cd /home/student/Server
+          git pull
+      - name: Prune old images
+        run: docker image prune -a -f
+      - name: Start containers for Production
+        run: |
+          docker-compose -f docker-compose.yml -f -p prod up -d
+          
