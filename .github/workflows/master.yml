@@ -21,7 +21,7 @@ jobs:
       run: docker image prune -a -f
     - name: Build image and compose up
       run: |
-        docker compose up -f docker-compose.yml -f docker-compose.dev.yml -p dev -d --remove-orphans
+        docker compose up -f ./docker-compose.yml -f docker-compose.dev.yml -p dev -d --remove-orphans
         
   deploy_prod:
     name: PRD
@@ -36,5 +36,5 @@ jobs:
         run: docker image prune -a -f
       - name: Start containers for Production
         run: |
-          docker compose -f docker-compose.yml -f -p prod up -d
+          docker compose -f ./docker-compose.yml -f -p prod up -d
           
