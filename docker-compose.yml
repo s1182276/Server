@@ -9,7 +9,7 @@ services:
       - "8081"
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${{ secrets.DB_USER }};password=${{ secrets.DB_PASSWORD }}"
+      DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
     networks:
       - container_network
 
