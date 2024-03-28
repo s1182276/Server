@@ -12,6 +12,13 @@ jobs:
     if: github.ref == 'refs/heads/development'
     environment: 
       name: DEV
+    env:
+        ASPNETCORE_ENVIRONMENT: '${{ ASPNETCORE_ENVIRONMENT }}'
+        DB_HOST: '${{ DB_HOST }}'
+        DB_NAME: '${{ DB_NAME }}'
+        DB_USER: '${{ secrets.DB_USER }}'
+        DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
+        ENV_KEY: '${{ ENV_KEY }}'      
     runs-on: self-hosted
     steps:
     - name: Checkout repository
@@ -23,14 +30,7 @@ jobs:
 
     - name: Build and start container for Development
       run: |
-        docker compose -f docker-compose.yml -p -p ${{ ENV_KEY }} up -d --remove-orphans
-      env:
-          ASPNETCORE_ENVIRONMENT: '${{ ASPNETCORE_ENVIRONMENT }}'
-          DB_HOST: '${{ DB_HOST }}'
-          DB_NAME: '${{ DB_NAME }}'
-          DB_USER: '${{ secrets.DB_USER }}'
-          DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
-          ENV_KEY: '${{ ENV_KEY }}'
+        docker compose -f docker-compose.yml -p ${{ ENV_KEY }} up -d --remove-orphans
       working-directory: ${{ github.workspace }}
         
   deploy_prod:
@@ -38,6 +38,13 @@ jobs:
     if: github.ref == 'refs/heads/master'
     environment: 
       name: PRD
+    env:
+        ASPNETCORE_ENVIRONMENT: '${{ ASPNETCORE_ENVIRONMENT }}'
+        DB_HOST: '${{ DB_HOST }}'
+        DB_NAME: '${{ DB_NAME }}'
+        DB_USER: '${{ secrets.DB_USER }}'
+        DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
+        ENV_KEY: '${{ ENV_KEY }}'          
     runs-on: self-hosted
     steps:
       - name: Checkout repository
@@ -50,11 +57,4 @@ jobs:
       - name: Build and start container for Production
         run: |
           docker compose -f docker-compose.yml -p ${{ ENV_KEY }} up -d --remove-orphans
-        env:
-          ASPNETCORE_ENVIRONMENT: '${{ ASPNETCORE_ENVIRONMENT }}'
-          DB_HOST: '${{ DB_HOST }}'
-          DB_NAME: '${{ DB_NAME }}'
-          DB_USER: '${{ secrets.DB_USER }}'
-          DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
-          ENV_KEY: '${{ ENV_KEY }}'
         working-directory: ${{ github.workspace }}
