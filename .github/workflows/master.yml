@@ -11,14 +11,7 @@ jobs:
     name: DEV
     if: github.ref == 'refs/heads/development'
     environment: 
-      name: DEV
-    env:
-        ASPNETCORE_ENVIRONMENT: '${{ ASPNETCORE_ENVIRONMENT }}'
-        DB_HOST: '${{ DB_HOST }}'
-        DB_NAME: '${{ DB_NAME }}'
-        DB_USER: '${{ secrets.DB_USER }}'
-        DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
-        ENV_KEY: '${{ ENV_KEY }}'      
+      name: DEV   
     runs-on: self-hosted
     steps:
     - name: Checkout repository
@@ -30,21 +23,22 @@ jobs:
 
     - name: Build and start container for Development
       run: |
+        docker compose build
         docker compose -f docker-compose.yml -p ${{ ENV_KEY }} up -d --remove-orphans
+      env:
+        ASPNETCORE_ENVIRONMENT: '${{ env.ASPNETCORE_ENVIRONMENT }}'
+        DB_HOST: '${{ env.DB_HOST }}'
+        DB_NAME: '${{ env.DB_NAME }}'
+        DB_USER: '${{ secrets.DB_USER }}'
+        DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
+        ENV_KEY: '${{ env.ENV_KEY }}'   
       working-directory: ${{ github.workspace }}
         
   deploy_prod:
     name: PRD
     if: github.ref == 'refs/heads/master'
     environment: 
-      name: PRD
-    env:
-        ASPNETCORE_ENVIRONMENT: '${{ ASPNETCORE_ENVIRONMENT }}'
-        DB_HOST: '${{ DB_HOST }}'
-        DB_NAME: '${{ DB_NAME }}'
-        DB_USER: '${{ secrets.DB_USER }}'
-        DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
-        ENV_KEY: '${{ ENV_KEY }}'          
+      name: PRD        
     runs-on: self-hosted
     steps:
       - name: Checkout repository
@@ -56,5 +50,13 @@ jobs:
 
       - name: Build and start container for Production
         run: |
+          docker compose build
           docker compose -f docker-compose.yml -p ${{ ENV_KEY }} up -d --remove-orphans
+        env:
+            ASPNETCORE_ENVIRONMENT: '${{ env.ASPNETCORE_ENVIRONMENT }}'
+            DB_HOST: '${{ env.DB_HOST }}'
+            DB_NAME: '${{ env.DB_NAME }}'
+            DB_USER: '${{ secrets.DB_USER }}'
+            DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
+            ENV_KEY: '${{ env.ENV_KEY }}'            
         working-directory: ${{ github.workspace }}
