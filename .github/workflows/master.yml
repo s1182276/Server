@@ -1,45 +1,21 @@
 name: DTAP Deployment
+
 on:
   push:
     branches:
       - master
       - development
+      - acceptance
+      - test
       # Add other branches as needed
 
 jobs:
-  deploy_dev:
-    name: DEV
-    if: github.ref == 'refs/heads/development'
-    environment: 
-      name: DEV   
+  deploy:
+    name: Deploy ${{ matrix.environment }}
     runs-on: self-hosted
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Prune old images
-      run: docker image prune -a -f
-      working-directory: ${{ github.workspace }}
-
-    - name: Build and start container for Development
-      run: |
-        docker compose build
-        docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }} up -d --remove-orphans
-      env:
-        ASPNETCORE_ENVIRONMENT: '${{ vars.ASPNETCORE_ENVIRONMENT }}'
-        DB_HOST: '${{ vars.DB_HOST }}'
-        DB_NAME: '${{ vars.DB_NAME }}'
-        DB_USER: '${{ secrets.DB_USER }}'
-        DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
-        ENV_KEY: '${{ vars.ENV_KEY }}'   
-      working-directory: ${{ github.workspace }}
-        
-  deploy_prod:
-    name: PRD
-    if: github.ref == 'refs/heads/master'
-    environment: 
-      name: PRD        
-    runs-on: self-hosted
+    strategy:
+      matrix:
+        environment: [PRD, DEV, ACC, TEST]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -48,7 +24,7 @@ jobs:
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
 
-      - name: Build and start container for Production
+      - name: Build and start container
         run: |
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }} up -d --remove-orphans
@@ -58,5 +34,5 @@ jobs:
             DB_NAME: '${{ vars.DB_NAME }}'
             DB_USER: '${{ secrets.DB_USER }}'
             DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
-            ENV_KEY: '${{ vars.ENV_KEY }}'            
+            ENV_KEY: '${{ vars.ENV_KEY }}' 
         working-directory: ${{ github.workspace }}
