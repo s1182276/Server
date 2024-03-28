@@ -11,8 +11,9 @@ services:
       ASPNETCORE_ENVIRONMENT: $${{ ASPNETCORE_ENVIRONMENT }}
       DB_CONNECTION_STRING: host=$${{ DB_HOST }};port=1433;database=$${{ DB_NAME }};username=$${{ secrets.DB_USER }};password=$${{ secrets.DB_PASSWORD }}
     networks:
-      container_network: $${{ ENV_KEY }}_network
-
+      - container_network
+      
 networks:
   container_network:
+    name: $${{ ENV_KEY }}_network
     external: true
