@@ -24,7 +24,7 @@ jobs:
     - name: Build and start container for Development
       run: |
         docker compose build
-        docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }} up -d --remove-orphans
+        docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
       env:
         ASPNETCORE_ENVIRONMENT: '${{ vars.ASPNETCORE_ENVIRONMENT }}'
         DB_HOST: '${{ vars.DB_HOST }}'
@@ -51,7 +51,7 @@ jobs:
       - name: Build and start container for Production
         run: |
           docker compose build
-          docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }} up -d --remove-orphans
+          docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
             ASPNETCORE_ENVIRONMENT: '${{ vars.ASPNETCORE_ENVIRONMENT }}'
             DB_HOST: '${{ vars.DB_HOST }}'
