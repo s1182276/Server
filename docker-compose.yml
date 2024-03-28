@@ -1,6 +1,6 @@
 services:
   server:
-    image: keuzewijzer-server
+    image: keuzewijzer-server:${ENV_KEY}
     build:
       context: ./Api
       dockerfile: Dockerfile
