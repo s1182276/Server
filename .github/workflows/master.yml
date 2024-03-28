@@ -31,46 +31,24 @@ jobs:
     environment: 
       name: PRD
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"   
+      - name: Dump envvars
+        run: env
         
-  deploy_prod:
-    name: PRD
-    if: github.ref == 'refs/heads/master'
-    environment: 
-      name: PRD
-    runs-on: self-hosted
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  #deploy_prod:
+  #  name: PRD
+  #  if: github.ref == 'refs/heads/master'
+  #  environment: 
+  #    name: PRD
+  #  runs-on: self-hosted
+  #  steps:
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v2
 
-      - name: Prune old images
-        run: docker image prune -a -f
-        working-directory: ${{ github.workspace }}
+  #    - name: Prune old images
+  #      run: docker image prune -a -f
+  #      working-directory: ${{ github.workspace }}
 
-      - name: Build and start container for Production
-        run: |
-          docker compose -f docker-compose.yml -p prod up -d --remove-orphans
-        working-directory: ${{ github.workspace }}
+  #    - name: Build and start container for Production
+  #      run: |
+  #        docker compose -f docker-compose.yml -p prod up -d --remove-orphans
+  #      working-directory: ${{ github.workspace }}
