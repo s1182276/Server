@@ -23,32 +23,38 @@ jobs:
 
     - name: Build and start container for Development
       run: |
-        docker compose -f docker-compose.yml -f docker-compose.dev.yml -p dev up -d --remove-orphans
+        docker compose -f docker-compose.yml -p -p ${{ ENV_KEY }} up -d --remove-orphans
+      env:
+          ASPNETCORE_ENVIRONMENT: '${{ ASPNETCORE_ENVIRONMENT }}'
+          DB_HOST: '${{ DB_HOST }}'
+          DB_NAME: '${{ DB_NAME }}'
+          DB_USER: '${{ secrets.DB_USER }}'
+          DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
+          ENV_KEY: '${{ ENV_KEY }}'
       working-directory: ${{ github.workspace }}
-
-  dump_vars:
-    runs-on: self-hosted
+        
+  deploy_prod:
+    name: PRD
+    if: github.ref == 'refs/heads/master'
     environment: 
       name: PRD
+    runs-on: self-hosted
     steps:
-      - name: Dump envvars
-        run: env
-        
-  #deploy_prod:
-  #  name: PRD
-  #  if: github.ref == 'refs/heads/master'
-  #  environment: 
-  #    name: PRD
-  #  runs-on: self-hosted
-  #  steps:
-  #    - name: Checkout repository
-  #      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-  #    - name: Prune old images
-  #      run: docker image prune -a -f
-  #      working-directory: ${{ github.workspace }}
+      - name: Prune old images
+        run: docker image prune -a -f
+        working-directory: ${{ github.workspace }}
 
-  #    - name: Build and start container for Production
-  #      run: |
-  #        docker compose -f docker-compose.yml -p prod up -d --remove-orphans
-  #      working-directory: ${{ github.workspace }}
+      - name: Build and start container for Production
+        run: |
+          docker compose -f docker-compose.yml -p ${{ ENV_KEY }} up -d --remove-orphans
+        env:
+          ASPNETCORE_ENVIRONMENT: '${{ ASPNETCORE_ENVIRONMENT }}'
+          DB_HOST: '${{ DB_HOST }}'
+          DB_NAME: '${{ DB_NAME }}'
+          DB_USER: '${{ secrets.DB_USER }}'
+          DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
+          ENV_KEY: '${{ ENV_KEY }}'
+        working-directory: ${{ github.workspace }}
