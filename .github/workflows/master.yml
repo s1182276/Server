@@ -10,6 +10,8 @@ jobs:
   deploy_dev:
     name: DEV
     if: github.ref == 'refs/heads/development'
+    environment: 
+      name: DEV
     runs-on: self-hosted
     steps:
     - name: Checkout repository
@@ -27,6 +29,8 @@ jobs:
   deploy_prod:
     name: PRD
     if: github.ref == 'refs/heads/master'
+    environment: 
+      name: PRD
     runs-on: self-hosted
     steps:
       - name: Checkout repository
