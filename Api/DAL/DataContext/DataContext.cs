@@ -1,15 +1,15 @@
-﻿using KeuzeWijzerApi.Models;
+﻿using KeuzeWijzerApi.DAL.DataModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace KeuzeWijzerApi.DataContext
+namespace KeuzeWijzerApi.DAL.DataContext
 {
     public class KeuzeWijzerContext : DbContext
     {
         public KeuzeWijzerContext(DbContextOptions<KeuzeWijzerContext> options) : base(options)
-        { 
+        {
         }
 
-        public DbSet<LeerrouteDto> Leerroutes { get; set; }
-        public DbSet<ModuleDto> Modules { get; set; }
+        public DbSet<Leerroute> Leerroutes { get; set; }
+        public DbSet<Module> Modules { get; set; }
     }
 }

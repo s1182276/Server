@@ -1,4 +1,5 @@
-﻿using KeuzeWijzerApi.DataContext;
+﻿using KeuzeWijzerApi.DAL.DataContext;
+using KeuzeWijzerApi.DAL.DataModels;
 using KeuzeWijzerApi.Models;
 using KeuzeWijzerApi.Services;
 using KeuzeWijzerApi.Services.Interfaces;
@@ -10,12 +11,12 @@ namespace KeuzeWijzerApi.Controllers
     [Route("[controller]")]
     public class ModuleController : Controller
     {
-        IModuleService moduleService;
+        IModuleRepo moduleRepo;
         private readonly KeuzeWijzerContext _dbcontextD;
 
         public ModuleController(KeuzeWijzerContext dbcontext)
         {
-            moduleService = new ModuleService();
+            moduleRepo = new ModuleRepo();
             _dbcontextD = dbcontext;
         }
 
@@ -28,9 +29,9 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [HttpPost("CreateModule")]
-        public IActionResult SaveModule([FromBody] Module module)
+        public IActionResult SaveModule([FromBody] Models.Module module)
         {
-            ModuleDto moduleDto = new ModuleDto();
+            DAL.DataModels.Module moduleDto = new DAL.DataModels.Module();
             moduleDto.name = module.name;
             moduleDto.description = module.description;
 

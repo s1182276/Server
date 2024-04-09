@@ -1,11 +1,11 @@
-﻿using KeuzeWijzerApi.Models;
+﻿using KeuzeWijzerApi.DAL.DataModels;
 using KeuzeWijzerApi.Services.Interfaces;
 
 namespace KeuzeWijzerApi.Services
 {
-    public class LeerrouteService : ILeerrouteService
+    public class LeerrouteRepo : ILeerrouteRepo
     {
-        private static readonly List<LeerrouteDto> leerroutes = new()
+        private static readonly List<Leerroute> leerroutes = new()
         {
             //new LeerrouteDto {
             //    Id = 1,
@@ -30,7 +30,7 @@ namespace KeuzeWijzerApi.Services
         /// <summary>
         /// Ugly Temp Leerroute to return when id is not found
         /// </summary>
-        private LeerrouteDto tempNotFound = new()
+        private Leerroute tempNotFound = new()
         {
             //Id = 999,
             //Name = "NotFound",
@@ -41,11 +41,11 @@ namespace KeuzeWijzerApi.Services
             //    }
         };
 
-        public LeerrouteService()
+        public LeerrouteRepo()
         {
         }
 
-        public LeerrouteDto DeleteLeerroute(int Id)
+        public Leerroute DeleteLeerroute(int Id)
         {
             var toDel = GetLeerroute(Id);
 
@@ -59,14 +59,14 @@ namespace KeuzeWijzerApi.Services
 
         }
 
-        public List<LeerrouteDto> GetAllLeerroute()
+        public List<Leerroute> GetAllLeerroute()
         {
             return leerroutes;
         }
 
-        public LeerrouteDto GetLeerroute(int Id)
+        public Leerroute GetLeerroute(int Id)
         {
-            LeerrouteDto? leerroute = leerroutes.FirstOrDefault(x => x.Id == Id);
+            Leerroute? leerroute = leerroutes.FirstOrDefault(x => x.Id == Id);
 
             if (leerroute != null)
             {
@@ -77,8 +77,7 @@ namespace KeuzeWijzerApi.Services
             return tempNotFound;
         }
 
-
-        public void SaveLeerroute(LeerrouteDto leerroute)
+        public void SaveLeerroute(Leerroute leerroute)
         {
             leerroutes.Add(leerroute);
         }

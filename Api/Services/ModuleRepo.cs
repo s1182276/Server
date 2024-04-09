@@ -1,22 +1,22 @@
-﻿using KeuzeWijzerApi.Models;
+﻿using KeuzeWijzerApi.DAL.DataModels;
 using KeuzeWijzerApi.Services.Interfaces;
 
 namespace KeuzeWijzerApi.Services
 {
-    public class ModuleService : IModuleService
+    public class ModuleRepo : IModuleRepo
     {
 
 
-        public List<ModuleDto> GetAllModules()
+        public List<Module> GetAllModules()
         {
-            return new List<ModuleDto>()
+            return new List<Module>()
             {
-                new ModuleDto {
+                new Module {
                     id = 1,
                     name = "Module 1" ,
                     description = "beschrijving1"
                 },
-                new ModuleDto
+                new Module
                 {
                     id = 2,
                     name = "Module 2",

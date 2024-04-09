@@ -1,4 +1,4 @@
-using KeuzeWijzerApi.DataContext;
+using KeuzeWijzerApi.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

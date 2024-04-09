@@ -1,6 +1,6 @@
-﻿namespace KeuzeWijzerApi.Models
+﻿namespace KeuzeWijzerApi.DAL.DataModels
 {
-    public class ModuleDto
+    public class Module
     {
         public int id { get; set; }
         public string name { get; set; }
