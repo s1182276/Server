@@ -1,17 +1,16 @@
-using KeuzeWijzerMvc.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using KeuzeWijzerApi.Models;
+using KeuzeWijzerMvc.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddHttpClient("ApiClient");
+builder.Services.AddControllersWithViews();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddSingleton<IService<Module>, Service<Module>>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -33,11 +32,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+    pattern: "{controller=Module}/{action=Index}/{id?}");
 
 app.Run();

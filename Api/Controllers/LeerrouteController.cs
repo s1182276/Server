@@ -1,7 +1,7 @@
 ﻿using KeuzeWijzerApi.Services.Interfaces;
 using KeuzeWijzerApi.Services;
 using Microsoft.AspNetCore.Mvc;
-using KeuzeWijzerApi.DAL.DataModels;
+using KeuzeWijzerApi.Models;
 
 namespace KeuzeWijzerApi.Controllers
 {
@@ -27,7 +27,7 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [HttpPost("SaveLeerroute")]
-        public IActionResult SaveLeerroute([FromBody] Leerroute leerroute)
+        public IActionResult SaveLeerroute([FromBody] LearningRoute leerroute)
         { 
             leerrouteRepo.SaveLeerroute(leerroute);
             return Ok();

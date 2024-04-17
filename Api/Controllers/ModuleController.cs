@@ -1,5 +1,4 @@
 ﻿using KeuzeWijzerApi.DAL.DataContext;
-using KeuzeWijzerApi.DAL.DataModels;
 using KeuzeWijzerApi.Models;
 using KeuzeWijzerApi.Services;
 using KeuzeWijzerApi.Services.Interfaces;
@@ -23,7 +22,6 @@ namespace KeuzeWijzerApi.Controllers
         [HttpGet("GetAllModules")]
         public IActionResult GetAllModules()
         {
-            //var allModules = moduleService.GetAllModules();
             var allModules = _dbcontextD.Modules.ToList();
             return Ok(allModules);
         }
@@ -31,14 +29,13 @@ namespace KeuzeWijzerApi.Controllers
         [HttpPost("CreateModule")]
         public IActionResult SaveModule([FromBody] Models.Module module)
         {
-            DAL.DataModels.Module moduleDto = new DAL.DataModels.Module();
-            moduleDto.name = module.name;
-            moduleDto.description = module.description;
+            Module moduleDto = new Module();
+            moduleDto.Name = module.Name;
+            moduleDto.Description = module.Description;
 
             _dbcontextD.Modules.Add(moduleDto);
             _dbcontextD.SaveChanges();
             return Ok();
-
         }
     }
 }

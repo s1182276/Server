@@ -1,4 +1,4 @@
-﻿using KeuzeWijzerApi.DAL.DataModels;
+﻿using KeuzeWijzerApi.Models;
 
 namespace KeuzeWijzerApi.Services.Interfaces
 {
