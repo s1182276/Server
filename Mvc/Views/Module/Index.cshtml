@@ -1,25 +1,21 @@
-﻿@model IEnumerable<KeuzeWijzerApi.Models.Module>
+﻿@using System.Web
+@model IEnumerable<KeuzeWijzerApi.Models.Module>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Module overzicht";
 }
 
-<h1>Index</h1>
+<h1>Module overzicht</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Naam
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Omschrijving
             </th>
             <th></th>
         </tr>
@@ -28,20 +24,34 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                    @{
+                        var description = item.Description;
+                        var words = description.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                        var summary = string.Join(" ", words.Take(10)); // Adjust the number of words as needed
+                        @Html.Raw(HttpUtility.HtmlEncode(summary))
+                        if (words.Length > 10)
+                        { // more then number of words
+                            @:...
+                        }
+                    }
             </td>
             <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                    @Html.ActionLink("Aanpassen", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-secondary btn-sm" })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-outline-secondary btn-sm" })
+                    @Html.ActionLink("Verwijderen", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm" })
             </td>
         </tr>
 }
     </tbody>
 </table>
+<p>
+    <a asp-action="Create" class="btn btn-success">
+        <span>
+            <b>&#43;</b>
+        </span>
+        Module toevoegen
+    </a>
+</p>
