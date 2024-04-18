@@ -30,10 +30,11 @@
                     @{
                         var description = item.Description;
                         var words = description.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                        var summary = string.Join(" ", words.Take(10)); // Adjust the number of words as needed
+                        var numberOfWords = 10;
+                        var summary = string.Join(" ", words.Take(numberOfWords));
                         @Html.Raw(HttpUtility.HtmlEncode(summary))
-                        if (words.Length > 10)
-                        { // more then number of words
+                        if (words.Length > numberOfWords)
+                        { 
                             @:...
                         }
                     }
