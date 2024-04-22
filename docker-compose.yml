@@ -6,10 +6,8 @@ services:
       dockerfile: Dockerfile
     expose:
       - "8080"
-      - "8081"
     environment:
       ASPNETCORE_HTTP_PORTS: "8080"
-      ASPNETCORE_HTTPS_PORTS: "8081"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
     networks:
@@ -22,11 +20,9 @@ services:
       dockerfile: Dockerfile
     expose:
       - "8082"
-      - "8083"
     environment:
       ApiUri__ApiUri: "http://api:8080/"
       ASPNETCORE_HTTP_PORTS: "8082"
-      ASPNETCORE_HTTPS_PORTS: "8083"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
     networks:
