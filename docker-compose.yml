@@ -4,8 +4,8 @@ services:
     build:
       context: ./Api
       dockerfile: Dockerfile
-    expose:
-      - "8080"
+    ports:
+      - "${API_PORT}:8080"
     environment:
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
@@ -18,8 +18,8 @@ services:
     build:
       context: ./Mvc
       dockerfile: Dockerfile
-    expose:
-      - "8082"
+    ports:
+      - "${MVC_PORT}:8082"
     environment:
       ApiUri__ApiUri: "http://api:8080/"
       ASPNETCORE_HTTP_PORTS: "8082"
