@@ -1,4 +1,4 @@
-using KeuzeWijzerApi.DataContext;
+using KeuzeWijzerApi.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +13,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
    options.UseSqlite(builder.Configuration.GetConnectionString("DeveloptmentConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+    });
+});
 
 var app = builder.Build();
 
@@ -28,5 +35,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors();
 
 app.Run();
