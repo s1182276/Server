@@ -21,14 +21,14 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return query;
     }
     
-    public T GetById(object id)
+    public async Task<T> GetById(object id)
     {
-        return table.Find(id);
+        return await table.FindAsync(id);
     }
     
-    public void Insert(T obj)
+    public async Task Insert(T obj)
     {
-        table.Add(obj);
+        await table.AddAsync(obj);
     }
         
     public void Update(T obj)
@@ -36,13 +36,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         table.Attach(obj);
         _context.Entry(obj).State = EntityState.Modified;
     }
-    public void Delete(object id)
+    public async Task Delete(object id)
     {
-        T existing = table.Find(id);
+        T existing = await table.FindAsync(id);
         table.Remove(existing);
     }
     
-    public  List<T> EntityWithEagerLoad(Expression<Func<T, bool>> filter, string[] children)
+    public async Task<List<T>> EntityWithEagerLoad(Expression<Func<T, bool>> filter, string[] children)
     {         
         IQueryable<T> query = table;
         foreach (string entity in children)
@@ -50,11 +50,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             query = query.Include(entity);
 
         }
-        return  query.Where(filter).ToList();            
+        return await query.Where(filter).ToListAsync();            
     }
 
-    public void Save()
+    public async Task Save()
     {
-        _context.SaveChanges();
+        _context.SaveChangesAsync();
     }
 }
