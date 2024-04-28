@@ -1,16 +1,15 @@
-﻿using KeuzeWijzerApi.Models;
+﻿using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KeuzeWijzerMvc.Controllers
 {
     public class ModuleController : Controller
     {
-        private readonly IService<Module> _moduleSvc;
-        public SelectList selectList { get; set; }
+        private readonly IService<ModuleDto> _moduleSvc;
+        //public SelectList selectList { get; set; }
 
-        public ModuleController(IService<Module> moduleService)
+        public ModuleController(IService<ModuleDto> moduleService)
         {
             _moduleSvc = moduleService;
         }
@@ -34,7 +33,7 @@ namespace KeuzeWijzerMvc.Controllers
         // POST: [Controller]/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Module module)
+        public async Task<ActionResult> Create(ModuleDto module)
         {
             if (await _moduleSvc.AddAsync(module, "/Module")) return RedirectToAction(nameof(Index));
             return View();
@@ -48,7 +47,7 @@ namespace KeuzeWijzerMvc.Controllers
         // POST: [Controller]/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Module module)
+        public async Task<ActionResult> Edit(int id, ModuleDto module)
         {
             if (await _moduleSvc.UpdateAsync(id, module, "/Module")) return RedirectToAction(nameof(Index));
             return View();

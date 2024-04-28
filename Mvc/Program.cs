@@ -1,4 +1,4 @@
-using KeuzeWijzerApi.Models;
+using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services;
 
 
@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient("ApiClient");
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IService<Module>, Service<Module>>();
+builder.Services.AddSingleton<IService<ModuleDto>, Service<ModuleDto>>();
 
 
 builder.Services.AddControllersWithViews();

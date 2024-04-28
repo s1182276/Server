@@ -1,4 +1,4 @@
-namespace KeuzeWijzerMvc.Models
+namespace KeuzeWijzerMvc.ViewModels
 {
     public class ErrorViewModel
     {

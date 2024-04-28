@@ -1,7 +1,7 @@
 ﻿using KeuzeWijzerApi.DAL.DataContext;
-using KeuzeWijzerApi.Models;
-using KeuzeWijzerApi.Services;
-using KeuzeWijzerApi.Services.Interfaces;
+using KeuzeWijzerApi.DAL.DataEntities;
+using KeuzeWijzerApi.Repositories;
+using KeuzeWijzerApi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,27 +11,25 @@ namespace KeuzeWijzerApi.Controllers
     [Route("[controller]")]
     public class ModuleController : Controller
     {
-        private readonly IModuleRepo moduleRepo;
-        private readonly KeuzeWijzerContext _dbcontextD;
-
+        private readonly IModuleRepo _moduleRepo;
+        
         public ModuleController(KeuzeWijzerContext dbcontext)
         {
-            moduleRepo = new ModuleRepo();
-            _dbcontextD = dbcontext;
+            _moduleRepo = new ModuleRepo(dbcontext);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Module>>> GetModules()
         {
-            if (_dbcontextD == null) return NotFound();
-            if (_dbcontextD.Modules == null) return NotFound();
-            return await _dbcontextD.Modules.ToListAsync(); ;
+            if (_context == null) return NotFound();
+            if (_context.Modules == null) return NotFound();
+            return await _context.Modules.ToListAsync(); ;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Module>> GetModule(int id)
         {
-            var module = await _dbcontextD.Modules.FindAsync(id);
+            var module = await _context.Modules.FindAsync(id);
 
             if (module == null)
             {
@@ -49,11 +47,11 @@ namespace KeuzeWijzerApi.Controllers
                 return BadRequest();
             }
 
-            _dbcontextD.Entry(module).State = EntityState.Modified;
+            _context.Entry(module).State = EntityState.Modified;
 
             try
             {
-                await _dbcontextD.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,8 +71,8 @@ namespace KeuzeWijzerApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Module>> PostModule(Module module)
         {
-            _dbcontextD.Modules.Add(module);
-            await _dbcontextD.SaveChangesAsync();
+            _context.Modules.Add(module);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetModule", new { id = module.Id }, module);
         }
@@ -82,14 +80,14 @@ namespace KeuzeWijzerApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
-            var module = await _dbcontextD.Modules.FindAsync(id);
+            var module = await _context.Modules.FindAsync(id);
             if (module == null)
             {
                 return NotFound();
             }
 
-            _dbcontextD.Modules.Remove(module);
-            await _dbcontextD.SaveChangesAsync();
+            _context.Modules.Remove(module);
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -107,7 +105,7 @@ namespace KeuzeWijzerApi.Controllers
 
         private bool ModuleExists(int id)
         {
-            return _dbcontextD.Modules.Any(e => e.Id == id);
+            return _context.Modules.Any(e => e.Id == id);
         }
     }
 }

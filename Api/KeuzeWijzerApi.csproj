@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -23,8 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DAL\DataEntities\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="KeuzeWijzerCore">
+      <HintPath>..\KeuzeWijzerCore\bin\Debug\net8.0\KeuzeWijzerCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
