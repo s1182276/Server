@@ -24,7 +24,7 @@ namespace KeuzeWijzerApi.Controllers
         public async Task<ActionResult<IEnumerable<ModuleDto>>> GetModules()
         {
             var modules = await _moduleRepo.GetAll();
-            return Ok(_mapper.Map<ModuleDto>(modules));
+            return Ok(_mapper.Map<IEnumerable<ModuleDto>>(modules));
         }
 
         [HttpGet("{id}")]
