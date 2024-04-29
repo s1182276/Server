@@ -1,7 +1,7 @@
-﻿using KeuzeWijzerApi.DAL.DataContext;
+﻿using AutoMapper;
 using KeuzeWijzerApi.DAL.DataEntities;
-using KeuzeWijzerApi.Repositories;
 using KeuzeWijzerApi.Repositories.Interfaces;
+using KeuzeWijzerCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,67 +12,50 @@ namespace KeuzeWijzerApi.Controllers
     public class ModuleController : Controller
     {
         private readonly IModuleRepo _moduleRepo;
+        private readonly IMapper _mapper;
         
-        public ModuleController(KeuzeWijzerContext dbcontext)
+        public ModuleController(IModuleRepo moduleRepo, IMapper mapper)
         {
-            _moduleRepo = new ModuleRepo(dbcontext);
+            _moduleRepo = moduleRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Module>>> GetModules()
+        public async Task<ActionResult<IEnumerable<ModuleDto>>> GetModules()
         {
-            if (_context == null) return NotFound();
-            if (_context.Modules == null) return NotFound();
-            return await _context.Modules.ToListAsync(); ;
+            var modules = await _moduleRepo.GetAll();
+            return Ok(_mapper.Map<ModuleDto>(modules));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Module>> GetModule(int id)
+        public async Task<ActionResult<ModuleDto>> GetModule(int id)
         {
-            var module = await _context.Modules.FindAsync(id);
+            var module = await _moduleRepo.GetById(id);
 
-            if (module == null)
-            {
-                return NotFound();
-            }
+            if (module == null) { return NotFound(); }
 
-            return module;
+            return Ok(module);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutModule(int id, Module module)
+        public IActionResult PutModule(int id, ModuleDto module)
         {
-            if (id != module.Id)
+            var moduleEntity = _mapper.Map<Module>(module);
+
+            if(_moduleRepo.DoesExist(id))
             {
-                return BadRequest();
+                _moduleRepo.Update(moduleEntity);
+                return Ok();
             }
 
-            _context.Entry(module).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ModuleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return NotFound();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Module>> PostModule(Module module)
+        public ActionResult<ModuleDto> PostModule(ModuleDto module)
         {
-            _context.Modules.Add(module);
-            await _context.SaveChangesAsync();
+            var moduleEntity = _mapper.Map<Module>(module);
+            _moduleRepo.Add(moduleEntity);
 
             return CreatedAtAction("GetModule", new { id = module.Id }, module);
         }
@@ -80,32 +63,16 @@ namespace KeuzeWijzerApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
-            var module = await _context.Modules.FindAsync(id);
+            var module = await _moduleRepo.GetById(id);
+
             if (module == null)
             {
                 return NotFound();
             }
 
-            _context.Modules.Remove(module);
-            await _context.SaveChangesAsync();
+            _moduleRepo.Delete(module);
 
             return NoContent();
-        }
-
-        //public IActionResult SaveModule([FromBody] Models.Module module)
-        //{
-        //    Module moduleDto = new Module();
-        //    moduleDto.Name = module.Name;
-        //    moduleDto.Description = module.Description;
-
-        //    _dbcontextD.Modules.Add(moduleDto);
-        //    _dbcontextD.SaveChanges();
-        //    return Ok();
-        //}
-
-        private bool ModuleExists(int id)
-        {
-            return _context.Modules.Any(e => e.Id == id);
         }
     }
 }

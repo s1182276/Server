@@ -1,4 +1,5 @@
 using KeuzeWijzerApi.DAL.DataContext;
+using KeuzeWijzerApi.Mapper;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,9 @@ builder.Services.AddCors(options =>
         builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
     });
 });
+
+// Add Automapper profile
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
 var app = builder.Build();
 

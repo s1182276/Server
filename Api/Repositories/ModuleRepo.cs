@@ -33,7 +33,7 @@ namespace KeuzeWijzerApi.Repositories
             return await _context.Modules.ToListAsync();
         }
 
-        public async Task<Module?> GetById(int id)
+        public async Task<Module> GetById(int id)
         {
             return await _context.Modules.FindAsync(id); 
         }
