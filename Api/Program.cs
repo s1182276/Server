@@ -15,10 +15,14 @@ builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "*");
-    });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost",
+                                              "https://localhost",
+                                              "http://*.hbo-ict.dev",
+                                              "https://*.hbo-ict.dev");
+                      });
 });
 
 var app = builder.Build();
@@ -35,6 +39,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
