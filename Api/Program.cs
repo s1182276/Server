@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.WithOrigins("http://localhost",
-                                              "https://localhost",,
+                                              "https://localhost",
                                               "https://*.hbo-ict.dev");
                       });
 });
