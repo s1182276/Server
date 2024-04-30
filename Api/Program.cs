@@ -4,6 +4,7 @@ using KeuzeWijzerApi.Repositories;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,10 +19,13 @@ builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
-    });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost",
+                                              "https://localhost",
+                                              "https://*.hbo-ict.dev");
+                      });
 });
 
 // Add Automapper profile
@@ -43,6 +47,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
