@@ -1,4 +1,4 @@
-﻿namespace KeuzeWijzerApi.Models
+﻿namespace KeuzeWijzerApi.DAL.DataEntities
 {
     public class Semester
     {

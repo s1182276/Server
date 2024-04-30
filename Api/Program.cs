@@ -1,4 +1,7 @@
 using KeuzeWijzerApi.DAL.DataContext;
+using KeuzeWijzerApi.Mapper;
+using KeuzeWijzerApi.Repositories;
+using KeuzeWijzerApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -25,6 +28,10 @@ builder.Services.AddCors(options =>
                       });
 });
 
+// Add Automapper profile
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.AddScoped<IModuleRepo, ModuleRepo>();
 
 var app = builder.Build();
 

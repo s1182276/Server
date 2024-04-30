@@ -1,4 +1,4 @@
-﻿using KeuzeWijzerApi.Models;
+﻿using KeuzeWijzerApi.DAL.DataEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace KeuzeWijzerApi.DAL.DataContext

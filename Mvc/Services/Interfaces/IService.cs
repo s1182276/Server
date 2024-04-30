@@ -1,4 +1,4 @@
-﻿namespace KeuzeWijzerMvc.Services
+﻿namespace KeuzeWijzerMvc.Services.Interfaces
 {
     public interface IService<T>
     {
