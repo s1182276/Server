@@ -1,5 +1,5 @@
 ﻿using KeuzeWijzerCore.Models;
-using KeuzeWijzerMvc.Services;
+using KeuzeWijzerMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KeuzeWijzerMvc.Controllers
