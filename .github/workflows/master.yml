@@ -24,7 +24,8 @@ jobs:
       run: |
         export DOTNET_ROOT=$HOME/.dotnet
         export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
-        dotnet publish --os linux --arch x64 /t:PublishContainer
+        dotnet publish --os linux --arch x64 /t:PublishContainer &
+        wait $!
         cp KeuzeWijzerCore/bin/Release/net8.0/linux-x64/KeuzeWijzerCore.dll ./
     - name: Build and start container for Development
       run: |
