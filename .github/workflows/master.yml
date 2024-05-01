@@ -23,7 +23,7 @@ jobs:
       run: |
         export DOTNET_ROOT=$HOME/.dotnet
         export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
-        cd Server/KeuzeWijzerCore && dotnet publish --os linux --arch x64 /t:PublishContainer
+        cd ./Server/KeuzeWijzerCore && dotnet publish --os linux --arch x64 /t:PublishContainer
     - name: Copy shared dll
       run: |
         cp KeuzeWijzerCore/bin/Release/net8.0/linux-x64/KeuzeWijzerCore.dll ./        
