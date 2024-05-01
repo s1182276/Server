@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="KeuzeWijzerCore">
       <HintPath>..\KeuzeWijzerCore\bin\Debug\net8.0\KeuzeWijzerCore.dll</HintPath>
+      <HintPath>.\KeuzeWijzerCore.dll</HintPath>
     </Reference>
   </ItemGroup>
 
