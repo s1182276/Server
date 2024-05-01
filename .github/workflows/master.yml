@@ -16,12 +16,12 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
     - name: Prune old images
       run: docker image prune -a -f
       working-directory: ${{ github.workspace }}
     - name: Build shared dll
       run: |
+        set -e
         export DOTNET_ROOT=$HOME/.dotnet
         export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
         dotnet publish --os linux --arch x64 /t:PublishContainer
