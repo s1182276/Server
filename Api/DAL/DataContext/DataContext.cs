@@ -1,4 +1,4 @@
-﻿using KeuzeWijzerApi.Models;
+﻿using KeuzeWijzerApi.DAL.DataEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace KeuzeWijzerApi.DAL.DataContext
@@ -9,11 +9,11 @@ namespace KeuzeWijzerApi.DAL.DataContext
         {
         }
 
-        public DbSet<LearningRoute> Leerroutes { get; set; }
-        public DbSet<LearningYear> LearningYears { get; set; }
         public DbSet<Module> Modules { get; set; }
-        public DbSet<Semester> Semesters { get; set; }
-        public DbSet<SemesterModule> SemesterModules { get; set; }
+        public DbSet<EntryRequirementModule> EntryRequirementModules { get; set; }
+        public DbSet<SchoolYear> SchoolYears { get; set; }
+        public DbSet<Studyroute> Studyroutes { get; set; }
+        public DbSet<StudyrouteSemester> StudyrouteSemesters { get; set; }
     }
 }
 

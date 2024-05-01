@@ -1,4 +1,7 @@
 using KeuzeWijzerApi.DAL.DataContext;
+using KeuzeWijzerApi.Mapper;
+using KeuzeWijzerApi.Repositories;
+using KeuzeWijzerApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -21,10 +24,14 @@ builder.Services.AddCors(options =>
                       {
                           builder.WithOrigins("http://localhost",
                                               "https://localhost",
-                                              "http://*.hbo-ict.dev",
                                               "https://*.hbo-ict.dev");
                       });
 });
+
+// Add Automapper profile
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.AddScoped<IModuleRepo, ModuleRepo>();
 
 var app = builder.Build();
 

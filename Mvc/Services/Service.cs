@@ -1,4 +1,5 @@
 ﻿using KeuzeWijzerMvc.ClientLib;
+using KeuzeWijzerMvc.Services.Interfaces;
 
 namespace KeuzeWijzerMvc.Services
 {
