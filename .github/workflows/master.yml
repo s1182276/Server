@@ -27,7 +27,7 @@ jobs:
         cd ./KeuzeWijzerCore && dotnet publish --os linux --arch x64 /t:PublishContainer
     - name: Copy shared dll
       run: |
-        cp KeuzeWijzerCore/bin/Release/net8.0/linux-x64/KeuzeWijzerCore.dll ./        
+        cp ./KeuzeWijzerCore/bin/Release/net8.0/linux-x64/KeuzeWijzerCore.dll ./        
     - name: Build and start container for Development
       run: |
         docker compose build
