@@ -14,6 +14,12 @@ namespace KeuzeWijzerApi.DAL.DataContext
         public DbSet<SchoolYear> SchoolYears { get; set; }
         public DbSet<Studyroute> Studyroutes { get; set; }
         public DbSet<StudyrouteSemester> StudyrouteSemesters { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            new Seeder(modelBuilder).Seed();
+        }
     }
 }
 
