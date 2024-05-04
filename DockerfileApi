@@ -9,23 +9,23 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["KeuzeWijzerApi.csproj", "."]
+COPY ["Api/KeuzeWijzerApi.csproj", "."]
 RUN dotnet restore "./KeuzeWijzerApi.csproj"
 
-COPY ["../KeuzeWijzerCore/KeuzeWijzerCore.csproj", "KeuzeWijzerCore/"]
-RUN dotnet restore "KeuzeWijzerCore/KeuzeWijzerCore.csproj"
+COPY ["KeuzeWijzerCore/KeuzeWijzerCore.csproj", ".""]
+RUN dotnet restore "./KeuzeWijzerCore.csproj"
 
 COPY . .
 WORKDIR "/src/."
 
-RUN dotnet build "./KeuzeWijzerCore/KeuzeWijzerCore.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./KeuzeWijzerCore.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 RUN dotnet build "./KeuzeWijzerApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 
-RUN dotnet build "./KeuzeWijzerCore/KeuzeWijzerCore.csproj"-c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./KeuzeWijzerCore.csproj"-c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 RUN dotnet publish "./KeuzeWijzerApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
