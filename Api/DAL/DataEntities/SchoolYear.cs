@@ -2,11 +2,12 @@
 
 namespace KeuzeWijzerApi.DAL.DataEntities
 {
-    public class LearningRoute
+    public class SchoolYear
     {
         [Key]
+        [Required]
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public List<LearningYear>? LearningYears { get; set; }
+        public string Name { get; set; }
+        public ICollection<Module> Modules { get; set; }
     }
 }

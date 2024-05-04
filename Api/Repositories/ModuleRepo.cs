@@ -14,18 +14,18 @@ namespace KeuzeWijzerApi.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Add(Module entity)
+        public async Task Add(Module entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _context.Modules.Add(entity);
-            _context.SaveChangesAsync();
+            await _context.Modules.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(Module entity)
+        public async Task Delete(Module entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             _context.Modules.Remove(entity);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Module>> GetAll()
@@ -38,11 +38,11 @@ namespace KeuzeWijzerApi.Repositories
             return await _context.Modules.FindAsync(id); 
         }
 
-        public void Update(Module entity)
+        public async Task Update(Module entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             _context.Modules.Update(entity);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public bool DoesExist(int id)
