@@ -10,7 +10,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["KeuzeWijzerApi.csproj", "."]
-RUN dotnet restore "./KeuzeWijzerApi.csproj"\
+RUN dotnet restore "./KeuzeWijzerApi.csproj"
 
 COPY ["../KeuzeWijzerCore/KeuzeWijzerCore.csproj", "KeuzeWijzerCore/"]
 RUN dotnet restore "KeuzeWijzerCore/KeuzeWijzerCore.csproj"
