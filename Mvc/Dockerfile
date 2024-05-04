@@ -13,17 +13,18 @@ COPY ["KeuzeWijzerMvc.csproj", "."]
 RUN dotnet restore "./KeuzeWijzerMvc.csproj"
 
 COPY ["../KeuzeWijzerCore/KeuzeWijzerCore.csproj", "KeuzeWijzerCore/"]
-RUN dotnet restore "KeuzeWijzerCore/KeuzeWijzerCore.csproj"
+RUN dotnet restore "./KeuzeWijzerCore/KeuzeWijzerCore.csproj"
 
 COPY . .
 WORKDIR "/src/."
 
-RUN dotnet build "KeuzeWijzerCore/KeuzeWijzerCore.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
+RUN dotnet build "./KeuzeWijzerCore/KeuzeWijzerCore.csproj" -c $BUILD_CONFIGURATION -o /app/build
 RUN dotnet build "./KeuzeWijzerMvc.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
+
+RUN dotnet build "./KeuzeWijzerCore/KeuzeWijzerCore.csproj"-c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 RUN dotnet publish "./KeuzeWijzerMvc.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
