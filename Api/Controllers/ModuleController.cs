@@ -38,13 +38,13 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult PutModule(int id, ModuleDto module)
+        public async Task<IActionResult> PutModule(int id, ModuleDto module)
         {
             var moduleEntity = _mapper.Map<Module>(module);
 
             if(_moduleRepo.DoesExist(id))
             {
-                _moduleRepo.Update(moduleEntity);
+                await _moduleRepo.Update(moduleEntity);
                 return Ok();
             }
 
@@ -52,10 +52,10 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ModuleDto> PostModule(ModuleDto module)
+        public async Task<ActionResult<ModuleDto>> PostModule(ModuleDto module)
         {
             var moduleEntity = _mapper.Map<Module>(module);
-            _moduleRepo.Add(moduleEntity);
+            await _moduleRepo.Add(moduleEntity);
 
             return CreatedAtAction("GetModule", new { id = module.Id }, module);
         }
@@ -70,7 +70,7 @@ namespace KeuzeWijzerApi.Controllers
                 return NotFound();
             }
 
-            _moduleRepo.Delete(module);
+            await _moduleRepo.Delete(module);
 
             return NoContent();
         }

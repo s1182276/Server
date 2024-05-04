@@ -17,17 +17,8 @@ namespace KeuzeWijzerApi.Repositories
         public async Task Add(Module entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            
-            try
-            {
-                await _context.Modules.AddAsync(entity);
-                var a = await _context.SaveChangesAsync();
-            }
-            catch(Exception ex) 
-            { 
-            
-            }
-            var b = "";
+            await _context.Modules.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(Module entity)
@@ -39,7 +30,7 @@ namespace KeuzeWijzerApi.Repositories
 
         public async Task<IEnumerable<Module>> GetAll()
         {
-            return await _context.Modules.ToListAsync();
+            return await _context.Modules.Include(sy => sy.SchoolYear).ToListAsync();
         }
 
         public async Task<Module> GetById(int id)
