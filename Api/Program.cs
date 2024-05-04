@@ -32,6 +32,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddScoped<IModuleRepo, ModuleRepo>();
+builder.Services.AddScoped<ISchoolYearRepo, SchoolYearRepo>();
 
 var app = builder.Build();
 

@@ -7,70 +7,57 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using KeuzeWijzerApi.DAL.DataContext;
 using KeuzeWijzerApi.DAL.DataEntities;
+using KeuzeWijzerApi.Repositories.Interfaces;
+using AutoMapper;
+using KeuzeWijzerApi.Repositories;
+using KeuzeWijzerCore.Models;
 
 namespace KeuzeWijzerApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SchoolYearsController : ControllerBase
     {
-        private readonly KeuzeWijzerContext _context;
+        private readonly ISchoolYearRepo _schoolYearRepo;
+        private readonly IMapper _mapper;
 
-        public SchoolYearsController(KeuzeWijzerContext context)
+        public SchoolYearsController(ISchoolYearRepo schoolYearRepo, IMapper mapper)
         {
-            _context = context;
+            _schoolYearRepo = schoolYearRepo;
+            _mapper = mapper;
         }
 
         // GET: api/SchoolYears
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SchoolYear>>> GetSchoolYears()
         {
-            return await _context.SchoolYears.ToListAsync();
+            var schoolYears = await _schoolYearRepo.GetAll();
+            return Ok(_mapper.Map<IEnumerable<SchoolYearDto>>(schoolYears));
         }
 
         // GET: api/SchoolYears/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SchoolYear>> GetSchoolYear(int id)
         {
-            var schoolYear = await _context.SchoolYears.FindAsync(id);
+            var schoolYear = await _schoolYearRepo.GetById(id);
 
-            if (schoolYear == null)
-            {
-                return NotFound();
-            }
+            if (schoolYear == null) { return NotFound(); }
 
-            return schoolYear;
+            return Ok(schoolYear);
         }
 
-        // PUT: api/SchoolYears/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSchoolYear(int id, SchoolYear schoolYear)
         {
-            if (id != schoolYear.Id)
+            var schoolYearEntity = _mapper.Map<SchoolYear>(schoolYear);
+
+            if (_schoolYearRepo.DoesExist(id))
             {
-                return BadRequest();
+                await _schoolYearRepo.Update(schoolYearEntity);
+                return Ok();
             }
 
-            _context.Entry(schoolYear).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SchoolYearExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return NotFound();
         }
 
         // POST: api/SchoolYears
@@ -78,8 +65,8 @@ namespace KeuzeWijzerApi.Controllers
         [HttpPost]
         public async Task<ActionResult<SchoolYear>> PostSchoolYear(SchoolYear schoolYear)
         {
-            _context.SchoolYears.Add(schoolYear);
-            await _context.SaveChangesAsync();
+            var moduleEntity = _mapper.Map<SchoolYear>(schoolYear);
+            await _schoolYearRepo.Add(moduleEntity);
 
             return CreatedAtAction("GetSchoolYear", new { id = schoolYear.Id }, schoolYear);
         }
@@ -88,21 +75,16 @@ namespace KeuzeWijzerApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSchoolYear(int id)
         {
-            var schoolYear = await _context.SchoolYears.FindAsync(id);
-            if (schoolYear == null)
+            var module = await _schoolYearRepo.GetById(id);
+
+            if (module == null)
             {
                 return NotFound();
             }
 
-            _context.SchoolYears.Remove(schoolYear);
-            await _context.SaveChangesAsync();
+            await _schoolYearRepo.Delete(module);
 
             return NoContent();
-        }
-
-        private bool SchoolYearExists(int id)
-        {
-            return _context.SchoolYears.Any(e => e.Id == id);
         }
     }
 }
