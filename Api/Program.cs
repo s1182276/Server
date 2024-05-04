@@ -1,9 +1,13 @@
 using KeuzeWijzerApi.DAL.DataContext;
+using KeuzeWijzerApi.Mapper;
+using KeuzeWijzerApi.Repositories;
+using KeuzeWijzerApi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -57,11 +61,19 @@ builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
-    });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost",
+                                              "https://localhost",
+                                              "https://*.hbo-ict.dev");
+                      });
 });
+
+// Add Automapper profile
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.AddScoped<IModuleRepo, ModuleRepo>();
 
 var app = builder.Build();
 
@@ -84,6 +96,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();

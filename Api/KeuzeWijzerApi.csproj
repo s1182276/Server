@@ -10,23 +10,31 @@
 		<DockerfileContext>.</DockerfileContext>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="2.18.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
-		<PackageReference Include="xunit" Version="2.7.0" />
-	</ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	  <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="xunit" Version="2.7.0" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="DAL\DataEntities\" />
-		<Folder Include="Migrations\" />
-	</ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="KeuzeWijzerCore">
+      <HintPath>..\KeuzeWijzerCore\bin\Debug\net8.0\KeuzeWijzerCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

@@ -3,23 +3,23 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 8082
+EXPOSE 8083
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["KeuzeWijzerApi.csproj", "."]
-RUN dotnet restore "./KeuzeWijzerApi.csproj"
+COPY ["KeuzeWijzerMvc.csproj", "."]
+RUN dotnet restore "./KeuzeWijzerMvc.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "./KeuzeWijzerApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./KeuzeWijzerMvc.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./KeuzeWijzerApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./KeuzeWijzerMvc.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "KeuzeWijzerApi.dll"]
+ENTRYPOINT ["dotnet", "KeuzeWijzerMvc.dll"]
