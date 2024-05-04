@@ -13,7 +13,7 @@ COPY ["./KeuzeWijzerCore.dll", "/app/"]
 COPY ["Api/KeuzeWijzerApi.csproj", "."]
 RUN dotnet restore "./KeuzeWijzerApi.csproj"
 
-COPY . .
+COPY ./Api .
 WORKDIR "/src/."
 
 RUN dotnet build "./KeuzeWijzerApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
