@@ -2,11 +2,15 @@
 using KeuzeWijzerApi.Models;
 using KeuzeWijzerApi.Services;
 using KeuzeWijzerApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
+    [Authorize]
+    [RequiredScope("All", "Module")]
     [ApiController]
     [Route("[controller]")]
     public class ModuleController : Controller
