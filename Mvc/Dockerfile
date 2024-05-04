@@ -17,6 +17,9 @@ RUN dotnet restore "KeuzeWijzerCore/KeuzeWijzerCore.csproj"
 
 COPY . .
 WORKDIR "/src/."
+
+RUN dotnet build "KeuzeWijzerCore/KeuzeWijzerCore.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
 RUN dotnet build "./KeuzeWijzerMvc.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
