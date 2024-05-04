@@ -12,14 +12,13 @@ WORKDIR /src
 COPY ["Api/KeuzeWijzerApi.csproj", "."]
 RUN dotnet restore "./KeuzeWijzerApi.csproj"
 
-COPY ["KeuzeWijzerCore/KeuzeWijzerCore.csproj", ".""]
+COPY ["KeuzeWijzerCore/KeuzeWijzerCore.csproj", "."]
 RUN dotnet restore "./KeuzeWijzerCore.csproj"
 
 COPY . .
 WORKDIR "/src/."
 
 RUN dotnet build "./KeuzeWijzerCore.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
 RUN dotnet build "./KeuzeWijzerApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
