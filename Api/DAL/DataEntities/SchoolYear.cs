@@ -8,6 +8,7 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         [Required]
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<SchoolModule> SchoolModules { get; set; }
+        public ICollection<SchoolModule>? SchoolModules { get; set; }
+
     }
 }
