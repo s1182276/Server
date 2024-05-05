@@ -1,10 +1,10 @@
 ﻿@model SchoolYearDto
 
 @{
-    ViewData["Title"] = "Module details";
+    ViewData["Title"] = "OER details";
 }
 
-<h1>Module details</h1>
+<h1>OER details</h1>
 
 <div>
     <hr />
@@ -23,7 +23,7 @@
                 <ul class="list-group list-group-horizontal ">
                     @foreach (var module in Model.Modules)
                     {
-                        <li class="list-group-item flex-fill text-center">@Html.ActionLink(module.Name, "Details", new { id = module.Id })</li>
+                        <li class="list-group-item flex-fill text-center">@Html.ActionLink(module.Name, "Details", "SchoolModule", new { id = module.Id })</li>
                     }
                 </ul>
             }

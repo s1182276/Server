@@ -1,0 +1,51 @@
+﻿@model SchoolYearDto
+@{
+    ViewData["Title"] = "OER Kopiëren";
+}
+
+<h1>Oer kopiëren</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="CopySchoolYear">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @if (Model.Modules != null && Model.Modules.Any())
+            {
+                var modules = Model.Modules.ToList();
+
+                for (int i = 0; i < modules.Count; i++)
+                {
+                    <div class="form-group">
+                        <ul class="list-group list-group-vertical ">
+                        <li class="list-group-item flex-fill">@Html.ActionLink(modules[i].Name, "Details", "SchoolModule", new { id = modules[i].Id })</li>
+                        <input type="hidden" asp-for="@modules[i].Name" /> 
+                        <input type="hidden" asp-for="@modules[i].Name" />
+                        <input type="hidden" asp-for="@modules[i].Id" />
+                        <input type="hidden" asp-for="@modules[i].Active" />
+                        <input type="hidden" asp-for="@modules[i].Description" />
+                        <input type="hidden" asp-for="@modules[i].Level" />
+                        <input type="hidden" asp-for="@modules[i].Level" />
+                        <input type="hidden" asp-for="@modules[i].MinimalEC" />
+                        <input type="hidden" asp-for="@modules[i].PRequired" />
+                        <input type="hidden" asp-for="@modules[i].Semester" />
+                        </ul>
+                    </div>
+                }
+            }
+            <div class="form-group mt-3">
+                <input type="submit" value="Kopiëren" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-outline-danger">Terug naar overzicht</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

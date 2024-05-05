@@ -47,26 +47,21 @@ namespace KeuzeWijzerMvc.Controllers
         // GET: [Controller]/Copy/5
         public async Task<ActionResult> Copy(int id)
         {
-            var schoolYears = await _schoolYearSvc.GetAsync("/SchoolYears");
+            var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
+            if (module == null) return NotFound();
 
+            var schoolYears = await _schoolYearSvc.GetAsync("/SchoolYears");
             // Add warning or notice here
-            if (schoolYears == null){
+            if (schoolYears == null)
+            {
                 return View();
             }
 
             selectList = new SelectList(schoolYears, "Id", "Name");
             ViewBag.SchoolYears = selectList;
 
-            return View(await _moduleSvc.GetAsync(id, "/SchoolModule"));
-        }
-
-        // POST: [Controller]/Copy/5
-        [HttpPost, ActionName("Copy")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CopyModule(SchoolModuleDto module)
-        {
-            if (await _moduleSvc.AddAsync(module, "/SchoolModule")) return RedirectToAction(nameof(Index));
-            return View();
+            module.Name = $"{module.Name} - Kopie";
+            return View(module);
         }
 
         public async Task<ActionResult> Edit(int id)
