@@ -21,7 +21,7 @@
         <dd class="col-sm-10">
             @if(Model.Modules != null){
                 <ul class="list-group list-group-horizontal ">
-                    @foreach (var module in Model.Modules)
+                    @foreach (var module in Model.SchoolModules)
                     {
                         <li class="list-group-item flex-fill text-center">@Html.ActionLink(module.Name, "Details", "SchoolModule", new { id = module.Id })</li>
                     }

@@ -29,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                    @(item.Modules.Count() > 0 ? $"{item.Modules.Count()}" : "")
+                    @(item.SchoolModules.Count() > 0 ? $"{item.SchoolModules.Count()}" : "")
             </td>
             <td>
                     @Html.ActionLink("Aanpassen", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-secondary btn-sm" })

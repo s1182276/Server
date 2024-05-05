@@ -40,7 +40,7 @@ namespace KeuzeWijzerApi.Repositories
 
         public async Task<SchoolYear> GetById(int id)
         {
-            return await _context.SchoolYears.Include(sy => sy.Modules).FirstOrDefaultAsync(sy => sy.Id == id);
+            return await _context.SchoolYears.Include(sy => sy.SchoolModules).FirstOrDefaultAsync(sy => sy.Id == id);
         }
 
         public async Task Update(SchoolYear entity)

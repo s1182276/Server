@@ -15,7 +15,7 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            @if (Model.Modules != null && Model.Modules.Any())
+            @if (Model.SchoolModules != null && Model.SchoolModules.Any())
             {
                 var modules = Model.Modules.ToList();
 

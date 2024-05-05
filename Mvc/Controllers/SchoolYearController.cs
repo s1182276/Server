@@ -69,7 +69,7 @@ namespace KeuzeWijzerMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CopySchoolYear(SchoolYearDto schoolYearDto)
         {
-            foreach (var module in schoolYearDto.Modules)
+            foreach (var module in schoolYearDto.SchoolModules)
             {
                 module.Id = 0;
                 Trace.WriteLine(module.Name);
