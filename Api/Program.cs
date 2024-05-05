@@ -1,21 +1,25 @@
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using KeuzeWijzerApi.DAL.DataContext;
 using KeuzeWijzerApi.Mapper;
 using KeuzeWijzerApi.Repositories;
 using KeuzeWijzerApi.Repositories.Interfaces;
+using KeuzeWijzerApi.Services;
+using KeuzeWijzerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers().AddNewtonsoftJson(options => {
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;});
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
+    .EnableTokenAcquisitionToCallDownstreamApi()
+        .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
+        .AddInMemoryTokenCaches();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -63,20 +67,23 @@ builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      builder =>
-                      {
-                          builder.WithOrigins("http://localhost",
-                                              "https://localhost",
-                                              "https://*.hbo-ict.dev");
-                      });
+    options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
+    {
+        builder.WithOrigins("http://localhost",
+            "https://localhost",
+            "https://*.hbo-ict.dev");
+    });
 });
 
 // Add Automapper profile
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
-builder.Services.AddScoped<IModuleRepo, ModuleRepo>();
-builder.Services.AddScoped<ISchoolYearRepo, SchoolYearRepo>();
+builder.Services
+    .AddScoped<IModuleRepo, ModuleRepo>()
+    .AddScoped<ISchoolYearRepo, SchoolYearRepo>()
+    .AddScoped<IAppUserService, AppUserService>()
+    .AddScoped<IAppUserRepo, AppUserRepo>()
+    .AddScoped<IAppUserService, AppUserService>();
 
 var app = builder.Build();
 

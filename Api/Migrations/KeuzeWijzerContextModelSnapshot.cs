@@ -16,6 +16,20 @@ namespace KeuzeWijzerApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
 
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AzureAdId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppUsers");
+                });
+
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.EntryRequirementModule", b =>
                 {
                     b.Property<int>("Id")
@@ -77,7 +91,7 @@ namespace KeuzeWijzerApi.Migrations
 
                     b.HasIndex("SchoolYearId");
 
-                    b.ToTable("Modules");
+                    b.ToTable("SchoolModules");
 
                     b.HasData(
                         new
@@ -207,7 +221,7 @@ namespace KeuzeWijzerApi.Migrations
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", b =>
                 {
                     b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", "SchoolYear")
-                        .WithMany("Modules")
+                        .WithMany("SchoolModules")
                         .HasForeignKey("SchoolYearId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -244,7 +258,7 @@ namespace KeuzeWijzerApi.Migrations
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", b =>
                 {
-                    b.Navigation("Modules");
+                    b.Navigation("SchoolModules");
                 });
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.Studyroute", b =>

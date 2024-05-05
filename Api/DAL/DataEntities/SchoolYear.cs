@@ -9,5 +9,6 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<SchoolModule>? Modules { get; set; }
+
     }
 }

@@ -10,14 +10,28 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KeuzeWijzerApi.Migrations
 {
     [DbContext(typeof(KeuzeWijzerContext))]
-    [Migration("20240502203749_AddedSeeder")]
-    partial class AddedSeeder
+    [Migration("20240505145521_Users")]
+    partial class Users
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
+
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AzureAdId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppUsers");
+                });
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.EntryRequirementModule", b =>
                 {

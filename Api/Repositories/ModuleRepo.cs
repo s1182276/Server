@@ -17,37 +17,38 @@ namespace KeuzeWijzerApi.Repositories
         public async Task Add(SchoolModule entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            await _context.Modules.AddAsync(entity);
+            await _context.SchoolModules.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task Delete(SchoolModule entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _context.Modules.Remove(entity);
+            _context.SchoolModules.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<SchoolModule>> GetAll()
         {
-            return await _context.Modules.Include(sy => sy.SchoolYear).ToListAsync();
+            var a =  _context.SchoolModules.Include(sy => sy.SchoolYear).ToListAsync();
+            return await _context.SchoolModules.Include(sy => sy.SchoolYear).ToListAsync();
         }
 
         public async Task<SchoolModule> GetById(int id)
         {
-            return await _context.Modules.FindAsync(id); 
+            return await _context.SchoolModules.FindAsync(id); 
         }
 
         public async Task Update(SchoolModule entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _context.Modules.Update(entity);
+            _context.SchoolModules.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public bool DoesExist(int id)
         {
-            return _context.Modules.Any(e => e.Id == id);
+            return _context.SchoolModules.Any(e => e.Id == id);
         }
     }
 }

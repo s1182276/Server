@@ -12,6 +12,6 @@ namespace KeuzeWijzerCore.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<SchoolModuleDto>? Modules { get; set; }
+        public ICollection<SchoolModuleDto>? SchoolModules { get; set; }
     }
 }

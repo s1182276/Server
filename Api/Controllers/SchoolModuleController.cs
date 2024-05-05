@@ -8,8 +8,8 @@ using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
-    [Authorize]
-    [RequiredScope("All", "Module")]
+    // [Authorize]
+    // [RequiredScope("All", "SchoolModule")]
     [ApiController]
     [Route("[controller]")]
     public class SchoolModuleController : Controller
