@@ -1,7 +1,7 @@
 ﻿using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services.Interfaces;
+using KeuzeWijzerMvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace KeuzeWijzerMvc.Controllers
 {
@@ -61,19 +61,38 @@ namespace KeuzeWijzerMvc.Controllers
 
             schoolYear.Name = $"{schoolYear.Name} - Kopie";
 
-            return View(schoolYear);
+            var syvm = new SchoolYearViewModel(schoolYear);
+
+            return View(syvm);
         }
+
 
         // POST: [Controller]/Copy/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CopySchoolYear(SchoolYearDto schoolYearDto)
+        public async Task<ActionResult> CopySchoolYear(SchoolYearViewModel syvm)
         {
-            foreach (var module in schoolYearDto.SchoolModules)
+            if (!ModelState.IsValid)
             {
-                module.Id = 0;
-                Trace.WriteLine(module.Name);
+                return RedirectToAction(nameof(Index));
             }
+
+            var modules = syvm.GetSchoolModules();
+
+            if (modules != null)
+            {
+                foreach (var module in modules)
+                {
+                    module.Id = 0;
+                }
+            }
+
+            var schoolYearDto = new SchoolYearDto()
+            {
+                Id = syvm.Id,
+                Name = syvm.Name,
+                SchoolModules = modules != null ? modules : null
+            };
 
             if (await _schoolYearSvc.AddAsync(schoolYearDto, "/SchoolYears")) return RedirectToAction(nameof(Index));
             return View();
