@@ -35,7 +35,7 @@ namespace KeuzeWijzerMvc.Controllers
         // GET: [Controller]/Create
         public async Task<ActionResult> Create()
         {
-            List<SchoolYearDto> schoolYears = await _yearSvc.GetAsync("/SchoolYears");
+            List<SchoolYearDto> schoolYears = await _schoolYearSvc.GetAsync("/SchoolYears");
             ViewBag.SchoolYearId = new SelectList(schoolYears, "Id", "Name");
 
             return View();
