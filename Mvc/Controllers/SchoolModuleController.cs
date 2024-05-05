@@ -1,17 +1,22 @@
 ﻿using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KeuzeWijzerMvc.Controllers
 {
     public class SchoolModuleController : Controller
     {
         private readonly IService<SchoolModuleDto> _moduleSvc;
+        private readonly IService<SchoolYearDto> _yearSvc;
+
+        public SelectList schoolYearsSelectList {  get; set; }
         //public SelectList selectList { get; set; }
 
-        public SchoolModuleController(IService<SchoolModuleDto> moduleService)
+        public SchoolModuleController(IService<SchoolModuleDto> moduleService, IService<SchoolYearDto> yearService)
         {
             _moduleSvc = moduleService;
+            _yearSvc = yearService;
         }
 
         public async Task<ActionResult> Index()
@@ -29,7 +34,13 @@ namespace KeuzeWijzerMvc.Controllers
         }
 
         // GET: [Controller]/Create
-        public ActionResult Create() => View();
+        public async Task<ActionResult> Create()
+        {
+            List<SchoolYearDto> schoolYears = await _yearSvc.GetAsync("/SchoolYears");
+            ViewBag.SchoolYearId = new SelectList(schoolYears, "Id", "Name");
+
+            return View();
+        }
 
         // POST: [Controller]/Create
         [HttpPost]
