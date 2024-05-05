@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KeuzeWijzerApi.DAL.DataEntities
 {
-    public class Module
+    public class SchoolModule
     {
         [Key]
         public int Id { get; set; }

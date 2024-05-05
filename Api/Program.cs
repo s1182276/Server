@@ -80,6 +80,8 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services
     .AddScoped<IModuleRepo, ModuleRepo>()
+    .AddScoped<ISchoolYearRepo, SchoolYearRepo>()
+    .AddScoped<IAppUserService, AppUserService>()
     .AddScoped<IAppUserRepo, AppUserRepo>()
     .AddScoped<IAppUserService, AppUserService>();
 
