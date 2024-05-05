@@ -10,6 +10,7 @@ builder.Services.AddHttpClient("ApiClient");
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IService<SchoolModuleDto>, Service<SchoolModuleDto>>();
+builder.Services.AddSingleton<IService<SchoolYearDto>, Service<SchoolYearDto>>();
 
 
 builder.Services.AddControllersWithViews();

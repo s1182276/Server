@@ -1,17 +1,21 @@
 ﻿using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KeuzeWijzerMvc.Controllers
 {
     public class SchoolModuleController : Controller
     {
         private readonly IService<SchoolModuleDto> _moduleSvc;
-        //public SelectList selectList { get; set; }
+        private readonly IService<SchoolYearDto> _schoolYearSvc;
+        public SelectList selectList { get; set; }
 
-        public SchoolModuleController(IService<SchoolModuleDto> moduleService)
+        public SchoolModuleController(IService<SchoolModuleDto> moduleService,
+                                      IService<SchoolYearDto> schoolYearSvc)
         {
             _moduleSvc = moduleService;
+            _schoolYearSvc = schoolYearSvc;
         }
 
         public async Task<ActionResult> Index()
@@ -35,6 +39,31 @@ namespace KeuzeWijzerMvc.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(SchoolModuleDto module)
+        {
+            if (await _moduleSvc.AddAsync(module, "/SchoolModule")) return RedirectToAction(nameof(Index));
+            return View();
+        }
+
+        // GET: [Controller]/Copy/5
+        public async Task<ActionResult> Copy(int id)
+        {
+            var schoolYears = await _schoolYearSvc.GetAsync("/SchoolYears");
+
+            // Add warning or notice here
+            if (schoolYears == null){
+                return View();
+            }
+
+            selectList = new SelectList(schoolYears, "Id", "Name");
+            ViewBag.SchoolYears = selectList;
+
+            return View(await _moduleSvc.GetAsync(id, "/SchoolModule"));
+        }
+
+        // POST: [Controller]/Copy/5
+        [HttpPost, ActionName("Copy")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CopyModule(SchoolModuleDto module)
         {
             if (await _moduleSvc.AddAsync(module, "/SchoolModule")) return RedirectToAction(nameof(Index));
             return View();
