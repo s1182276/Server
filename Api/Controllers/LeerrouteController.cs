@@ -1,10 +1,19 @@
-﻿//using KeuzeWijzerApi.Services;
-//using Microsoft.AspNetCore.Mvc;
+﻿//using Microsoft.AspNetCore.Mvc;
 //using KeuzeWijzerApi.DAL.DataEntities;
 //using KeuzeWijzerApi.Repositories.Interfaces;
+//using KeuzeWijzerApi.Services.Interfaces;
+//using KeuzeWijzerApi.Services;
+//using Microsoft.AspNetCore.Mvc;
+//using KeuzeWijzerApi.Models;
+//using Microsoft.AspNetCore.Authorization;
+//using Microsoft.Identity.Web.Resource;
 
 //namespace KeuzeWijzerApi.Controllers
 //{
+//    [Authorize]
+//    [RequiredScope("All", "Leerroute")]
+//    [ApiController]
+//    [Route("[controller]")]
 //    public class LeerrouteController : Controller
 //    {
 //        ILeerrouteRepo leerrouteRepo;

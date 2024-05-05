@@ -2,11 +2,14 @@
 using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using KeuzeWijzerCore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
+    [Authorize]
+    [RequiredScope("All", "Module")]
     [ApiController]
     [Route("[controller]")]
     public class SchoolModuleController : Controller
@@ -42,7 +45,7 @@ namespace KeuzeWijzerApi.Controllers
         {
             var moduleEntity = _mapper.Map<SchoolModule>(module);
 
-            if(_moduleRepo.DoesExist(id))
+            if (_moduleRepo.DoesExist(id))
             {
                 await _moduleRepo.Update(moduleEntity);
                 return Ok();
