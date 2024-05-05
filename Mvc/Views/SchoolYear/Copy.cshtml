@@ -17,7 +17,7 @@
             </div>
             @if (Model.SchoolModules != null && Model.SchoolModules.Any())
             {
-                var modules = Model.Modules.ToList();
+                var modules = Model.SchoolModules.ToList();
 
                 for (int i = 0; i < modules.Count; i++)
                 {
