@@ -8,8 +8,11 @@ namespace KeuzeWijzerApi.Mapper
     {
         public AutoMapperProfile()
         {
-            CreateMap<Module, ModuleDto>().ReverseMap();
-            CreateMap<SchoolYear, SchoolYearDto>().ReverseMap();
+            CreateMap<SchoolModule, SchoolModuleDto>().ReverseMap()
+                // We also need to mapp the Schoolyear to the SchoolModule
+                .ForMember(dest => dest.SchoolYear, mem => mem.MapFrom(map => map.SchoolYear));
+            CreateMap<SchoolYear, SchoolYearDto>().ReverseMap()
+                .ForMember(dest => dest.Modules, mem => mem.MapFrom(map => map.Modules));
         }
     }
 }

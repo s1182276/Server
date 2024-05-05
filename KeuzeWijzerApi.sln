@@ -4,14 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeuzeWijzerApi", "Api\KeuzeWijzerApi.csproj", "{F521B951-EF83-4951-A345-EA1111055C51}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F600DC8A-3E2A-4D0B-BE0E-CFE2D6F45121} = {F600DC8A-3E2A-4D0B-BE0E-CFE2D6F45121}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeuzeWijzerMvc", "Mvc\KeuzeWijzerMvc.csproj", "{872C51AC-A33C-4306-B4F0-B0E0BADF9158}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeuzeWijzerCore", "KeuzeWijzerCore\KeuzeWijzerCore.csproj", "{F600DC8A-3E2A-4D0B-BE0E-CFE2D6F45121}"
-	ProjectSection(ProjectDependencies) = postProject
-		{872C51AC-A33C-4306-B4F0-B0E0BADF9158} = {872C51AC-A33C-4306-B4F0-B0E0BADF9158}
-		{F521B951-EF83-4951-A345-EA1111055C51} = {F521B951-EF83-4951-A345-EA1111055C51}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeuzeWijzerTest", "KeuzeWijzerTest\KeuzeWijzerTest.csproj", "{FE6F2BD7-9D69-4416-BA5F-5D3B2B052241}"
 EndProject

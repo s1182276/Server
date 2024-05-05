@@ -35,7 +35,7 @@ namespace KeuzeWijzerApi.Repositories
 
         public async Task<IEnumerable<SchoolYear>> GetAll()
         {
-            return await _context.SchoolYears.ToListAsync();
+            return await _context.SchoolYears.Include(sy => sy.Modules).ToListAsync();
         }
 
         public async Task<SchoolYear> GetById(int id)

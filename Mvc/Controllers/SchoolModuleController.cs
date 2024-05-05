@@ -4,25 +4,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KeuzeWijzerMvc.Controllers
 {
-    public class ModuleController : Controller
+    public class SchoolModuleController : Controller
     {
-        private readonly IService<ModuleDto> _moduleSvc;
+        private readonly IService<SchoolModuleDto> _moduleSvc;
         //public SelectList selectList { get; set; }
 
-        public ModuleController(IService<ModuleDto> moduleService)
+        public SchoolModuleController(IService<SchoolModuleDto> moduleService)
         {
             _moduleSvc = moduleService;
         }
 
         public async Task<ActionResult> Index()
         {
-            var view = await _moduleSvc.GetAsync("/Module");
+            var view = await _moduleSvc.GetAsync("/SchoolModule");
             return View(view);
         }
 
+
         public async Task<ActionResult> Details(int id)
         {
-            var module = await _moduleSvc.GetAsync(id, "/Module");
+            var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
             if (module == null) return NotFound();
             return View(module);
         }
@@ -33,30 +34,30 @@ namespace KeuzeWijzerMvc.Controllers
         // POST: [Controller]/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ModuleDto module)
+        public async Task<ActionResult> Create(SchoolModuleDto module)
         {
-            if (await _moduleSvc.AddAsync(module, "/Module")) return RedirectToAction(nameof(Index));
+            if (await _moduleSvc.AddAsync(module, "/SchoolModule")) return RedirectToAction(nameof(Index));
             return View();
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            return View(await _moduleSvc.GetAsync(id, "/Module"));
+            return View(await _moduleSvc.GetAsync(id, "/SchoolModule"));
         }
 
         // POST: [Controller]/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, ModuleDto module)
+        public async Task<ActionResult> Edit(int id, SchoolModuleDto module)
         {
-            if (await _moduleSvc.UpdateAsync(id, module, "/Module")) return RedirectToAction(nameof(Index));
+            if (await _moduleSvc.UpdateAsync(id, module, "/SchoolModule")) return RedirectToAction(nameof(Index));
             return View();
         }
 
 
         public async Task<ActionResult> Delete(int id)
         {
-            var module = await _moduleSvc.GetAsync(id, "/Module");
+            var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
             if (module == null) return NotFound();
             return View(module);
         }
@@ -66,7 +67,7 @@ namespace KeuzeWijzerMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            if (await _moduleSvc.DeleteAsync(id, "/Module")) return RedirectToAction(nameof(Index));
+            if (await _moduleSvc.DeleteAsync(id, "/SchoolModule")) return RedirectToAction(nameof(Index));
             return View();
         }
 
