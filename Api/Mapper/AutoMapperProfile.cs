@@ -13,6 +13,7 @@ namespace KeuzeWijzerApi.Mapper
                 .ForMember(dest => dest.SchoolYear, mem => mem.MapFrom(map => map.SchoolYear));
             CreateMap<SchoolYear, SchoolYearDto>().ReverseMap()
                 .ForMember(dest => dest.SchoolModules, mem => mem.MapFrom(map => map.SchoolModules));
+            CreateMap<AppUser, AppUserDto>();
         }
     }
 }
