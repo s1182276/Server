@@ -33,7 +33,13 @@ namespace KeuzeWijzerMvc.Controllers
         }
 
         // GET: [Controller]/Create
-        public ActionResult Create() => View();
+        public async Task<ActionResult> Create()
+        {
+            List<SchoolYearDto> schoolYears = await _yearSvc.GetAsync("/SchoolYears");
+            ViewBag.SchoolYearId = new SelectList(schoolYears, "Id", "Name");
+
+            return View();
+        }
 
         // POST: [Controller]/Create
         [HttpPost]
