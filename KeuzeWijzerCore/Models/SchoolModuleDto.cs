@@ -2,7 +2,7 @@
 
 namespace KeuzeWijzerCore.Models
 {
-    public class ModuleDto
+    public class SchoolModuleDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -10,6 +10,7 @@ namespace KeuzeWijzerCore.Models
         public int Level { get; set; }
         public bool Active { get; set; }
         public int SchoolYearId { get; set; }
+        public SchoolYearDto? SchoolYear { get; set; }
         public string? Description { get; set; }
         public bool PRequired { get; set; }
         public int MinimalEC { get; set; }

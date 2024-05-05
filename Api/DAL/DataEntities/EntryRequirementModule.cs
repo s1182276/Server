@@ -12,10 +12,10 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         
         [Required]
         public int ModuleId { get; set; }
-        public Module? Module { get; set; }
+        public SchoolModule? Module { get; set; }
 
         public int MustModuleId { get; set; }
-        public Module? MustModule { get; set; }
+        public SchoolModule? MustModule { get; set; }
 
         public bool MustPassed { get; set; }
 

@@ -8,30 +8,30 @@ using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
-    [Authorize]
-    [RequiredScope("All", "Module")]
+    // [Authorize]
+    // [RequiredScope("All", "SchoolModule")]
     [ApiController]
     [Route("[controller]")]
-    public class ModuleController : Controller
+    public class SchoolModuleController : Controller
     {
         private readonly IModuleRepo _moduleRepo;
         private readonly IMapper _mapper;
-
-        public ModuleController(IModuleRepo moduleRepo, IMapper mapper)
+        
+        public SchoolModuleController(IModuleRepo moduleRepo, IMapper mapper)
         {
             _moduleRepo = moduleRepo;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ModuleDto>>> GetModules()
+        public async Task<ActionResult<IEnumerable<SchoolModuleDto>>> GetModules()
         {
             var modules = await _moduleRepo.GetAll();
-            return Ok(_mapper.Map<IEnumerable<ModuleDto>>(modules));
+            return Ok(_mapper.Map<IEnumerable<SchoolModuleDto>>(modules));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ModuleDto>> GetModule(int id)
+        public async Task<ActionResult<SchoolModuleDto>> GetModule(int id)
         {
             var module = await _moduleRepo.GetById(id);
 
@@ -41,13 +41,13 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult PutModule(int id, ModuleDto module)
+        public async Task<IActionResult> PutModule(int id, SchoolModuleDto module)
         {
-            var moduleEntity = _mapper.Map<Module>(module);
+            var moduleEntity = _mapper.Map<SchoolModule>(module);
 
             if (_moduleRepo.DoesExist(id))
             {
-                _moduleRepo.Update(moduleEntity);
+                await _moduleRepo.Update(moduleEntity);
                 return Ok();
             }
 
@@ -55,10 +55,10 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ModuleDto> PostModule(ModuleDto module)
+        public async Task<ActionResult<SchoolModuleDto>> PostModule(SchoolModuleDto module)
         {
-            var moduleEntity = _mapper.Map<Module>(module);
-            _moduleRepo.Add(moduleEntity);
+            var moduleEntity = _mapper.Map<SchoolModule>(module);
+            await _moduleRepo.Add(moduleEntity);
 
             return CreatedAtAction("GetModule", new { id = module.Id }, module);
         }
@@ -73,7 +73,7 @@ namespace KeuzeWijzerApi.Controllers
                 return NotFound();
             }
 
-            _moduleRepo.Delete(module);
+            await _moduleRepo.Delete(module);
 
             return NoContent();
         }

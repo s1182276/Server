@@ -12,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddControllers().AddNewtonsoftJson(options => {
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;});
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
@@ -74,6 +76,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddScoped<IModuleRepo, ModuleRepo>();
+builder.Services.AddScoped<ISchoolYearRepo, SchoolYearRepo>();
 
 var app = builder.Build();
 

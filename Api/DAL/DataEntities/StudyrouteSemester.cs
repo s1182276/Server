@@ -16,7 +16,7 @@ namespace KeuzeWijzerApi.DAL.DataEntities
 
         [Required]
         public int ModuleId { get; set; }
-        public Module? Module { get; set; }
+        public SchoolModule? Module { get; set; }
         
         public int SchoolYearId { get; set; }
         public SchoolYear? SchoolYear { get; set; }

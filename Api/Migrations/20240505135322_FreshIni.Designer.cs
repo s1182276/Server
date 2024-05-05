@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KeuzeWijzerApi.Migrations
 {
     [DbContext(typeof(KeuzeWijzerContext))]
-    [Migration("20240430214112_FixedForeignKeyIssueIHope2")]
-    partial class FixedForeignKeyIssueIHope2
+    [Migration("20240505135322_FreshIni")]
+    partial class FreshIni
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.EntryRequirementModule", b =>
                 {
@@ -43,7 +43,7 @@ namespace KeuzeWijzerApi.Migrations
                     b.ToTable("EntryRequirementModules");
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.Module", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +80,35 @@ namespace KeuzeWijzerApi.Migrations
 
                     b.HasIndex("SchoolYearId");
 
-                    b.ToTable("Modules");
+                    b.ToTable("SchoolModules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            Description = "Omschrijving1",
+                            EC = 10,
+                            Level = 1,
+                            MinimalEC = 0,
+                            Name = "Module1",
+                            PRequired = false,
+                            SchoolYearId = 1,
+                            Semester = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Active = true,
+                            Description = "Omschrijving2",
+                            EC = 10,
+                            Level = 1,
+                            MinimalEC = 0,
+                            Name = "Module2",
+                            PRequired = false,
+                            SchoolYearId = 1,
+                            Semester = 1
+                        });
                 });
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", b =>
@@ -96,6 +124,18 @@ namespace KeuzeWijzerApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SchoolYears");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Schooljaar1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Schooljaar2"
+                        });
                 });
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.Studyroute", b =>
@@ -150,13 +190,13 @@ namespace KeuzeWijzerApi.Migrations
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.EntryRequirementModule", b =>
                 {
-                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.Module", "Module")
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", "Module")
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.Module", "MustModule")
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", "MustModule")
                         .WithMany()
                         .HasForeignKey("MustModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -167,10 +207,10 @@ namespace KeuzeWijzerApi.Migrations
                     b.Navigation("MustModule");
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.Module", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", b =>
                 {
                     b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", "SchoolYear")
-                        .WithMany("Modules")
+                        .WithMany("SchoolModules")
                         .HasForeignKey("SchoolYearId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -180,7 +220,7 @@ namespace KeuzeWijzerApi.Migrations
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.StudyrouteSemester", b =>
                 {
-                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.Module", "Module")
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", "Module")
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -207,7 +247,7 @@ namespace KeuzeWijzerApi.Migrations
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", b =>
                 {
-                    b.Navigation("Modules");
+                    b.Navigation("SchoolModules");
                 });
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.Studyroute", b =>
