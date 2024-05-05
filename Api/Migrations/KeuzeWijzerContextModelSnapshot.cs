@@ -77,7 +77,7 @@ namespace KeuzeWijzerApi.Migrations
 
                     b.HasIndex("SchoolYearId");
 
-                    b.ToTable("Modules");
+                    b.ToTable("SchoolModules");
 
                     b.HasData(
                         new
@@ -207,7 +207,7 @@ namespace KeuzeWijzerApi.Migrations
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", b =>
                 {
                     b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", "SchoolYear")
-                        .WithMany("Modules")
+                        .WithMany("SchoolModules")
                         .HasForeignKey("SchoolYearId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -244,7 +244,7 @@ namespace KeuzeWijzerApi.Migrations
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", b =>
                 {
-                    b.Navigation("Modules");
+                    b.Navigation("SchoolModules");
                 });
 
             modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.Studyroute", b =>

@@ -30,12 +30,12 @@ namespace KeuzeWijzerApi.Repositories
 
         public bool DoesExist(int id)
         {
-            return _context.Modules.Any(e => e.Id == id);
+            return _context.SchoolYears.Any(e => e.Id == id);
         }
 
         public async Task<IEnumerable<SchoolYear>> GetAll()
         {
-            return await _context.SchoolYears.Include(sy => sy.Modules).ToListAsync();
+            return await _context.SchoolYears.Include(sy => sy.SchoolModules).ToListAsync();
         }
 
         public async Task<SchoolYear> GetById(int id)
