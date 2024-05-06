@@ -10,3 +10,4 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         public List<LearningYear>? LearningYears { get; set; }
     }
 }
+ 

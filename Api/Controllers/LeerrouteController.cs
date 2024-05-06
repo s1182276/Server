@@ -1,36 +1,52 @@
-﻿//using KeuzeWijzerApi.Services;
-//using Microsoft.AspNetCore.Mvc;
-//using KeuzeWijzerApi.DAL.DataEntities;
-//using KeuzeWijzerApi.Repositories.Interfaces;
+﻿using KeuzeWijzerCore.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using KeuzeWijzerApi.DAL.DataEntities;
+using KeuzeWijzerApi.Repositories.Interfaces;
+using System.Reflection;
+using KeuzeWijzerApi.Repositories;
 
-//namespace KeuzeWijzerApi.Controllers
-//{
-//    public class LeerrouteController : Controller
-//    {
-//        ILeerrouteRepo leerrouteRepo;
+namespace KeuzeWijzerApi.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class LeerrouteController : Controller
+    {
+        private readonly ILeerrouteRepo _leerrouteRepo;
+        private readonly IMapper _mapper;
 
-//        public LeerrouteController()
-//        {
-//            leerrouteRepo = new LeerrouteRepo();
-//        }
+        public LeerrouteController(ILeerrouteRepo leerrouteRepo, IMapper mapper)
+        {
+            _leerrouteRepo = leerrouteRepo;
+            _mapper = mapper;
+        }
 
-//        [HttpGet("GetAllLeerroutes")]
-//        public IActionResult GetAllLeerroutes()
-//        {
-//            return Ok(leerrouteRepo.GetAllLeerroute());
-//        }
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<LearningRouteDto>>> GetLeerroutes()
+        {
+            var learningRoutes = await _leerrouteRepo.GetAll();
+            return Ok(_mapper.Map<IEnumerable<LearningRouteDto>>(learningRoutes));
+        }
 
-//        [HttpGet("GetLeerroute/{id}")]
-//        public IActionResult GetLeerroute(int id)
-//        {
-//            return Ok(leerrouteRepo.GetLeerroute(id));
-//        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<LearningRouteDto>> GetLeerroute(int id)
+        {
+            var learningRoute = await _leerrouteRepo.GetById(id);
 
-//        [HttpPost("SaveLeerroute")]
-//        public IActionResult SaveLeerroute([FromBody] LearningRoute leerroute)
-//        { 
-//            leerrouteRepo.SaveLeerroute(leerroute);
-//            return Ok();
-//        }
-//    }
-//}
+            if (learningRoute == null) { return NotFound(); }
+
+            return Ok(learningRoute);
+        }
+
+        [HttpPost]
+        public ActionResult<LearningRouteDto> PostLeerroute(LearningRouteDto learningRoute)
+        {
+            var learningRouteEntity = _mapper.Map<LearningRoute>(learningRoute);
+            _leerrouteRepo.Add(learningRouteEntity);
+
+            return CreatedAtAction("GetLeerroute", new { id = learningRoute.Id }, learningRoute);
+        }
+    }
+}
+

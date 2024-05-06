@@ -22,9 +22,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       builder =>
                       {
-                          builder.WithOrigins("http://localhost",
+                          builder.WithOrigins("http://localhost:8030",
                                               "https://localhost",
-                                              "https://*.hbo-ict.dev");
+                                              "https://*.hbo-ict.dev",
+                                              "*")
+                            .AllowAnyHeader() // Allow any header
+                            .AllowAnyMethod(); // Allow any HTTP method;
                       });
 });
 
@@ -32,6 +35,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddScoped<IModuleRepo, ModuleRepo>();
+builder.Services.AddScoped<ILeerrouteRepo, LeerrouteRepo>();
 
 var app = builder.Build();
 

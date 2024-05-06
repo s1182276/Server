@@ -1,85 +1,50 @@
-﻿//using KeuzeWijzerApi.DAL.DataEntities;
-//using KeuzeWijzerApi.Repositories.Interfaces;
+﻿using KeuzeWijzerApi.DAL.DataContext;
+using KeuzeWijzerApi.DAL.DataEntities;
+using KeuzeWijzerApi.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-//namespace KeuzeWijzerApi.Repositories
-//{
-//    public class LeerrouteRepo : ILeerrouteRepo
-//    {
-//        private static readonly List<LearningRoute> leerroutes = new()
-//        {
-//            //new LeerrouteDto {
-//            //    Id = 1,
-//            //    Name = "Route1",
-//            //    Modules = new List<ModuleDto>()
-//            //    {
-//            //        new ModuleDto { id = 1, description = "", name = "" },
-//            //        new ModuleDto { id = 2, description = "", name = "" }
-//            //    }
-//            //},
-//            //new LeerrouteDto {
-//            //    Id = 2,
-//            //    Name = "Route2",
-//            //    Modules = new List<ModuleDto>()
-//            //    {
-//            //        new ModuleDto { id = 3, description = "", name = "" },
-//            //        new ModuleDto { id = 4, description = "", name = "" }
-//            //    }
-//            //}
-//        };
+namespace KeuzeWijzerApi.Repositories
+{
+    public class LeerrouteRepo : ILeerrouteRepo
+    {
+        private readonly KeuzeWijzerContext _context;
 
-//        /// <summary>
-//        /// Ugly Temp Leerroute to return when id is not found
-//        /// </summary>
-//        private LearningRoute tempNotFound = new()
-//        {
-//            //Id = 999,
-//            //Name = "NotFound",
-//            //Modules = new List<ModuleDto>()
-//            //    {
-//            //        new ModuleDto { id = 777, description = "NotFound", name = "NotFound" },
-//            //        new ModuleDto { id = 888, description = "NotFound", name = "NotFound" }
-//            //    }
-//        };
+        public LeerrouteRepo(KeuzeWijzerContext context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
 
-//        public LeerrouteRepo()
-//        {
-//        }
+        public void Add(LearningRoute entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            _context.Leerroutes.Add(entity);
+            _context.SaveChangesAsync();
+        }
 
-//        public LearningRoute DeleteLeerroute(int Id)
-//        {
-//            var toDel = GetLeerroute(Id);
+        public void Delete(LearningRoute entity)
+        {
+            throw new NotImplementedException();
+        }
 
-//            if (toDel != null)
-//            {
-//                leerroutes.Remove(toDel);
-//                return toDel;
-//            }
+        public bool DoesExist(int id)
+        {
+            throw new NotImplementedException();
+        }
 
-//            return tempNotFound;
+        public async Task<IEnumerable<LearningRoute>> GetAll()
+        {
 
-//        }
+            return await _context.Leerroutes.ToListAsync();
+        }
 
-//        public List<LearningRoute> GetAllLeerroute()
-//        {
-//            return leerroutes;
-//        }
+        public Task<LearningRoute> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
 
-//        public LearningRoute GetLeerroute(int Id)
-//        {
-//            LearningRoute? leerroute = leerroutes.FirstOrDefault(x => x.Id == Id);
-
-//            if (leerroute != null)
-//            {
-//                leerroutes.Remove(leerroute);
-//                return leerroute;
-//            }
-
-//            return tempNotFound;
-//        }
-
-//        public void SaveLeerroute(LearningRoute leerroute)
-//        {
-//            leerroutes.Add(leerroute);
-//        }
-//    }
-//}
+        public void Update(LearningRoute entity)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

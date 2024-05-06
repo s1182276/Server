@@ -9,6 +9,7 @@ namespace KeuzeWijzerApi.Mapper
         public AutoMapperProfile()
         {
             CreateMap<Module, ModuleDto>().ReverseMap();
+            CreateMap<LearningRoute, LearningRouteDto>().ReverseMap();
         }
     }
 }
