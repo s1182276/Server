@@ -1,4 +1,14 @@
 services:
+
+  migrator:
+    build:
+      context: ./
+      dockerfile: DockerfileMigrator 
+    environment:
+      DB_CONNECTION_STRING: "Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True"
+    networks:
+      - container_network
+
   api:
     image: keuzewijzer-api:${ENV_KEY}
     build:
@@ -14,6 +24,8 @@ services:
       DB_CONNECTION_STRING: "Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True"
     networks:
       - container_network
+    depends_on:
+      - migrator
 
   mvc:
     image: keuzewijzer-mvc:${ENV_KEY}
@@ -29,6 +41,9 @@ services:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     networks:
       - container_network
+    depends_on:
+      - migrator
+      
 
 networks:
   container_network:
