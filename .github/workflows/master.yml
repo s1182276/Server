@@ -14,38 +14,34 @@ jobs:
       name: DEV
     runs-on: self-hosted
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Prune old images
-        run: docker image prune -a -f
-        working-directory: ${{ github.workspace }}
-
-      - name: Build shared dll
-        run: |
-          export DOTNET_ROOT=$HOME/.dotnet
-          export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
-          cd ./KeuzeWijzerCore && dotnet publish --os linux --arch x64 /t:PublishContainer
-
-      - name: Copy shared dll
-        run: |
-          cp ./KeuzeWijzerCore/bin/Release/net8.0/linux-x64/KeuzeWijzerCore.dll ./
-
-      - name: Build and start container for Development
-        run: |
-          docker compose build
-          docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
-        env:
-          API_PORT: "${{ vars.API_PORT }}"
-          MVC_PORT: "${{ vars.MVC_PORT }}"
-          ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
-          DB_HOST: "${{ vars.DB_HOST }}"
-          DB_NAME: "${{ vars.DB_NAME }}"
-          DB_USER: "${{ secrets.DB_USER }}"
-          DB_PASSWORD: "${{ secrets.DB_PASSWORD }}"
-          ENV_KEY: "${{ vars.ENV_KEY }}"
-        working-directory: ${{ github.workspace }}
-
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Prune old images
+      run: docker image prune -a -f
+      working-directory: ${{ github.workspace }}
+    - name: Build shared dll
+      run: |
+        export DOTNET_ROOT=$HOME/.dotnet
+        export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
+        ls -als
+        cd ./KeuzeWijzerCore && dotnet publish --os linux --arch x64 /t:PublishContainer
+    - name: Copy shared dll
+      run: |
+        cp ./KeuzeWijzerCore/bin/Release/net8.0/linux-x64/KeuzeWijzerCore.dll ./   
+    - name: Build and start container for Development
+      run: |
+        docker compose build
+        docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
+      env:
+        API_PORT: '${{ vars.API_PORT }}'
+        MVC_PORT: '${{ vars.MVC_PORT }}'
+        ASPNETCORE_ENVIRONMENT: '${{ vars.ASPNETCORE_ENVIRONMENT }}'
+        DB_HOST: '${{ vars.DB_HOST }}'
+        DB_NAME: '${{ vars.DB_NAME }}'
+        DB_USER: '${{ secrets.DB_USER }}'
+        DB_PASSWORD: '${{ secrets.DB_PASSWORD }}'
+        ENV_KEY: '${{ vars.ENV_KEY }}'   
+      working-directory: ${{ github.workspace }}
   deploy_tst:
     name: TST
     if: github.ref == 'refs/heads/staging'
