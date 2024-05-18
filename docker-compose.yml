@@ -11,7 +11,7 @@ services:
     environment:
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
+      DB_CONNECTION_STRING: "Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True"
     networks:
       - container_network
 
@@ -26,7 +26,6 @@ services:
       ApiUri__ApiUri: "${ENV_KEY}-server-mvc-1:${API_PORT}"
       ASPNETCORE_HTTP_PORTS: "8082"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
     networks:
       - container_network
 

@@ -1,5 +1,3 @@
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
 using KeuzeWijzerApi.DAL.DataContext;
 using KeuzeWijzerApi.Mapper;
 using KeuzeWijzerApi.Repositories;
@@ -24,7 +22,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Fix recursive lookups
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-); 
+);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -67,8 +65,21 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
-   options.UseSqlite(builder.Configuration.GetConnectionString("DeveloptmentConnection")));
+// Use the DB_CONNECTION_STRING envvar from our docker pipeline, otherwise default to local sqlite
+// Tip: Using a different database provider also means you need to run from a different migration file due to column type differences between sqlite and sql server
+// Tip 2: If testing by setting an envvar locally while running this project, restart VS first! 
+if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")))
+{
+    var dbstring = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+    builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
+      options.UseSqlServer(dbstring));
+}
+else
+{
+    builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
+       options.UseSqlite(builder.Configuration.GetConnectionString("DeveloptmentConnection")));
+}
+
 
 builder.Services.AddCors(options =>
 {

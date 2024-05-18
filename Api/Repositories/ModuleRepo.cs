@@ -30,7 +30,6 @@ namespace KeuzeWijzerApi.Repositories
 
         public async Task<IEnumerable<SchoolModule>> GetAll()
         {
-            var a =  _context.SchoolModules.Include(sy => sy.SchoolYear).ToListAsync();
             return await _context.SchoolModules.Include(sy => sy.SchoolYear).ToListAsync();
         }
 
