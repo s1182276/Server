@@ -24,7 +24,7 @@ services:
     ports:
       - "${MVC_PORT}:8082"
     environment:
-      ApiUri__ApiUri: "${ENV_KEY}-server-mvc-1:${API_PORT}"
+      ApiUri: "${ENV_KEY}-server-mvc-1:${API_PORT}"
       ASPNETCORE_HTTP_PORTS: "8082"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     networks:
