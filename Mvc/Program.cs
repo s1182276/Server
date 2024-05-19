@@ -9,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient("ApiClient");
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IService<SchoolModuleDto>, Service<SchoolModuleDto>>();
+builder.Services.AddScoped<IService<SchoolModuleDto>, Service<SchoolModuleDto>>();
+builder.Services.AddScoped<IService<SchoolYearDto>, Service<SchoolYearDto>>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
