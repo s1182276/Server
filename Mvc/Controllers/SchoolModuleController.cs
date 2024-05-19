@@ -1,5 +1,6 @@
 ﻿using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services.Interfaces;
+using KeuzeWijzerMvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -61,11 +62,16 @@ namespace KeuzeWijzerMvc.Controllers
         public async Task<ActionResult> Copy(int id)
         {
             var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
-            if (module == null) return NotFound();
+            var modules = await _moduleSvc.GetAsync("/SchoolModule");
+            if (module == null || modules == null) return NotFound();
 
             await PopulateViewBag();
+
             module.Name = $"{module.Name} - Kopie";
-            return View(module);
+
+            SchoolModuleViewModel smvm = new(module, modules);
+
+            return View(smvm);
         }
 
         public async Task<ActionResult> Edit(int id)
