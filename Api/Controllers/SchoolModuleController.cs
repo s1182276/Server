@@ -2,25 +2,25 @@
 using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using KeuzeWijzerCore.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Web.Resource;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KeuzeWijzerApi.Controllers
 {
-    // [Authorize]
-    // [RequiredScope("All", "SchoolModule")]
     [ApiController]
     [Route("[controller]")]
     public class SchoolModuleController : Controller
     {
         private readonly IModuleRepo _moduleRepo;
+        private readonly IEntryRequirementModuleRepo _ermRepo;
         private readonly IMapper _mapper;
-        
-        public SchoolModuleController(IModuleRepo moduleRepo, IMapper mapper)
+
+        public SchoolModuleController(IModuleRepo moduleRepo, IMapper mapper, IEntryRequirementModuleRepo ermRepo)
         {
             _moduleRepo = moduleRepo;
             _mapper = mapper;
+            _ermRepo = ermRepo;
         }
 
         [HttpGet]
@@ -35,32 +35,55 @@ namespace KeuzeWijzerApi.Controllers
         {
             var module = await _moduleRepo.GetById(id);
 
-            if (module == null) { return NotFound(); }
+            if (module == null)
+            {
+                return NotFound();
+            }
 
-            return Ok(module);
+            return Ok(_mapper.Map<SchoolModuleDto>(module));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutModule(int id, SchoolModuleDto module)
+        public async Task<IActionResult> PutModule(int id, SchoolModuleDto moduleDto)
         {
-            var moduleEntity = _mapper.Map<SchoolModule>(module);
+            if (id != moduleDto.Id)
+            {
+                return BadRequest();
+            }
+
+            var moduleEntity = _mapper.Map<SchoolModule>(moduleDto);
 
             if (_moduleRepo.DoesExist(id))
             {
                 await _moduleRepo.Update(moduleEntity);
-                return Ok();
+                return NoContent();
             }
 
             return NotFound();
         }
 
         [HttpPost]
-        public async Task<ActionResult<SchoolModuleDto>> PostModule(SchoolModuleDto module)
+        public async Task<ActionResult<SchoolModuleDto>> PostModule(SchoolModuleDto moduleDto)
         {
-            var moduleEntity = _mapper.Map<SchoolModule>(module);
+            var moduleEntity = _mapper.Map<SchoolModule>(moduleDto);
+
             await _moduleRepo.Add(moduleEntity);
 
-            return CreatedAtAction("GetModule", new { id = module.Id }, module);
+            foreach (var entryRequirementDto in moduleDto.EntryRequirementModules)
+            {
+                var entryRequirementModule = new EntryRequirementModule
+                {
+                    MustModuleId = entryRequirementDto.MustModuleId,
+                    MustPassed = entryRequirementDto.MustPassed,
+                    ModuleId = moduleEntity.Id
+                };
+                await _ermRepo.Add(entryRequirementModule);
+            }
+
+            var updatedModule = await _moduleRepo.GetById(moduleEntity.Id);
+
+            var createdModuleDto = _mapper.Map<SchoolModuleDto>(updatedModule);
+            return CreatedAtAction(nameof(GetModule), new { id = createdModuleDto.Id }, createdModuleDto);
         }
 
         [HttpDelete("{id}")]

@@ -15,9 +15,17 @@ namespace KeuzeWijzerMvc.Services
 
         public async Task<bool> AddAsync(T item, string path)
         {
-            var apiClient = new ApiClient(_factory, _configuration);
-            var response = await apiClient.Post<T>(path, item);
-            if (response.IsSuccessStatusCode) return true;
+            try
+            {
+
+                var apiClient = new ApiClient(_factory, _configuration);
+                var response = await apiClient.Post<T>(path, item);
+                if (response.IsSuccessStatusCode) return true;
+            }
+            catch(Exception ex) 
+            {
+                var banana = "geel";
+            }
             return false;
         }
 

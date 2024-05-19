@@ -1,69 +1,125 @@
 ﻿@model KeuzeWijzerCore.Models.SchoolModuleDto
 
 @{
-    ViewData["Title"] = "Create Module";
+    ViewData["Title"] = "Module Aanmaken";
 }
 
 <h1>Create Module</h1>
 <hr />
 
 <div class="container">
-    <form asp-action="Create">
+    <form asp-action="Create" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <!-- Module Name and Cohort Selection -->
         <div class="form-group row">
-            <div class="col-sm-6">
-                <label asp-for="Name" class="control-label">Naam van module</label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="form-group column col-sm-6">
+                @* Left column *@
+
+                <div class="col-sm-12 mb-3">
+                    <label asp-for="Name" class="control-label">Naam van module</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <label asp-for="SchoolYearId" class="control-label">Cohort</label>
+                    <select asp-for="SchoolYearId" asp-items="ViewBag.SchoolYearId" class="form-control"></select>
+                    <span asp-validation-for="SchoolYearId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="EC" class="control-label">Studiepunten</label>
+                    <input asp-for="EC" class="form-control" />
+                    <span asp-validation-for="EC" class="text-danger"></span>
+                </div>
+
+                <div class="form-group column">
+                    <label class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" asp-for="Active" />
+                            <label class="form-check-label" asp-for="Active">Actief</label>
+                            <span asp-validation-for="Active" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group column">
+                    <input type="hidden" asp-for="Semester" id="Semester" value="0" />
+                    <label class="col-sm-6 control-label">Beschikbaar in periode(s)</label>
+                    <div class="col-sm-12 d-flex mt-2">
+                        <div class="form-check me-3">
+                            <input class="form-check-input" id="Period1" type="checkbox" onchange="updateSemester()" />
+                            <label class="form-check-label" for="Period1">Periode 1</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" id="Period2" type="checkbox" onchange="updateSemester()" />
+                            <label class="form-check-label" for="Period2">Periode 2</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Omschrijving</label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
             </div>
-            <div class="col-sm-6">
-                <label asp-for="SchoolYearId" class="control-label">Cohort</label>
-                <select asp-for="SchoolYearId" asp-items="ViewBag.SchoolYearId" class="form-control"></select>
-                <span asp-validation-for="SchoolYearId" class="text-danger"></span>
+
+            <div class="form-group column col-sm-6">
+                @* Right column *@
+                <h2>Ingangseisen</h2>
+
+                <div class="form-group mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="PRequired" />
+                        <label class="form-check-label" asp-for="PRequired">Propedeuse behaald</label>
+                        <span asp-validation-for="PRequired" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="MinimalEC" class="control-label">Benodigde studiepunten</label>
+                    <input asp-for="MinimalEC" class="form-control" value="0"/>
+                    <span asp-validation-for="MinimalEC" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="moduleDropdown">Modules die gevolgd/behaald moeten zijn</label>
+
+                    <div class="d-flex">
+                        <select id="moduleDropdown" class="form-control">
+                            <option value="">Selecteer een module</option>
+                            @foreach (var module in ViewBag.Modules)
+                            {
+                                <option value="@module.Value">@module.Text</option>
+                            }
+                        </select>
+                        <button type="button" class="btn btn-primary" onclick="addModule()">Toevoegen</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <table class="table table-bordered" id="modulesTable">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th class ="text-center">Behaald</th>
+                                <th class="text-center">Verwijderen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamische regels van de tabel -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- Description -->
-        <div class="form-group">
-            <label asp-for="Description" class="control-label">Omschrijving</label>
-            <textarea asp-for="Description" class="form-control"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-
-        <!-- Active Status and Periods -->
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" id="Period1" type="checkbox" onchange="updateSemester()" />
-                <label class="form-check-label" for="Period1">Periode 1</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" id="Period2" type="checkbox" onchange="updateSemester()" />
-                <label class="form-check-label" for="Period2">Periode 2</label>
-            </div>
-        </div>
-
-        <!-- Semester (Hidden Input Field) -->
-        <input type="hidden" asp-for="Semester" id="Semester" />
-
-        <!-- Additional Fields for Requirements -->
-        <div class="form-group">
-            <label asp-for="MinimalEC" class="control-label">Minimaal benodigde studiepunten</label>
-            <input asp-for="MinimalEC" class="form-control" />
-            <span asp-validation-for="MinimalEC" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="PRequired" class="control-label">Propedeuse behaald</label>
-            <input class="form-check-input" type="checkbox" asp-for="PRequired" />
-            <span asp-validation-for="PRequired" class="text-danger"></span>
-        </div>
-
-        <!-- Buttons -->
-        <div class="form-group">
-            <input type="submit" value="Opslaan" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+        <div class="d-flex justify-content-center mt-3">
+            <input type="submit" value="Opslaan" class="btn btn-primary me-2" />
+            <button type="button" class="btn btn-secondary" onclick="confirmCancel()">Annuleren</button>
         </div>
     </form>
 </div>
@@ -84,7 +140,53 @@
             } else if (period2) {
                 document.getElementById('Semester').value = 2;
             } else {
-                document.getElementById('Semester').value = 0; // or whatever default value you prefer when neither is checked
+                document.getElementById('Semester').value = 0;
+            }
+        }
+
+        function addModule() {
+            var moduleDropdown = document.getElementById('moduleDropdown');
+            var selectedModuleText = moduleDropdown.options[moduleDropdown.selectedIndex].text;
+            var selectedModuleId = moduleDropdown.value;
+
+            if (selectedModuleId) {
+                var table = document.getElementById('modulesTable').getElementsByTagName('tbody')[0];
+
+                // Check if the module is already in the table
+                var moduleExists = false;
+                for (var i = 0, row; row = table.rows[i]; i++) {
+                    var cell = row.cells[0];
+                    if (cell.textContent.trim() === selectedModuleText) {
+                        moduleExists = true;
+                        break;
+                    }
+                }
+
+                if (!moduleExists) {
+                    var newRow = table.insertRow();
+                    var cell1 = newRow.insertCell(0);
+                    var cell2 = newRow.insertCell(1);
+                    var cell3 = newRow.insertCell(2);
+
+                    var rowCount = table.rows.length - 1;
+
+                    cell1.innerHTML = selectedModuleText + '<input type="hidden" name="EntryRequirementModules[' + rowCount + '].MustModuleId" value="' + selectedModuleId + '" />';
+                    cell2.innerHTML = '<input type="checkbox" name="EntryRequirementModules[' + rowCount + '].MustPassed" value="true"/>';
+                    cell3.innerHTML = '<button type="button" class="btn btn-danger " onclick="deleteRow(this)">X</button>';
+                } else {
+                    alert('Deze module is al toegevoegd.');
+                }
+            }
+        }
+
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function confirmCancel() {
+            if (confirm("Weet u het zeker?\nAl uw onopgeslagen werk gaat verloren")) {
+                window.location.href = '@Url.Action("Index")';
             }
         }
     </script>

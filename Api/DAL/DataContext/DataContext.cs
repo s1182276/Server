@@ -20,13 +20,16 @@ namespace KeuzeWijzerApi.DAL.DataContext
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure the one-to-many relationship between SchoolYear and SchoolModule
             modelBuilder.Entity<SchoolModule>()
-                .HasOne(sm => sm.SchoolYear)  // Defines the inverse navigation
-                .WithMany(sy => sy.SchoolModules)   // Connects to the collection of modules in SchoolYear
-                .HasForeignKey(sm => sm.SchoolYearId);  // Sets the foreign key on SchoolModule
+                .HasOne(sm => sm.SchoolYear)
+                .WithMany(sy => sy.SchoolModules)
+                .HasForeignKey(sm => sm.SchoolYearId);
 
-            // Call the Seeder to populate initial data
+            modelBuilder.Entity<EntryRequirementModule>()
+                .HasOne(erm => erm.MustModule)
+                .WithMany()
+                .HasForeignKey(erm => erm.MustModuleId);
+
             new Seeder(modelBuilder).Seed();
         }
     }

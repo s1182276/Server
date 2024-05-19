@@ -2,12 +2,16 @@
 using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KeuzeWijzerApi.Repositories
 {
     public class ModuleRepo : IModuleRepo
     {
-        private readonly KeuzeWijzerContext _context; 
+        private readonly KeuzeWijzerContext _context;
 
         public ModuleRepo(KeuzeWijzerContext context)
         {
@@ -30,12 +34,18 @@ namespace KeuzeWijzerApi.Repositories
 
         public async Task<IEnumerable<SchoolModule>> GetAll()
         {
-            return await _context.SchoolModules.Include(sy => sy.SchoolYear).ToListAsync();
+            return await _context.SchoolModules
+                .Include(sm => sm.SchoolYear)
+                .Include(sm => sm.EntryRequirementModules)
+                .ToListAsync();
         }
 
         public async Task<SchoolModule> GetById(int id)
         {
-            return await _context.SchoolModules.FindAsync(id); 
+            return await _context.SchoolModules
+                .Include(sm => sm.SchoolYear)
+                .Include(sm => sm.EntryRequirementModules)
+                .FirstOrDefaultAsync(sm => sm.Id == id);
         }
 
         public async Task Update(SchoolModule entity)
