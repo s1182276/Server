@@ -67,11 +67,30 @@ namespace KeuzeWijzerMvc.Controllers
 
             await PopulateViewBag();
 
-            module.Name = $"{module.Name} - Kopie";
+            module.Name = $"{module.Name} Kopie";
 
             SchoolModuleViewModel smvm = new(module, modules);
 
             return View(smvm);
+        }
+
+
+        // POST: [Controller]/Copy/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Copy(SchoolModuleViewModel module)
+        {
+            await PopulateViewBag();
+
+            if (ModelState.IsValid)
+            {
+                module.SchoolModule.Id = 0;
+
+                if (await _moduleSvc.AddAsync(module.SchoolModule, "/SchoolModule"))
+                    return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction($"{nameof(Copy)}");
         }
 
         public async Task<ActionResult> Edit(int id)

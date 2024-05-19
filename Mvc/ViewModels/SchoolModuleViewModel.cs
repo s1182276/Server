@@ -7,8 +7,10 @@ namespace KeuzeWijzerMvc.ViewModels
     {
         private List<SchoolModuleDto> _schoolModules;
 
-        public SchoolModuleDto SchoolModule { get; private set; }
+        public SchoolModuleDto SchoolModule { get; set; }
         public List<SchoolModuleDto> EntryRequirementSchoolModules { get; private set; } = new List<SchoolModuleDto>();
+
+        public SchoolModuleViewModel() { }
 
         public SchoolModuleViewModel(SchoolModuleDto schoolModule, List<SchoolModuleDto> schoolModules)
         {
