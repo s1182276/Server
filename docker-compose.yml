@@ -1,4 +1,14 @@
 services:
+
+  migrator:
+    build:
+      context: ./
+      dockerfile: DockerfileMigrator 
+    environment:
+      DB_CONNECTION_STRING: "Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True"
+    networks:
+      - container_network
+
   api:
     image: keuzewijzer-api:${ENV_KEY}
     build:
@@ -11,9 +21,11 @@ services:
     environment:
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
+      DB_CONNECTION_STRING: "Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True"
     networks:
       - container_network
+    depends_on:
+      - migrator
 
   mvc:
     image: keuzewijzer-mvc:${ENV_KEY}
@@ -23,12 +35,15 @@ services:
     ports:
       - "${MVC_PORT}:8082"
     environment:
-      ApiUri__ApiUri: "${ENV_KEY}-server-mvc-1:${API_PORT}"
+      # Use the internal container port!
+      ApiUri: "http://${ENV_KEY}-server-api-1:8080"
       ASPNETCORE_HTTP_PORTS: "8082"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
     networks:
       - container_network
+    depends_on:
+      - migrator
+      
 
 networks:
   container_network:

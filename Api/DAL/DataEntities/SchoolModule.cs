@@ -13,7 +13,7 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         public bool Active { get; set; }
 
         [ForeignKey("SchoolYear")]
-        public int SchoolYearId { get; set; }
+        public int? SchoolYearId { get; set; }
         public SchoolYear? SchoolYear { get; set; }
 
         public string? Description { get; set; }

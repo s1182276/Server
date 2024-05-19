@@ -1,4 +1,4 @@
-﻿@model SchoolYearDto
+﻿@model KeuzeWijzerMvc.ViewModels.SchoolYearViewModel
 @{
     ViewData["Title"] = "OER Kopiëren";
 }
@@ -15,29 +15,15 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            @if (Model.SchoolModules != null && Model.SchoolModules.Any())
-            {
-                var modules = Model.SchoolModules.ToList();
 
-                for (int i = 0; i < modules.Count; i++)
-                {
-                    <div class="form-group">
-                        <ul class="list-group list-group-vertical ">
-                        <li class="list-group-item flex-fill">@Html.ActionLink(modules[i].Name, "Details", "SchoolModule", new { id = modules[i].Id })</li>
-                        <input type="hidden" asp-for="@modules[i].Name" /> 
-                        <input type="hidden" asp-for="@modules[i].Name" />
-                        <input type="hidden" asp-for="@modules[i].Id" />
-                        <input type="hidden" asp-for="@modules[i].Active" />
-                        <input type="hidden" asp-for="@modules[i].Description" />
-                        <input type="hidden" asp-for="@modules[i].Level" />
-                        <input type="hidden" asp-for="@modules[i].Level" />
-                        <input type="hidden" asp-for="@modules[i].MinimalEC" />
-                        <input type="hidden" asp-for="@modules[i].PRequired" />
-                        <input type="hidden" asp-for="@modules[i].Semester" />
-                        </ul>
-                    </div>
-                }
+            @using Newtonsoft.Json
+            @if (!string.IsNullOrEmpty(Model.SchoolModulesJson))
+            {
+                 // We serialize the modules here, because they could change in the future. This way we are not dependent on individual fields
+                 // You can deserialize it with the method included in the viewmodel.
+                <input type="hidden" asp-for="SchoolModulesJson" value="@Html.Raw(Model.SchoolModulesJson)" />
             }
+
             <div class="form-group mt-3">
                 <input type="submit" value="Kopiëren" class="btn btn-success" />
                 <a asp-action="Index" class="btn btn-outline-danger">Terug naar overzicht</a>
