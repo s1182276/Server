@@ -9,8 +9,9 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
         [Required]
+        [ForeignKey("Module")]
         public int ModuleId { get; set; }
         public SchoolModule? Module { get; set; }
 
@@ -18,6 +19,5 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         public SchoolModule? MustModule { get; set; }
 
         public bool MustPassed { get; set; }
-
     }
 }

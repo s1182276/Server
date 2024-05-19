@@ -2,6 +2,9 @@
 using KeuzeWijzerMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KeuzeWijzerMvc.Controllers
 {
@@ -24,7 +27,6 @@ namespace KeuzeWijzerMvc.Controllers
             return View(view);
         }
 
-
         public async Task<ActionResult> Details(int id)
         {
             var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
@@ -35,9 +37,7 @@ namespace KeuzeWijzerMvc.Controllers
         // GET: [Controller]/Create
         public async Task<ActionResult> Create()
         {
-            List<SchoolYearDto> schoolYears = await _schoolYearSvc.GetAsync("/SchoolYears");
-            ViewBag.SchoolYearId = new SelectList(schoolYears, "Id", "Name");
-
+            await PopulateViewBag();
             return View();
         }
 
@@ -46,8 +46,15 @@ namespace KeuzeWijzerMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(SchoolModuleDto module)
         {
-            if (await _moduleSvc.AddAsync(module, "/SchoolModule")) return RedirectToAction(nameof(Index));
-            return View();
+            await PopulateViewBag();
+
+            if (ModelState.IsValid)
+            {
+                if (await _moduleSvc.AddAsync(module, "/SchoolModule"))
+                    return RedirectToAction(nameof(Index));
+            }
+
+            return View(module);
         }
 
         // GET: [Controller]/Copy/5
@@ -56,16 +63,7 @@ namespace KeuzeWijzerMvc.Controllers
             var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
             if (module == null) return NotFound();
 
-            var schoolYears = await _schoolYearSvc.GetAsync("/SchoolYears");
-            // Add warning or notice here
-            if (schoolYears == null)
-            {
-                return View();
-            }
-
-            selectList = new SelectList(schoolYears, "Id", "Name");
-            ViewBag.SchoolYears = selectList;
-
+            await PopulateViewBag();
             module.Name = $"{module.Name} - Kopie";
             return View(module);
         }
@@ -80,10 +78,11 @@ namespace KeuzeWijzerMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, SchoolModuleDto module)
         {
-            if (await _moduleSvc.UpdateAsync(id, module, "/SchoolModule")) return RedirectToAction(nameof(Index));
+            if (await _moduleSvc.UpdateAsync(id, module, "/SchoolModule"))
+                return RedirectToAction(nameof(Index));
+
             return View();
         }
-
 
         public async Task<ActionResult> Delete(int id)
         {
@@ -97,13 +96,23 @@ namespace KeuzeWijzerMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            if (await _moduleSvc.DeleteAsync(id, "/SchoolModule")) return RedirectToAction(nameof(Index));
+            if (await _moduleSvc.DeleteAsync(id, "/SchoolModule"))
+                return RedirectToAction(nameof(Index));
             return View();
         }
 
         public ActionResult Stop()
         {
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task PopulateViewBag()
+        {
+            List<SchoolYearDto> schoolYears = await _schoolYearSvc.GetAsync("/SchoolYears");
+            ViewBag.SchoolYearId = new SelectList(schoolYears, "Id", "Name");
+
+            List<SchoolModuleDto> schoolModules = await _moduleSvc.GetAsync("/SchoolModule");
+            ViewBag.Modules = new SelectList(schoolModules, "Id", "Name");
         }
     }
 }

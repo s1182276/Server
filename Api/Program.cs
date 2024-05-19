@@ -88,7 +88,8 @@ builder.Services
     .AddScoped<ISchoolYearRepo, SchoolYearRepo>()
     .AddScoped<IAppUserService, AppUserService>()
     .AddScoped<IAppUserRepo, AppUserRepo>()
-    .AddScoped<IAppUserService, AppUserService>();
+    .AddScoped<IAppUserService, AppUserService>()
+    .AddScoped<IEntryRequirementModuleRepo, EntryRequirementModuleRepo>();
 
 var app = builder.Build();
 

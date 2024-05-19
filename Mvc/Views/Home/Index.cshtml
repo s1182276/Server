@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Keuzewijzer DT";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <style>
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .btn-custom {
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <h1 class="mt-5">Keuzewijzer DT</h1>
+        <div class="btn-container row">
+            <a href="@Url.Action("Create", "SchoolModule")" class="btn btn-lg btn-outline-primary" style="width: 250px;">
+                Module toevoegen
+                <div class="small text-wrap">Klik hier om een module toe te voegen</div>
+            </a>
+            <a href="@Url.Action("Index", "SchoolModule")" class="btn btn-lg btn-outline-primary" style="width: 250px;">
+                Modules beheren
+                <div class="small text-wrap">Klik hier om bestaande modules te beheren</div>
+            </a>
+            <a href="@Url.Action("ViewChoices", "Choices")" class="btn btn-lg btn-outline-primary" style="width: 250px;">
+                Keuzes bekijken
+                <div class="small text-wrap">Klik hier om doorgegeven keuzes te bekijken</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

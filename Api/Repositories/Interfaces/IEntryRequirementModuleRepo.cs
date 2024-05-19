@@ -2,7 +2,7 @@
 
 namespace KeuzeWijzerApi.Repositories.Interfaces
 {
-    public interface IModuleRepo : IRepository<SchoolModule>
+    public interface IEntryRequirementModuleRepo : IRepository<EntryRequirementModule>
     {
 
     }
