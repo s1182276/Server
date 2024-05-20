@@ -36,6 +36,7 @@ jobs:
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
+          SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -75,6 +76,7 @@ jobs:
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
+          SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -114,6 +116,7 @@ jobs:
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
+          SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -153,6 +156,7 @@ jobs:
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
+          SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
