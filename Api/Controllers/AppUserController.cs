@@ -30,5 +30,24 @@ namespace KeuzeWijzerApi.Controllers
             AppUser appUser = await _appUserService.GetAuthenticatedAppUserAsync();
             return _mapper.Map<AppUser, AppUserDto>(appUser);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAppUser(int id, AppUserDto appUserDto)
+        {
+            if(id != appUserDto.Id)
+            {
+                return BadRequest();
+            }
+
+            var appUserEntity = _mapper.Map<AppUserDto, AppUser>(appUserDto);
+
+            if (_appUserService.Exists(appUserEntity.Id))
+            { 
+                await _appUserService.UpdateAsync(appUserEntity);
+                return NoContent();
+            }
+
+            return NotFound();
+        }
     }
 }

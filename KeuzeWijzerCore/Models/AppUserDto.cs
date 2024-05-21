@@ -5,7 +5,8 @@
         public int Id { get; set; }
         public string? AzureAdId { get; set; }
         public string? DisplayName { get; set; }
-
-        //TODO additional properties
+        public int? StartingYear { get; set; }
+        public int? EcPoints { get; set; }
+        public bool HasPropedeuse { get; set; }
     }
 }

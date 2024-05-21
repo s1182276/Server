@@ -17,6 +17,11 @@ namespace KeuzeWijzerApi.Services
             _graphServiceClient = graphServiceClient;
         }
 
+        public bool Exists(int userId)
+        {
+            return _appUserRepo.DoesExist(userId);
+        }
+
         public async Task<AppUser> GetAuthenticatedAppUserAsync()
         {
             User? currentUser = await _graphServiceClient.Me.Request().GetAsync();
@@ -40,6 +45,11 @@ namespace KeuzeWijzerApi.Services
             appUser.DisplayName = currentUser.DisplayName;
 
             return appUser;
+        }
+
+        public async Task UpdateAsync(AppUser appUser)
+        {
+            await _appUserRepo.Update(appUser);
         }
     }
 }

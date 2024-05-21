@@ -53,6 +53,7 @@ namespace KeuzeWijzerApi.Repositories
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             _context.AppUsers.Update(entity);
+            _context.Entry(entity).Property(x => x.AzureAdId).IsModified = false; // Prevent updating of AzureAdId
             await _context.SaveChangesAsync();
         }
     }

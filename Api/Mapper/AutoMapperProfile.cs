@@ -19,7 +19,8 @@ namespace KeuzeWijzerApi.Mapper
                 .ForMember(dest => dest.SchoolModules, mem => mem.MapFrom(map => map.SchoolModules));
 
 
-            CreateMap<AppUser, AppUserDto>();
+            CreateMap<AppUser, AppUserDto>()
+                .ReverseMap();
 
             CreateMap<EntryRequirementModule, EntryRequirementModuleDto>().ReverseMap();
 
