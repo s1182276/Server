@@ -10,6 +10,7 @@ namespace KeuzeWijzerApi.Mapper
         {
             CreateMap<Module, ModuleDto>().ReverseMap();
             CreateMap<LearningRoute, LearningRouteDto>().ReverseMap();
+            CreateMap<LearningYear, LearningYearDto>().ReverseMap();
         }
     }
 }

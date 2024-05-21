@@ -2,6 +2,9 @@
 using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KeuzeWijzerApi.Repositories
 {
@@ -14,37 +17,40 @@ namespace KeuzeWijzerApi.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Add(LearningRoute entity)
+        public async Task<LearningRoute> GetById(int id)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _context.Leerroutes.Add(entity);
-            _context.SaveChangesAsync();
-        }
-
-        public void Delete(LearningRoute entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DoesExist(int id)
-        {
-            throw new NotImplementedException();
+            return await _context.Leerroutes.FindAsync(id);
         }
 
         public async Task<IEnumerable<LearningRoute>> GetAll()
         {
-
-            return await _context.Leerroutes.ToListAsync();
+            return await _context.Leerroutes.Include(x => x.LearningYears).ToListAsync();
         }
 
-        public Task<LearningRoute> GetById(int id)
+        public void Add(LearningRoute entity)
         {
-            throw new NotImplementedException();
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            _context.Leerroutes.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Update(LearningRoute entity)
         {
-            throw new NotImplementedException();
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            _context.Leerroutes.Update(entity);
+            _context.SaveChanges();
+        }
+
+        public void Delete(LearningRoute entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            _context.Leerroutes.Remove(entity);
+            _context.SaveChanges();
+        }
+
+        public bool DoesExist(int id)
+        {
+            return _context.Leerroutes.Any(lr => lr.Id == id);
         }
     }
 }
