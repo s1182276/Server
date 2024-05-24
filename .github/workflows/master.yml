@@ -20,7 +20,11 @@ jobs:
       - name: Prune old images
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
-
+        
+      - name: Prune build cache
+        run: docker builder prune -a
+        working-directory: ${{ github.workspace }}
+        
       - name: Build shared dll
         run: |
           export DOTNET_ROOT=$HOME/.dotnet
@@ -59,6 +63,10 @@ jobs:
       - name: Prune old images
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
+
+      - name: Prune build cache
+        run: docker builder prune -a
+        working-directory: ${{ github.workspace }}        
 
       - name: Build shared dll
         run: |
@@ -99,6 +107,10 @@ jobs:
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
 
+      - name: Prune build cache
+        run: docker builder prune -a
+        working-directory: ${{ github.workspace }}        
+
       - name: Build shared dll
         run: |
           export DOTNET_ROOT=$HOME/.dotnet
@@ -137,6 +149,10 @@ jobs:
       - name: Prune old images
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
+
+      - name: Prune build cache
+        run: docker builder prune -a
+        working-directory: ${{ github.workspace }}        
 
       - name: Build shared dll
         run: |
