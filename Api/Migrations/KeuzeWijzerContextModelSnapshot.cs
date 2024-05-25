@@ -15,148 +15,291 @@ namespace KeuzeWijzerApi.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
-            modelBuilder.Entity("KeuzeWijzerApi.Models.LearningRoute", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("AzureAdId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Leerroutes");
+                    b.ToTable("AppUsers");
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.Models.LearningYear", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.EntryRequirementModule", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("LearningRouteId")
+                    b.Property<int>("ModuleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("YearNumber")
+                    b.Property<int?>("MustModuleId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("LearningRouteId");
-
-                    b.ToTable("LearningYears");
-                });
-
-            modelBuilder.Entity("KeuzeWijzerApi.Models.Module", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Modules");
-                });
-
-            modelBuilder.Entity("KeuzeWijzerApi.Models.Semester", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("LearningYearId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("LearningYearId1")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LearningYearId");
-
-                    b.HasIndex("LearningYearId1");
-
-                    b.ToTable("Semesters");
-                });
-
-            modelBuilder.Entity("KeuzeWijzerApi.Models.SemesterModule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ModuleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SemesterId")
+                    b.Property<bool>("MustPassed")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ModuleId");
 
-                    b.HasIndex("SemesterId");
+                    b.HasIndex("MustModuleId");
 
-                    b.ToTable("SemesterModules");
+                    b.ToTable("EntryRequirementModules");
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.Models.LearningYear", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", b =>
                 {
-                    b.HasOne("KeuzeWijzerApi.Models.LearningRoute", null)
-                        .WithMany("LearningYears")
-                        .HasForeignKey("LearningRouteId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EC")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MinimalEC")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PRequired")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SchoolYearId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Semester")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolYearId");
+
+                    b.ToTable("SchoolModules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            Description = "Omschrijving1",
+                            EC = 10,
+                            Level = 1,
+                            MinimalEC = 0,
+                            Name = "Module1",
+                            PRequired = false,
+                            SchoolYearId = 1,
+                            Semester = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Active = true,
+                            Description = "Omschrijving2",
+                            EC = 10,
+                            Level = 1,
+                            MinimalEC = 0,
+                            Name = "Module2",
+                            PRequired = false,
+                            SchoolYearId = 1,
+                            Semester = 1
+                        });
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.Models.Semester", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", b =>
                 {
-                    b.HasOne("KeuzeWijzerApi.Models.LearningYear", null)
-                        .WithMany("FirstSemester")
-                        .HasForeignKey("LearningYearId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-                    b.HasOne("KeuzeWijzerApi.Models.LearningYear", null)
-                        .WithMany("SecondSemester")
-                        .HasForeignKey("LearningYearId1");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SchoolYears");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Schooljaar1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Schooljaar2"
+                        });
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.Models.SemesterModule", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.Studyroute", b =>
                 {
-                    b.HasOne("KeuzeWijzerApi.Models.Module", "Module")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("HistoricalRoute")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Studyroutes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            HistoricalRoute = false,
+                            Name = "Studieroute1",
+                            StudentId = 1234
+                        },
+                        new
+                        {
+                            Id = 2,
+                            HistoricalRoute = true,
+                            Name = "Studieroute2",
+                            StudentId = 1234
+                        });
+                });
+
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.StudyrouteSemester", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SchoolYearId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Semester")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StudyrouteId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("SchoolYearId");
+
+                    b.HasIndex("StudyrouteId");
+
+                    b.ToTable("StudyrouteSemesters");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ModuleId = 1,
+                            SchoolYearId = 1,
+                            Semester = 1,
+                            StudyrouteId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ModuleId = 2,
+                            SchoolYearId = 1,
+                            Semester = 1,
+                            StudyrouteId = 1
+                        });
+                });
+
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.EntryRequirementModule", b =>
+                {
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", "Module")
+                        .WithMany("EntryRequirementModules")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", "MustModule")
                         .WithMany()
-                        .HasForeignKey("ModuleId");
-
-                    b.HasOne("KeuzeWijzerApi.Models.Semester", "Semester")
-                        .WithMany("SemesterModules")
-                        .HasForeignKey("SemesterId");
+                        .HasForeignKey("MustModuleId");
 
                     b.Navigation("Module");
 
-                    b.Navigation("Semester");
+                    b.Navigation("MustModule");
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.Models.LearningRoute", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", b =>
                 {
-                    b.Navigation("LearningYears");
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", "SchoolYear")
+                        .WithMany("SchoolModules")
+                        .HasForeignKey("SchoolYearId");
+
+                    b.Navigation("SchoolYear");
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.Models.LearningYear", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.StudyrouteSemester", b =>
                 {
-                    b.Navigation("FirstSemester");
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("SecondSemester");
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", "SchoolYear")
+                        .WithMany()
+                        .HasForeignKey("SchoolYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KeuzeWijzerApi.DAL.DataEntities.Studyroute", "Studyroute")
+                        .WithMany("StudyrouteSemesters")
+                        .HasForeignKey("StudyrouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("SchoolYear");
+
+                    b.Navigation("Studyroute");
                 });
 
-            modelBuilder.Entity("KeuzeWijzerApi.Models.Semester", b =>
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolModule", b =>
                 {
-                    b.Navigation("SemesterModules");
+                    b.Navigation("EntryRequirementModules");
+                });
+
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.SchoolYear", b =>
+                {
+                    b.Navigation("SchoolModules");
+                });
+
+            modelBuilder.Entity("KeuzeWijzerApi.DAL.DataEntities.Studyroute", b =>
+                {
+                    b.Navigation("StudyrouteSemesters");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,52 +2,62 @@
 using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KeuzeWijzerApi.Repositories
 {
     public class ModuleRepo : IModuleRepo
     {
-        private readonly KeuzeWijzerContext _context; 
+        private readonly KeuzeWijzerContext _context;
 
         public ModuleRepo(KeuzeWijzerContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Add(Module entity)
+        public async Task Add(SchoolModule entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _context.Modules.Add(entity);
-            _context.SaveChangesAsync();
+            await _context.SchoolModules.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(Module entity)
+        public async Task Delete(SchoolModule entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _context.Modules.Remove(entity);
-            _context.SaveChangesAsync();
+            _context.SchoolModules.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Module>> GetAll()
+        public async Task<IEnumerable<SchoolModule>> GetAll()
         {
-            return await _context.Modules.ToListAsync();
+            return await _context.SchoolModules
+                .Include(sm => sm.SchoolYear)
+                .Include(sm => sm.EntryRequirementModules)
+                .ToListAsync();
         }
 
-        public async Task<Module> GetById(int id)
+        public async Task<SchoolModule> GetById(int id)
         {
-            return await _context.Modules.FindAsync(id); 
+            return await _context.SchoolModules
+                .Include(sm => sm.SchoolYear)
+                .Include(sm => sm.EntryRequirementModules)
+                .FirstOrDefaultAsync(sm => sm.Id == id);
         }
 
-        public void Update(Module entity)
+        public async Task Update(SchoolModule entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _context.Modules.Update(entity);
-            _context.SaveChangesAsync();
+            _context.SchoolModules.Update(entity);
+            await _context.SaveChangesAsync();
         }
 
         public bool DoesExist(int id)
         {
-            return _context.Modules.Any(e => e.Id == id);
+            return _context.SchoolModules.Any(e => e.Id == id);
         }
     }
 }

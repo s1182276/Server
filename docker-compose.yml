@@ -2,29 +2,35 @@ services:
   api:
     image: keuzewijzer-api:${ENV_KEY}
     build:
-      context: ./Api
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: DockerfileApi
+      args:
+        ENV_KEY: ${ENV_KEY}
+        DB_CONNECTION_STRING: "Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True"
     ports:
       - "${API_PORT}:8080"
+    volumes:
+      - ./KeuzeWijzerCore.dll:/app/KeuzeWijzerCore.dll:r
     environment:
+      SENDGRID_KEY: ${SENDGRID_KEY}
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
+      DB_CONNECTION_STRING: "Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=True;TrustServerCertificate=True"
     networks:
       - container_network
 
   mvc:
     image: keuzewijzer-mvc:${ENV_KEY}
     build:
-      context: ./Mvc
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: DockerfileMvc
     ports:
       - "${MVC_PORT}:8082"
     environment:
-      ApiUri__ApiUri: "http://api:8080/"
+      # Use the internal container port!
+      ApiUri: "http://${ENV_KEY}-server-api-1:8080"
       ASPNETCORE_HTTP_PORTS: "8082"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      DB_CONNECTION_STRING: "host=${DB_HOST};port=1433;database=${DB_NAME};username=${DB_USER};password=${DB_PASSWORD}"
     networks:
       - container_network
 

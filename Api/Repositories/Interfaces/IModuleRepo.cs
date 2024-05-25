@@ -2,8 +2,8 @@
 
 namespace KeuzeWijzerApi.Repositories.Interfaces
 {
-    public interface IModuleRepo : IRepository<Module>
+    public interface IModuleRepo : IRepository<SchoolModule>
     {
-        
+
     }
 }

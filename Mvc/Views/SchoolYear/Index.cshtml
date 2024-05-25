@@ -1,0 +1,51 @@
+﻿@using System.Web
+@model IEnumerable<SchoolYearDto>
+
+@{
+    ViewData["Title"] = "OER overzicht";
+}
+
+<h1>OER overzicht</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Naam
+            </th>
+            <th>
+                Aantal modules
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                    @(item.SchoolModules.Count() > 0 ? $"{item.SchoolModules.Count()}" : "")
+            </td>
+            <td>
+                    @Html.ActionLink("Aanpassen", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-secondary btn-sm" })
+                    @Html.ActionLink("Kopiëren", "Copy", new { id = item.Id }, new { @class = "btn btn-outline-primary btn-sm" })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-outline-secondary btn-sm" })
+                    @Html.ActionLink("Verwijderen", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<p>
+    <a asp-action="Create" class="btn btn-success">
+        <span>
+            <b>&#43;</b>
+        </span>
+        Nieuwe OER aanmaken
+    </a>
+</p>

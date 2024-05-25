@@ -9,9 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient("ApiClient");
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IService<ModuleDto>, Service<ModuleDto>>();
-
-
+builder.Services.AddScoped<IService<SchoolModuleDto>, Service<SchoolModuleDto>>();
+builder.Services.AddScoped<IService<SchoolYearDto>, Service<SchoolYearDto>>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -37,6 +36,6 @@ app.UseRouting();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Module}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
