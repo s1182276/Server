@@ -69,17 +69,6 @@ namespace KeuzeWijzerApi.Controllers
 
             await _moduleRepo.Add(moduleEntity);
 
-            foreach (var entryRequirementDto in moduleDto.EntryRequirementModules)
-            {
-                var entryRequirementModule = new EntryRequirementModule
-                {
-                    MustModuleId = entryRequirementDto.MustModuleId,
-                    MustPassed = entryRequirementDto.MustPassed,
-                    ModuleId = moduleEntity.Id
-                };
-                await _ermRepo.Add(entryRequirementModule);
-            }
-
             var updatedModule = await _moduleRepo.GetById(moduleEntity.Id);
 
             var createdModuleDto = _mapper.Map<SchoolModuleDto>(updatedModule);

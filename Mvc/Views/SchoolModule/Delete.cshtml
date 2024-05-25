@@ -1,77 +1,165 @@
-﻿@model KeuzeWijzerCore.Models.SchoolModuleDto
+﻿@model KeuzeWijzerMvc.ViewModels.SchoolModuleViewModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Module Verwijderen";
 }
 
-<h1>Delete</h1>
+<h1>Delete Module</h1>
+<hr />
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>SchoolModuleDto</h4>
-    <hr />
-    <dl class="row">
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EC)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EC)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Level)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Level)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SchoolYearId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SchoolYearId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PRequired)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PRequired)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MinimalEC)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MinimalEC)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Semester)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Semester)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+<div class="container">
+    <form asp-action="Delete" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group row">
+            <div class="form-group column col-sm-6">
+                @* Left column *@
+
+                <input type="hidden" asp-for="SchoolModule.Id" />
+
+                <div class="col-sm-12 mb-3">
+                    <label asp-for="SchoolModule.Name" class="control-label">Naam van module</label>
+                    <input asp-for="SchoolModule.Name" class="form-control" readonly />
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <label asp-for="SchoolModule.SchoolYearId" class="control-label">Cohort</label>
+                    <select asp-for="SchoolModule.SchoolYearId" asp-items="ViewBag.SchoolYearId" class="form-control" disabled></select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="SchoolModule.EC" class="control-label">Studiepunten</label>
+                    <input asp-for="SchoolModule.EC" class="form-control" readonly />
+                </div>
+
+                <div class="form-group column">
+                    <label class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" asp-for="SchoolModule.Active" disabled />
+                            <label class="form-check-label" asp-for="SchoolModule.Active">Actief</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group column">
+                    <input type="hidden" asp-for="SchoolModule.Semester" id="Semester" value="0" />
+                    <label class="col-sm-6 control-label">Beschikbaar in periode(s)</label>
+                    <div class="col-sm-12 d-flex mt-2">
+                        <div class="form-check me-3">
+                            <input class="form-check-input" id="Period1" type="checkbox" onchange="updateSemester()" disabled />
+                            <label class="form-check-label" for="Period1">Periode 1</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" id="Period2" type="checkbox" onchange="updateSemester()" disabled />
+                            <label class="form-check-label" for="Period2">Periode 2</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SchoolModule.Description" class="control-label">Omschrijving</label>
+                    <textarea asp-for="SchoolModule.Description" class="form-control" readonly></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-group column col-sm-6">
+                @* Right column *@
+                <h2>Ingangseisen</h2>
+
+                <div class="form-group mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="SchoolModule.PRequired" disabled />
+                        <label class="form-check-label" asp-for="SchoolModule.PRequired">Propedeuse behaald</label>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="SchoolModule.MinimalEC" class="control-label">Benodigde studiepunten</label>
+                    <input asp-for="SchoolModule.MinimalEC" class="form-control" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="moduleDropdown">Modules die gevolgd/behaald moeten zijn</label>
+
+                    <div class="d-flex">
+                        <select id="moduleDropdown" class="form-control" disabled>
+                            <option value="">Selecteer een module</option>
+                            @foreach (var module in ViewBag.Modules)
+                            {
+                                <option value="@module.Value">@module.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <select id="requiredModules" hidden>
+                    <option value="">Selecteer een module</option>
+                    @foreach (var module in Model.EntryRequirementSchoolModules)
+                    {
+                        <option value="@module.Id">@module.Name</option>
+                    }
+                </select>
+
+                <div class="form-group">
+                    <table class="table table-bordered" id="modulesTable">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th class="text-center">Behaald</th>
+                                <th class="text-center">Verwijderen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamische regels van de tabel -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <input type="submit" value="Verwijderen" class="btn btn-danger me-2" />
+            <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+        </div>
     </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function PopulateModules() {
+            var moduleDropdown = document.getElementById('requiredModules');
+            var options = moduleDropdown.options
+
+            for (var i = 0; i < options.length; i++) {
+                var module = options[i];
+                var selectedModuleText = module.text;
+                var selectedModuleId = module.value;
+
+                if (selectedModuleId) {
+                    var table = document.getElementById('modulesTable').getElementsByTagName('tbody')[0];
+
+                    var newRow = table.insertRow();
+                    var cell1 = newRow.insertCell(0);
+                    var cell2 = newRow.insertCell(1);
+                    var cell3 = newRow.insertCell(2);
+
+                    var rowCount = table.rows.length - 1;
+
+                    cell1.innerHTML = selectedModuleText + '<input type="hidden" name="SchoolModule.EntryRequirementModules[' + rowCount + '].MustModuleId" value="' + selectedModuleId + '" />';
+                    cell2.innerHTML = '<input type="checkbox" name="SchoolModule.EntryRequirementModules[' + rowCount + '].MustPassed" value="true" disabled />';
+                    cell3.innerHTML = '<button type="button" class="btn btn-danger" disabled>X</button>';
+                }
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", function () {
+            PopulateModules();
+        }, false);
+
+    </script>
+}
