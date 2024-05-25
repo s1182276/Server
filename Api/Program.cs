@@ -85,9 +85,26 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
     {
-        builder.WithOrigins("http://localhost",
-            "https://localhost",
-            "https://*.hbo-ict.dev");
+        var envKey = Environment.GetEnvironmentVariable("ENV_KEY");
+
+        switch (envKey)
+        {
+            case "dev":
+                builder.WithOrigins("https://dev.hbo-ict.dev", "https://dev-mvc.hbo-ict.dev", "https://dev-*.hbo-ict.dev"); 
+                break;
+            case "tst":
+                builder.WithOrigins("https://test.hbo-ict.dev", "https://tst-mvc.hbo-ict.dev", "https://tst-*.hbo-ict.dev"); 
+                break;
+            case "acc":
+                builder.WithOrigins("https://acc.hbo-ict.dev", "https://acc-mvc.hbo-ict.dev", "https://acc-*.hbo-ict.dev"); 
+                break;
+            case "prd":
+                builder.WithOrigins("https://hbo-ict.dev", "https://www.hbo-ict.dev", "https://mvc.hbo-ict.dev");
+                break;
+            default:
+                builder.WithOrigins("*"); 
+                break;
+        }
     });
 });
 
