@@ -26,19 +26,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+                <td>
                     @{
-                        var description = item.Description;
-                        var words = description.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                        var numberOfWords = 10;
-                        var summary = string.Join(" ", words.Take(numberOfWords));
-                        @Html.Raw(HttpUtility.HtmlEncode(summary))
-                        if (words.Length > numberOfWords)
-                        { 
-                            @:...
+                        var description = System.Text.RegularExpressions.Regex.Replace(item.Description, "<.*?>", string.Empty); // Remove HTML tags
+                        var words = description.Split(' ');
+                        var formattedDescription = new List<string>();
+
+                        for (int i = 0; i < words.Length; i += 3)
+                        {
+                            formattedDescription.Add(string.Join(" ", words.Skip(i).Take(3)));
+                        }
+
+                        foreach (var line in formattedDescription)
+                        {
+                            @Html.Raw(line + "<br />")
                         }
                     }
-            </td>
+                </td>
             <td>
                     @Html.ActionLink("Aanpassen", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-secondary btn-sm" })
                     @Html.ActionLink("Kopiëren", "Copy", new { id = item.Id }, new { @class = "btn btn-outline-primary btn-sm" })
