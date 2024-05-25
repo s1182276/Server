@@ -20,7 +20,11 @@ jobs:
       - name: Prune old images
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
-
+        
+      - name: Prune build cache
+        run: docker builder prune -a
+        working-directory: ${{ github.workspace }}
+        
       - name: Build shared dll
         run: |
           export DOTNET_ROOT=$HOME/.dotnet
@@ -36,6 +40,7 @@ jobs:
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
+          SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -60,6 +65,10 @@ jobs:
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
 
+      - name: Prune build cache
+        run: docker builder prune -a
+        working-directory: ${{ github.workspace }}        
+
       - name: Build shared dll
         run: |
           export DOTNET_ROOT=$HOME/.dotnet
@@ -75,6 +84,7 @@ jobs:
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
+          SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -99,6 +109,10 @@ jobs:
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
 
+      - name: Prune build cache
+        run: docker builder prune -a
+        working-directory: ${{ github.workspace }}        
+
       - name: Build shared dll
         run: |
           export DOTNET_ROOT=$HOME/.dotnet
@@ -114,6 +128,7 @@ jobs:
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
+          SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -138,6 +153,10 @@ jobs:
         run: docker image prune -a -f
         working-directory: ${{ github.workspace }}
 
+      - name: Prune build cache
+        run: docker builder prune -a
+        working-directory: ${{ github.workspace }}        
+
       - name: Build shared dll
         run: |
           export DOTNET_ROOT=$HOME/.dotnet
@@ -153,6 +172,7 @@ jobs:
           docker compose build
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
+          SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"

@@ -1,5 +1,6 @@
 ﻿using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services.Interfaces;
+using KeuzeWijzerMvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -61,11 +62,35 @@ namespace KeuzeWijzerMvc.Controllers
         public async Task<ActionResult> Copy(int id)
         {
             var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
-            if (module == null) return NotFound();
+            var modules = await _moduleSvc.GetAsync("/SchoolModule");
+            if (module == null || modules == null) return NotFound();
 
             await PopulateViewBag();
-            module.Name = $"{module.Name} - Kopie";
-            return View(module);
+
+            module.Name = $"{module.Name} Kopie";
+
+            SchoolModuleViewModel smvm = new(module, modules);
+
+            return View(smvm);
+        }
+
+
+        // POST: [Controller]/Copy/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Copy(SchoolModuleViewModel module)
+        {
+            await PopulateViewBag();
+
+            if (ModelState.IsValid)
+            {
+                module.SchoolModule.Id = 0;
+
+                if (await _moduleSvc.AddAsync(module.SchoolModule, "/SchoolModule"))
+                    return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction($"{nameof(Copy)}");
         }
 
         public async Task<ActionResult> Edit(int id)
