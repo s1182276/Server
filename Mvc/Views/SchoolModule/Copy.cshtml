@@ -15,6 +15,8 @@
             <div class="form-group column col-sm-6">
                 @* Left column *@
 
+                <input type="hidden" asp-for="SchoolModule.Id" />
+
                 <div class="col-sm-12 mb-3">
                     <label asp-for="SchoolModule.Name" class="control-label">Naam van module</label>
                     <input asp-for="SchoolModule.Name" class="form-control" />
@@ -44,7 +46,7 @@
                 </div>
 
                 <div class="form-group column">
-                    <input type="hidden" asp-for="SchoolModule.Semester" id="Semester" value="0" />
+                    <input type="hidden" asp-for="SchoolModule.Semester" id="Semester" />
                     <label class="col-sm-6 control-label">Beschikbaar in periode(s)</label>
                     <div class="col-sm-12 d-flex mt-2">
                         <div class="form-check me-3">
@@ -81,7 +83,7 @@
 
                 <div class="form-group mb-3">
                     <label asp-for="SchoolModule.MinimalEC" class="control-label">Benodigde studiepunten</label>
-                    <input asp-for="SchoolModule.MinimalEC" class="form-control" value="0" />
+                    <input asp-for="SchoolModule.MinimalEC" class="form-control" />
                     <span asp-validation-for="SchoolModule.MinimalEC" class="text-danger"></span>
                 </div>
 
@@ -107,7 +109,6 @@
                         <option value="@module.Id">@module.Name</option>
                     }
                 </select>
-
 
                 <div class="form-group">
                     <table class="table table-bordered" id="modulesTable">
@@ -179,8 +180,8 @@
 
                     var rowCount = table.rows.length - 1;
 
-                    cell1.innerHTML = selectedModuleText + '<input type="hidden" name="EntryRequirementModules[' + rowCount + '].MustModuleId" value="' + selectedModuleId + '" />';
-                    cell2.innerHTML = '<input type="checkbox" name="EntryRequirementModules[' + rowCount + '].MustPassed" value="true"/>';
+                    cell1.innerHTML = selectedModuleText + '<input type="hidden" name="SchoolModule.EntryRequirementModules[' + rowCount + '].MustModuleId" value="' + selectedModuleId + '" />';
+                    cell2.innerHTML = '<input type="checkbox" name="SchoolModule.EntryRequirementModules[' + rowCount + '].MustPassed" value="true"/>';
                     cell3.innerHTML = '<button type="button" class="btn btn-danger " onclick="deleteRow(this)">X</button>';
                 } else {
                     alert('Deze module is al toegevoegd.');
@@ -213,7 +214,19 @@
                 }
             }
         }
-            
+
+        function setInitialSemester() {
+            var semesterValue = parseInt(document.getElementById('Semester').value);
+            if (semesterValue === 1) {
+                document.getElementById('Period1').checked = true;
+            } else if (semesterValue === 2) {
+                document.getElementById('Period2').checked = true;
+            } else if (semesterValue === 3) {
+                document.getElementById('Period1').checked = true;
+                document.getElementById('Period2').checked = true;
+            }
+        }
+
         function deleteRow(button) {
             var row = button.parentNode.parentNode;
             row.parentNode.removeChild(row);
@@ -227,7 +240,7 @@
 
         window.addEventListener("DOMContentLoaded", function () {
             PopulateModules();
+            setInitialSemester();
         }, false);
-
     </script>
 }

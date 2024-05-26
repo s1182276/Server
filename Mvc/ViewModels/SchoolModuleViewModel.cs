@@ -23,13 +23,13 @@ namespace KeuzeWijzerMvc.ViewModels
         /// Cross checks the schoolmodules that have a required module and populates the list with the actual modules instead of a linking table
         /// It's used in the SchoolModule copy view
         /// </summary>
-        private void PopulateEntryRequirementModules() {
+        private void PopulateEntryRequirementModules()
+        {
             var ids = SchoolModule.EntryRequirementModules
                             .Where(m => m.ModuleId == SchoolModule.Id)
                             .Select(m => m.Id).ToList();
 
             EntryRequirementSchoolModules = _schoolModules.Where(sm => ids.Contains(sm.Id)).ToList();
         }
-
     }
 }
