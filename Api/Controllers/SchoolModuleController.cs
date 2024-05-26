@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using KeuzeWijzerApi.DAL.DataEntities;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using KeuzeWijzerCore.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace KeuzeWijzerApi.Controllers
 {

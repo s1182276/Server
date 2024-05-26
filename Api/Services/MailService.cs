@@ -1,11 +1,7 @@
 ﻿// using SendGrid's C# Library
 // https://github.com/sendgrid/sendgrid-csharp
-using KeuzeWijzerApi.Services.Interfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using SendGrid.Helpers.Mail.Model;
-using System;
-using System.Threading.Tasks;
 
 namespace KeuzeWijzerApi.Services
 {

@@ -1,9 +1,9 @@
 ﻿using KeuzeWijzerApi.DAL.DataContext;
 using KeuzeWijzerApi.DAL.DataEntities;
-using KeuzeWijzerApi.Repositories.Interfaces;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace KeuzeWijzerApi.Repositories
+namespace KeuzeWijzerApi.DAL.Repositories
 {
     public class AppUserRepo : IAppUserRepo
     {
