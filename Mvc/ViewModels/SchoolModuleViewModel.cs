@@ -1,5 +1,4 @@
 ﻿using KeuzeWijzerCore.Models;
-using System.Reflection.Metadata;
 
 namespace KeuzeWijzerMvc.ViewModels
 {

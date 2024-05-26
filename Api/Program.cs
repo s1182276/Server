@@ -1,4 +1,6 @@
 using KeuzeWijzerApi.DAL.DataContext;
+using KeuzeWijzerApi.DAL.Repositories;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Mapper;
 using KeuzeWijzerApi.Repositories;
 using KeuzeWijzerApi.Repositories.Interfaces;

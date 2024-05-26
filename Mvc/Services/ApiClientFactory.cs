@@ -1,12 +1,12 @@
-﻿namespace KeuzeWijzerMvc.ClientLib
+﻿namespace KeuzeWijzerMvc.Services
 {
-    public class ApiClient
+    public class ApiClientFactory
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _factory;
         private Uri _baseaddress;
 
-        public ApiClient(IHttpClientFactory factory, IConfiguration configuration)
+        public ApiClientFactory(IHttpClientFactory factory, IConfiguration configuration)
         {
             _configuration = configuration;
             _factory = factory;

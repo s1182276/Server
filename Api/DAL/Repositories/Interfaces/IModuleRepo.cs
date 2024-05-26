@@ -1,6 +1,6 @@
 ﻿using KeuzeWijzerApi.DAL.DataEntities;
 
-namespace KeuzeWijzerApi.Repositories.Interfaces
+namespace KeuzeWijzerApi.DAL.Repositories.Interfaces
 {
     public interface IModuleRepo : IRepository<SchoolModule>
     {

@@ -1,4 +1,5 @@
 ﻿using KeuzeWijzerApi.DAL.DataEntities;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 
 namespace KeuzeWijzerApi.Repositories.Interfaces
 {
