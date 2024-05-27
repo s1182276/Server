@@ -3,9 +3,6 @@ using KeuzeWijzerMvc.Services.Interfaces;
 using KeuzeWijzerMvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KeuzeWijzerMvc.Controllers
 {
@@ -74,7 +71,6 @@ namespace KeuzeWijzerMvc.Controllers
             return View(smvm);
         }
 
-
         // POST: [Controller]/Copy/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -95,25 +91,43 @@ namespace KeuzeWijzerMvc.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            return View(await _moduleSvc.GetAsync(id, "/SchoolModule"));
+            var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
+            var modules = await _moduleSvc.GetAsync("/SchoolModule");
+            if (module == null || modules == null) return NotFound();
+
+            await PopulateViewBag();
+
+            SchoolModuleViewModel smvm = new(module, modules);
+
+            return View(smvm);
         }
 
         // POST: [Controller]/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, SchoolModuleDto module)
+        public async Task<ActionResult> Edit(int id, SchoolModuleViewModel module)
         {
-            if (await _moduleSvc.UpdateAsync(id, module, "/SchoolModule"))
-                return RedirectToAction(nameof(Index));
+            await PopulateViewBag();
 
-            return View();
+            if (ModelState.IsValid)
+            {
+                if (await _moduleSvc.UpdateAsync(id, module.SchoolModule, "/SchoolModule"))
+                    return RedirectToAction(nameof(Index));
+            }
+            return View(nameof(Index));
         }
 
         public async Task<ActionResult> Delete(int id)
         {
             var module = await _moduleSvc.GetAsync(id, "/SchoolModule");
-            if (module == null) return NotFound();
-            return View(module);
+            var modules = await _moduleSvc.GetAsync("/SchoolModule");
+            if (module == null || modules == null) return NotFound();
+
+            await PopulateViewBag();
+
+            SchoolModuleViewModel smvm = new(module, modules);
+
+            return View(smvm);
         }
 
         // POST: [Controller]/Delete/5

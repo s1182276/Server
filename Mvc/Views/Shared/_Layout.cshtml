@@ -7,7 +7,38 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KeuzeWijzerMvc.styles.css" asp-append-version="true" />
-</head>
+    @* TinyMCE *@
+    <script src="~/js/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#tiny',
+            plugins: [
+                'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'markdown',
+                'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
+                'bullist numlist checklist outdent indent | removeformat | code table help',
+            promotion: false,
+            statusbar: false
+        });
+
+        tinymce.init({
+            selector: 'textarea#tiny-readonly',
+            readonly: true,
+            plugins: [
+                'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'markdown',
+                'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: false, // Disable toolbar for readonly
+            menubar: false, // Disable menu bar for readonly
+            statusbar: false,
+            promotion: false
+        });
+    </script>
+    @* TinyMCE end*@
+    </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -26,9 +57,6 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="SchoolYear" asp-action="Index">OER Overzicht</a>
                             </li>
-@*                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li> *@
                     </ul>
                 </div>
             </div>
@@ -42,7 +70,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - KeuzeWijzer@* <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+            &copy; 2024 - KeuzeWijzer
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

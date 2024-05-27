@@ -5,7 +5,6 @@ using KeuzeWijzerCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
-using Microsoft.Net.Http.Headers;
 
 namespace KeuzeWijzerApi.Controllers
 {

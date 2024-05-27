@@ -25,6 +25,21 @@ namespace KeuzeWijzerApi.DAL.DataContext
                 .WithMany(sy => sy.SchoolModules)
                 .HasForeignKey(sm => sm.SchoolYearId);
 
+            modelBuilder.Entity<StudyrouteSemester>()
+                .HasOne(ss => ss.Studyroute)
+                .WithMany(s => s.StudyrouteSemesters)
+                .HasForeignKey(ss => ss.StudyrouteId);
+
+            modelBuilder.Entity<StudyrouteSemester>()
+                .HasOne(ss => ss.Module)
+                .WithMany()
+                .HasForeignKey(ss => ss.ModuleId);
+
+            modelBuilder.Entity<StudyrouteSemester>()
+                .HasOne(ss => ss.SchoolYear)
+                .WithMany()
+                .HasForeignKey(ss => ss.SchoolYearId);
+
             modelBuilder.Entity<EntryRequirementModule>()
                 .HasOne(erm => erm.MustModule)
                 .WithMany()

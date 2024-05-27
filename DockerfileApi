@@ -21,7 +21,7 @@ RUN dotnet restore "./KeuzeWijzerApi.csproj"
 COPY ./Api .
 WORKDIR "/src/."
 
-RUN rm -rf ./Migrations
+RUN rm -rf ./DAL/Migrations
 RUN dotnet tool install --global dotnet-ef --version 8.*
 ENV PATH="${PATH}:/root/.dotnet/tools"
 RUN dotnet ef migrations add clean
