@@ -15,6 +15,6 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         public bool HistoricalRoute { get; set; }
 
         // Add Later maybe > public User Student { get; set; }
-        public required ICollection<StudyrouteSemester> StudyrouteSemesters { get; set; }
+        public ICollection<StudyrouteSemester> StudyrouteSemesters { get; set; } = new List<StudyrouteSemester>();
     }
 }

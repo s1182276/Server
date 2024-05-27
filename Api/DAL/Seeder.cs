@@ -95,6 +95,16 @@ namespace KeuzeWijzerApi.DAL
                     MustPassed = false 
                 }
             );
+
+            _modelBuilder.Entity<Studyroute>().HasData(
+                new Studyroute { Id = 1, Name = "Studieroute1", HistoricalRoute = false, StudentId = 1234 },
+                new Studyroute { Id = 2, Name = "Studieroute2", HistoricalRoute = true, StudentId = 1234 }
+            );
+
+            _modelBuilder.Entity<StudyrouteSemester>().HasData(
+                new StudyrouteSemester { Id = 1, Semester = 1, StudyrouteId = 1, ModuleId = 1, SchoolYearId = 1 },
+                new StudyrouteSemester { Id = 2, Semester = 1, StudyrouteId = 1, ModuleId = 2, SchoolYearId = 1 }
+            );
         }
 
         private void SeedTest()

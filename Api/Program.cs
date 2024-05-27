@@ -129,7 +129,8 @@ builder.Services
     .AddScoped<IAppUserService, AppUserService>()
     .AddScoped<IAppUserRepo, AppUserRepo>()
     .AddScoped<IAppUserService, AppUserService>()
-    .AddScoped<IEntryRequirementModuleRepo, EntryRequirementModuleRepo>();
+    .AddScoped<IEntryRequirementModuleRepo, EntryRequirementModuleRepo>()
+    .AddScoped<IStudyRouteRepo, StudyRouteRepo>();
 
 var app = builder.Build();
 
