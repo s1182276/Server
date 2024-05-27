@@ -22,7 +22,7 @@ jobs:
         working-directory: ${{ github.workspace }}
         
       - name: Prune build cache
-        run: docker builder prune -a
+        run: docker builder prune -a -f
         working-directory: ${{ github.workspace }}
         
       - name: Build shared dll
@@ -66,7 +66,7 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Prune build cache
-        run: docker builder prune -a
+        run: docker builder prune -a -f
         working-directory: ${{ github.workspace }}        
 
       - name: Build shared dll
@@ -110,7 +110,7 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Prune build cache
-        run: docker builder prune -a
+        run: docker builder prune -a -f
         working-directory: ${{ github.workspace }}        
 
       - name: Build shared dll
@@ -154,7 +154,7 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Prune build cache
-        run: docker builder prune -a
+        run: docker builder prune -a -f
         working-directory: ${{ github.workspace }}        
 
       - name: Build shared dll

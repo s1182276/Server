@@ -1,6 +1,5 @@
-﻿using Azure.Identity;
-using KeuzeWijzerApi.DAL.DataEntities;
-using KeuzeWijzerApi.Repositories.Interfaces;
+﻿using KeuzeWijzerApi.DAL.DataEntities;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Services.Interfaces;
 using Microsoft.Graph;
 

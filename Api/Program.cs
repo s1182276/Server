@@ -1,4 +1,6 @@
 using KeuzeWijzerApi.DAL.DataContext;
+using KeuzeWijzerApi.DAL.Repositories;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Mapper;
 using KeuzeWijzerApi.Repositories;
 using KeuzeWijzerApi.Repositories.Interfaces;
@@ -83,16 +85,39 @@ else
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      builder =>
-                      {
-                          builder.WithOrigins("http://localhost:8030",
-                                              "https://localhost",
-                                              "https://*.hbo-ict.dev",
-                                              "*")
-                            .AllowAnyHeader() // Allow any header
-                            .AllowAnyMethod(); // Allow any HTTP method;
-                      });
+    options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
+    {
+        var envKey = Environment.GetEnvironmentVariable("ENV_KEY");
+
+        switch (envKey)
+        {
+            case "dev":
+                builder.WithOrigins("https://dev.hbo-ict.dev", "https://dev-mvc.hbo-ict.dev", "https://dev-*.hbo-ict.dev");
+                builder.WithHeaders("Authorization", "Content-Type");
+                builder.WithMethods("GET", "POST", "PUT", "DELETE");
+                break;
+            case "tst":
+                builder.WithOrigins("https://test.hbo-ict.dev", "https://tst-mvc.hbo-ict.dev", "https://tst-*.hbo-ict.dev");
+                builder.WithHeaders("Authorization", "Content-Type");
+                builder.WithMethods("GET", "POST", "PUT", "DELETE");
+                break;
+            case "acc":
+                builder.WithOrigins("https://acc.hbo-ict.dev", "https://acc-mvc.hbo-ict.dev", "https://acc-*.hbo-ict.dev");
+                builder.WithHeaders("Authorization", "Content-Type");
+                builder.WithMethods("GET", "POST", "PUT", "DELETE");
+                break;
+            case "prd":
+                builder.WithOrigins("https://hbo-ict.dev", "https://www.hbo-ict.dev", "https://mvc.hbo-ict.dev");
+                builder.WithHeaders("Authorization", "Content-Type");
+                builder.WithMethods("GET", "POST", "PUT", "DELETE");
+                break;
+            default:
+                builder.WithOrigins("*"); 
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                break;
+        }
+    });
 });
 
 // Add Automapper profile

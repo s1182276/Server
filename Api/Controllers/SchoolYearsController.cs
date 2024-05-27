@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using KeuzeWijzerApi.DAL.DataContext;
+﻿using Microsoft.AspNetCore.Mvc;
 using KeuzeWijzerApi.DAL.DataEntities;
-using KeuzeWijzerApi.Repositories.Interfaces;
 using AutoMapper;
-using KeuzeWijzerApi.Repositories;
 using KeuzeWijzerCore.Models;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 
 namespace KeuzeWijzerApi.Controllers
 {

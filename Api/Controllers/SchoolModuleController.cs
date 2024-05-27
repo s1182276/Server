@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using KeuzeWijzerApi.DAL.DataEntities;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using KeuzeWijzerCore.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace KeuzeWijzerApi.Controllers
 {
@@ -68,17 +67,6 @@ namespace KeuzeWijzerApi.Controllers
             var moduleEntity = _mapper.Map<SchoolModule>(moduleDto);
 
             await _moduleRepo.Add(moduleEntity);
-
-            foreach (var entryRequirementDto in moduleDto.EntryRequirementModules)
-            {
-                var entryRequirementModule = new EntryRequirementModule
-                {
-                    MustModuleId = entryRequirementDto.MustModuleId,
-                    MustPassed = entryRequirementDto.MustPassed,
-                    ModuleId = moduleEntity.Id
-                };
-                await _ermRepo.Add(entryRequirementModule);
-            }
 
             var updatedModule = await _moduleRepo.GetById(moduleEntity.Id);
 
