@@ -1,7 +1,8 @@
 ﻿using KeuzeWijzerCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using KeuzeWijzerApi.Repositories.Interfaces;
+using KeuzeWijzerApi.DAL.Repositories;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KeuzeWijzerApi.DAL.DataEntities;
@@ -62,6 +63,8 @@ namespace KeuzeWijzerApi.Controllers
 
             return NoContent();
         }
+
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudyroute(int id)

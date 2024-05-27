@@ -1,13 +1,13 @@
 ﻿using KeuzeWijzerApi.DAL.DataContext;
 using KeuzeWijzerApi.DAL.DataEntities;
-using KeuzeWijzerApi.Repositories.Interfaces;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KeuzeWijzerApi.Repositories
+namespace KeuzeWijzerApi.DAL.Repositories
 {
     public class StudyRouteRepo : IStudyRouteRepo
     {

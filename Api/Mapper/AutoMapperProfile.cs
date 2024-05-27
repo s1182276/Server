@@ -29,10 +29,8 @@ namespace KeuzeWijzerApi.Mapper
 
             CreateMap<StudyrouteSemester, StudyrouteSemesterDto>()
                 .ReverseMap()
-            .ForMember(dest => dest.ModuleId, opt => opt.MapFrom(src => src.Module.Id))
-            .ForMember(dest => dest.SchoolYearId, opt => opt.MapFrom(src => src.SchoolYear.Id))
-            .ForMember(dest => dest.Module, opt => opt.MapFrom(src => src.Module))
-            .ForMember(dest => dest.SchoolYear, opt => opt.MapFrom(src => src.SchoolYear));
+            .ForMember(dest => dest.ModuleId, opt => opt.MapFrom(src => src.ModuleId))
+            .ForMember(dest => dest.SchoolYearId, opt => opt.MapFrom(src => src.SchoolYearId));
         }
     }
 }
