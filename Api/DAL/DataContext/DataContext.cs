@@ -45,6 +45,8 @@ namespace KeuzeWijzerApi.DAL.DataContext
                 .WithMany()
                 .HasForeignKey(erm => erm.MustModuleId);
 
+            modelBuilder.Entity<AppUser>();
+
             new Seeder(modelBuilder).Seed();
         }
     }

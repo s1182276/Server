@@ -30,23 +30,28 @@ namespace KeuzeWijzerApi.Controllers
             return _mapper.Map<AppUser, AppUserDto>(appUser);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppUser(int id, AppUserDto appUserDto)
+        [HttpPut("study-progress")]
+        public async Task<IActionResult> UpdateStudyProgress([FromBody] StudyProgressRequestDto studyProgressRequestDto)
         {
-            if(id != appUserDto.Id)
+            AppUser appUser = await _appUserService.GetAuthenticatedAppUserAsync();
+
+            if (studyProgressRequestDto.EcPoints.HasValue)
             {
-                return BadRequest();
+                appUser.EcPoints = studyProgressRequestDto.EcPoints.Value;
             }
 
-            var appUserEntity = _mapper.Map<AppUserDto, AppUser>(appUserDto);
-
-            if (_appUserService.Exists(appUserEntity.Id))
-            { 
-                await _appUserService.UpdateAsync(appUserEntity);
-                return NoContent();
+            if(studyProgressRequestDto.StartingYear.HasValue)
+            {
+                appUser.StartingYear = studyProgressRequestDto.StartingYear.Value;
             }
 
-            return NotFound();
+            if (studyProgressRequestDto.HasPropedeuse.HasValue)
+            {
+                appUser.HasPropedeuse = studyProgressRequestDto.HasPropedeuse.Value;
+            }
+
+            await _appUserService.UpdateAsync(appUser);
+            return NoContent();
         }
     }
 }
