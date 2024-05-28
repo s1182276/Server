@@ -35,6 +35,8 @@ namespace KeuzeWijzerApi.Services
                 appUser = new AppUser()
                 {
                     AzureAdId = currentUser.Id,
+                    Role = KeuzeWijzerCore.Enums.AppRole.Student,
+                    IsFirstSignIn = true, // When we create a new app user this means its their first sign in.
                 };
 
                 await _appUserRepo.Add(appUser);

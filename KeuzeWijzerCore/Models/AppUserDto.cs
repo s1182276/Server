@@ -1,4 +1,6 @@
-﻿namespace KeuzeWijzerCore.Models
+﻿using KeuzeWijzerCore.Enums;
+
+namespace KeuzeWijzerCore.Models
 {
     public class AppUserDto
     {
@@ -8,5 +10,7 @@
         public int? StartingYear { get; set; }
         public int? EcPoints { get; set; }
         public bool HasPropedeuse { get; set; }
+        public bool IsFirstSignIn { get; set; }
+        public AppRole Role { get; set; }
     }
 }
