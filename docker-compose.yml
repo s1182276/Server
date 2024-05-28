@@ -12,6 +12,7 @@ services:
     volumes:
       - ./KeuzeWijzerCore.dll:/app/KeuzeWijzerCore.dll:r
     environment:
+      AZUREAD__CLIENTSECRET: ${AZUREAD_CLIENTSECRET}
       SENDGRID_KEY: ${SENDGRID_KEY}
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
