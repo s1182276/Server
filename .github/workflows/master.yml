@@ -41,7 +41,7 @@ jobs:
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
           SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
-          AzureAd__ClientSecret: ${{ secrets.AZUREAD__CLIENTSECRET }}
+          AZUREAD__CLIENTSECRET: "${{ secrets.AZUREAD_CLIENTSECRET }}"
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -86,7 +86,7 @@ jobs:
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
           SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
-          AzureAd__ClientSecret: ${{ secrets.AZUREAD__CLIENTSECRET }}
+          AZUREAD__CLIENTSECRET: "${{ secrets.AZUREAD_CLIENTSECRET }}"
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -131,7 +131,7 @@ jobs:
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
           SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
-          AzureAd__ClientSecret: ${{ secrets.AZUREAD__CLIENTSECRET }}
+          AZUREAD__CLIENTSECRET: "${{ secrets.AZUREAD_CLIENTSECRET }}"
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
@@ -176,7 +176,7 @@ jobs:
           docker compose -f docker-compose.yml -p ${{ vars.ENV_KEY }}-server up -d --remove-orphans
         env:
           SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
-          AzureAd__ClientSecret: ${{ secrets.AZUREAD__CLIENTSECRET }}
+          AZUREAD__CLIENTSECRET: "${{ secrets.AZUREAD_CLIENTSECRET }}"
           API_PORT: "${{ vars.API_PORT }}"
           MVC_PORT: "${{ vars.MVC_PORT }}"
           ASPNETCORE_ENVIRONMENT: "${{ vars.ASPNETCORE_ENVIRONMENT }}"
