@@ -30,6 +30,7 @@ services:
     environment:
       # Use the internal container port!
       ApiUri: "http://${ENV_KEY}-server-api-1:8080"
+      AZUREAD__CLIENTSECRET: ${AZUREAD_CLIENTSECRET}
       ASPNETCORE_HTTP_PORTS: "8082"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     networks:

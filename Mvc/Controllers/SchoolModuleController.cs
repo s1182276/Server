@@ -1,11 +1,13 @@
 ﻿using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services.Interfaces;
 using KeuzeWijzerMvc.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KeuzeWijzerMvc.Controllers
 {
+    [Authorize]
     public class SchoolModuleController : Controller
     {
         private readonly IService<SchoolModuleDto> _moduleSvc;

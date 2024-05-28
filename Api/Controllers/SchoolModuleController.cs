@@ -3,7 +3,9 @@ using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using KeuzeWijzerCore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
@@ -42,6 +44,8 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<SchoolModuleDto>(module));
         }
 
+        [Authorize]
+        [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutModule(int id, SchoolModuleDto moduleDto)
         {
@@ -61,6 +65,8 @@ namespace KeuzeWijzerApi.Controllers
             return NotFound();
         }
 
+        [Authorize]
+        [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<SchoolModuleDto>> PostModule(SchoolModuleDto moduleDto)
         {
@@ -74,6 +80,8 @@ namespace KeuzeWijzerApi.Controllers
             return CreatedAtAction(nameof(GetModule), new { id = createdModuleDto.Id }, createdModuleDto);
         }
 
+        [Authorize]
+        [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {

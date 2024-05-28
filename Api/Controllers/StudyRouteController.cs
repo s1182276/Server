@@ -6,6 +6,8 @@ using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KeuzeWijzerApi.DAL.DataEntities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
@@ -39,6 +41,8 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<StudyrouteDto>(studyRoute));
         }
 
+        [Authorize]
+        [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<StudyrouteDto>> PostStudyroute(StudyrouteDto studyRouteDto)
         {
@@ -49,6 +53,8 @@ namespace KeuzeWijzerApi.Controllers
             return CreatedAtAction("GetStudyroute", new { id = createdStudyrouteDto.Id }, createdStudyrouteDto);
         }
 
+        [Authorize]
+        [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudyroute(int id, StudyrouteDto studyRouteDto)
         {
@@ -64,8 +70,8 @@ namespace KeuzeWijzerApi.Controllers
             return NoContent();
         }
 
-
-
+        [Authorize]
+        [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudyroute(int id)
         {

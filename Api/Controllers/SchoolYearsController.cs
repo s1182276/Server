@@ -3,6 +3,8 @@ using KeuzeWijzerApi.DAL.DataEntities;
 using AutoMapper;
 using KeuzeWijzerCore.Models;
 using KeuzeWijzerApi.DAL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
@@ -38,6 +40,8 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(schoolYear);
         }
 
+        [Authorize]
+        [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSchoolYear(int id, SchoolYear schoolYear)
         {
@@ -54,6 +58,8 @@ namespace KeuzeWijzerApi.Controllers
 
         // POST: api/SchoolYears
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
+        [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<SchoolYear>> PostSchoolYear(SchoolYear schoolYear)
         {
@@ -64,6 +70,8 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         // DELETE: api/SchoolYears/5
+        [Authorize]
+        [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSchoolYear(int id)
         {
