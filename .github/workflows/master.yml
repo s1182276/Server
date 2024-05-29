@@ -16,7 +16,7 @@ jobs:
         run: |
           dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"  /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           dotnet build
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
       - name: Cleanup
         run: |
           rm -rf .sonar
