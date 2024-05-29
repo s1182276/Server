@@ -11,14 +11,23 @@ jobs:
     name: SonarQube analysis
     if: github.ref == 'refs/heads/development'
     runs-on: self-hosted
-    steps:
+    steps: 
       - uses: actions/checkout@v4
       - name: Set PATH
         run: echo "/home/student/.dotnet/tools" >> $GITHUB_PATH
+      - name: Debug Env Variables
+        env:
+          SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"         
+        run: |
+          echo "SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }}"
+          echo "SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}"
+          echo "GITHUB_REF=${GITHUB_REF}"
+          echo "PATH=${PATH}"        
       - name: Set up Sonar
         env:
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"   
         run: |
           dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url=${SONAR_HOST_URL} /d:sonar.token=${SONAR_TOKEN}
           dotnet build
