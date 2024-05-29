@@ -9,6 +9,7 @@ on:
 jobs:
   SonarQube:
     name: SonarQube analysis
+    if: github.ref == 'refs/heads/changemeback'
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
@@ -16,9 +17,9 @@ jobs:
         run: echo "/home/student/.dotnet/tools" >> $GITHUB_PATH
       - name: Scan with Sonar
         run: |
-          dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url=$SONAR_HOST_URL  /d:sonar.token=$SONAR_TOKEN
+          dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url=${SONAR_HOST_URL}  /d:sonar.token=${SONAR_TOKEN}
           dotnet build
-          dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
+          dotnet sonarscanner end /d:sonar.token=${SONAR_TOKEN}
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    
