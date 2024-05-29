@@ -21,8 +21,9 @@ jobs:
           dotnet build
           dotnet sonarscanner end /d:sonar.token=${SONAR_TOKEN}
         env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    
+          SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
+        working-directory: ${{ github.workspace }}
       - name: Cleanup
         run: |
           rm -rf .sonar
