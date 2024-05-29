@@ -9,7 +9,7 @@ on:
 jobs:
   SonarQube:
     name: SonarQube analysis
-    if: github.ref == 'refs/heads/changemeback'
+    if: github.ref == 'refs/heads/development'
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
