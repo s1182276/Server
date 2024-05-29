@@ -20,9 +20,9 @@ jobs:
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
           SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
         run: |
-          dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url=$SONAR_HOST_URL /d:sonar.token=$SONAR_TOKEN
+          dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url=${SONAR_HOST_URL} /d:sonar.token=${SONAR_TOKEN}
           dotnet build
-          dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
+          dotnet sonarscanner end /d:sonar.token=${SONAR_TOKEN}
       - name: Cleanup
         run: |
           rm -rf .sonar
