@@ -1,4 +1,5 @@
 ﻿@using System.Web
+@using RegularExpressions = System.Text.RegularExpressions
 @model IEnumerable<SchoolModuleDto>
 
 @{
@@ -24,11 +25,17 @@
                 </td>
                 <td>
                     @{
-                        var description = System.Text.RegularExpressions.Regex.Replace(item.Description, "<.*?>", string.Empty); // Remove HTML tags
-                        var words = description.Split(' ').Take(5);
-                        var shortDescription = string.Join(" ", words);
+                        if(item.Description != null)
+                        {
+                            var description = RegularExpressions.Regex.Replace(item.Description, 
+                                                                               "<.*?>", 
+                                                                               string.Empty, 
+                                                                               RegularExpressions.RegexOptions.NonBacktracking); 
+                            var words = description.Split(' ').Take(5);
+                            var shortDescription = string.Join(" ", words);
+                            @shortDescription
+                        }
                     }
-                    @shortDescription
                 </td>
                 <td>
                     @Html.ActionLink("Aanpassen", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-secondary btn-sm" })
