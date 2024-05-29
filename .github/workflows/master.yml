@@ -16,15 +16,12 @@ jobs:
       - name: Set PATH
         run: echo "/home/student/.dotnet/tools" >> $GITHUB_PATH
       - name: Set up Sonar
+        env:
+          SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
         run: |
-          export SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }}
-          export SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}
           dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url=$SONAR_HOST_URL /d:sonar.token=$SONAR_TOKEN
-      - name: Build project
-        run: dotnet build
-      - name: Scan with Sonar
-        run: |
-          export SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}
+          dotnet build
           dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
       - name: Cleanup
         run: |
