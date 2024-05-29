@@ -26,9 +26,13 @@ namespace KeuzeWijzerMvc.Controllers
             {
                 await _tokenAcquisition.GetAccessTokenForUserAsync([]);
             } 
-            catch (Exception) // Catch Exception because catching the specific MsalUiRequiredException doesnt get caught for some reason
+            catch (MicrosoftIdentityWebChallengeUserException)
             {
                 return Challenge(new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectDefaults.AuthenticationScheme);
+            }
+            catch (MsalClientException)
+            {
+                // Do nothing.. this gets thrown when token cache is full. in which case we know we can get tokens.
             }
 
             return View();
