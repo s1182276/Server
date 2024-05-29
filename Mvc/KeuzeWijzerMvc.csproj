@@ -7,6 +7,7 @@
     <UserSecretsId>aspnet-KeuzeWijzerMvc-034280b5-9bb4-4b77-a654-8b44a30812de</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\ICTDTWDa3\Server</DockerfileContext>
+    <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
 
   <ItemGroup>
