@@ -12,13 +12,12 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-      - name: Install SonarScanner
-        run: dotnet tool install --global dotnet-sonarscanner
-      - name: Build and analyze
-        run: |
-          dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"  /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          dotnet build
-          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+      - name: Set up Sonar
+        run: dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"  /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+      - name: Build project
+        run: dotnet build
+      - name: Scan with Sonar
+        run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
       - name: Cleanup
         run: |
           rm -rf .sonar
@@ -26,7 +25,7 @@ jobs:
           rm -rf **/obj
   deploy_dev:
     name: DEV
-    if: github.ref == 'refs/heads/development'
+    if: github.ref == 'refs/heads/changemeback'
     environment:
       name: DEV
     runs-on: self-hosted
