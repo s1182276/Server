@@ -18,7 +18,7 @@ jobs:
       - name: Scan with Sonar
         run: |
           echo $SONAR_HOST_URL
-          dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url=$SONAR_HOST_URL /d:sonar.token=$SONAR_TOKEN
+          dotnet sonarscanner begin /k:"Keuzewijzer-Server" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.token="$SONAR_TOKEN"
           dotnet build
           dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
         env:
