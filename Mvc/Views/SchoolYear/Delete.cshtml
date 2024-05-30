@@ -4,28 +4,48 @@
     ViewData["Title"] = "Verwijderen OER";
 }
 
-<h1>Verwijderen Module</h1>
-
 <h3>Weet je zeker dat je dit OER wilt verwijderen?</h3>
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             Naam
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             Aantal modules
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @(Model.SchoolModules.Count() > 0 ? $"{Model.SchoolModules.Count()}" : "0")
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="submit" value="Verwijderen" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-outline-danger">Terug naar overzicht</a>
+        <a asp-action="Index" class="btn btn-outline-primary">Terug naar overzicht</a>
     </form>
+
+
+    @if (Model.SchoolModules != null && Model.SchoolModules.Any())
+    {
+        <br />
+        <h5>De volgende modules zullen hun koppeling met dit OER verliezen.</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Gekoppelde module</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var module in Model.SchoolModules)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(module.Name, "Edit", "SchoolModule", new { id = module.Id })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>
