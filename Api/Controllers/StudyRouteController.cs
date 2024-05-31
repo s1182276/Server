@@ -41,7 +41,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<StudyrouteDto>(studyRoute));
         }
 
-        [Authorize]
+        [Authorize(Policy = "IsAdminGroup")]
         [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<StudyrouteDto>> PostStudyroute(StudyrouteDto studyRouteDto)
@@ -53,7 +53,7 @@ namespace KeuzeWijzerApi.Controllers
             return CreatedAtAction("GetStudyroute", new { id = createdStudyrouteDto.Id }, createdStudyrouteDto);
         }
 
-        [Authorize]
+        [Authorize(Policy = "IsAdminGroup")]
         [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudyroute(int id, StudyrouteDto studyRouteDto)
@@ -70,7 +70,7 @@ namespace KeuzeWijzerApi.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        [Authorize(Policy = "IsAdminGroup")]
         [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudyroute(int id)

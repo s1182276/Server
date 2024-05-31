@@ -35,7 +35,6 @@ namespace KeuzeWijzerApi.Services
                 appUser = new AppUser()
                 {
                     AzureAdId = currentUser.Id,
-                    Role = KeuzeWijzerCore.Enums.AppRole.Student,
                     IsFirstSignIn = true, // When we create a new app user this means its their first sign in.
                 };
 
@@ -44,6 +43,10 @@ namespace KeuzeWijzerApi.Services
 
             // Extend information using data returned by graph
             appUser.DisplayName = currentUser.DisplayName;
+
+            var userAppRoleAssignments = await _graphServiceClient.Me.AppRoleAssignments.Request().GetAsync();
+
+            appUser.AppRoles = userAppRoleAssignments.Select(x => x.ResourceDisplayName).ToArray();
 
             return appUser;
         }

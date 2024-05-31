@@ -44,7 +44,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<SchoolModuleDto>(module));
         }
 
-        [Authorize]
+        [Authorize(Policy = "IsAdminGroup")]
         [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutModule(int id, SchoolModuleDto moduleDto)
@@ -65,7 +65,7 @@ namespace KeuzeWijzerApi.Controllers
             return NotFound();
         }
 
-        [Authorize]
+        [Authorize(Policy = "IsAdminGroup")]
         [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<SchoolModuleDto>> PostModule(SchoolModuleDto moduleDto)
@@ -80,7 +80,7 @@ namespace KeuzeWijzerApi.Controllers
             return CreatedAtAction(nameof(GetModule), new { id = createdModuleDto.Id }, createdModuleDto);
         }
 
-        [Authorize]
+        [Authorize(Policy = "IsAdminGroup")]
         [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)

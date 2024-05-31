@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using KeuzeWijzerCore.Enums;
 
 namespace KeuzeWijzerApi.DAL.DataEntities
 {
@@ -15,11 +14,8 @@ namespace KeuzeWijzerApi.DAL.DataEntities
         public int? EcPoints { get; set; }
         public bool HasPropedeuse { get; set; }
 
-        /// <summary>
-        /// Flags (ex. AppUser can be a StudentSupervisor and Administrator at the same time)
-        /// </summary>
-        public AppRole Role { get; set; }
-
+        [NotMapped]
+        public string[] AppRoles { get; set; } = [];
         [NotMapped]
         public string? DisplayName { get; set; }
         [NotMapped]

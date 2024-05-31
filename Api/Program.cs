@@ -2,11 +2,13 @@ using KeuzeWijzerApi.DAL.DataContext;
 using KeuzeWijzerApi.DAL.Repositories;
 using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Mapper;
+using KeuzeWijzerApi.Middleware;
 using KeuzeWijzerApi.Repositories;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using KeuzeWijzerApi.Services;
 using KeuzeWijzerApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -18,8 +20,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
     .EnableTokenAcquisitionToCallDownstreamApi()
-        .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
-        .AddInMemoryTokenCaches();
+    .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
+    .AddInMemoryTokenCaches();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IsAdminGroup", policy => policy.Requirements.Add(new GroupsCheckRequirement([builder.Configuration["Groups:AdminGroupId"]])));
+    options.AddPolicy("IsStudentGroup", policy => policy.Requirements.Add(new GroupsCheckRequirement([builder.Configuration["Groups:StudentGroupId"]])));
+});
+builder.Services.AddScoped<IAuthorizationHandler, GroupsCheckHandler>();
 
 // Fix recursive lookups
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
@@ -81,7 +90,6 @@ else
     builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
        options.UseSqlite(builder.Configuration.GetConnectionString("DeveloptmentConnection")));
 }
-
 
 builder.Services.AddCors(options =>
 {
