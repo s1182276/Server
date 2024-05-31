@@ -40,7 +40,7 @@ namespace KeuzeWijzerApi.Controllers
                 appUser.EcPoints = studyProgressRequestDto.EcPoints.Value;
             }
 
-            if(studyProgressRequestDto.StartingYear.HasValue)
+            if (studyProgressRequestDto.StartingYear.HasValue)
             {
                 appUser.StartingYear = studyProgressRequestDto.StartingYear.Value;
             }

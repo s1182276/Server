@@ -8,6 +8,7 @@
 		<UserSecretsId>2c7e3796-2ecd-46e5-b02b-f42ce872a782</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>.</DockerfileContext>
+    <SonarQubeTestProject>false</SonarQubeTestProject>
 	</PropertyGroup>
 
 	<ItemGroup>

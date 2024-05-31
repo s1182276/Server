@@ -4,7 +4,6 @@ using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using KeuzeWijzerCore.AuthorizationPolicies;
 using KeuzeWijzerCore.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 

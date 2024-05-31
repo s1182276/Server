@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
 using KeuzeWijzerApi.DAL.DataEntities;
-using AutoMapper;
-using KeuzeWijzerCore.Models;
 using KeuzeWijzerApi.DAL.Repositories.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Identity.Web.Resource;
 using KeuzeWijzerCore.AuthorizationPolicies;
+using KeuzeWijzerCore.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
