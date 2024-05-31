@@ -40,7 +40,7 @@ namespace KeuzeWijzerApi.Controllers
             var studyRoute = await _studyRouteRepo.GetById(id);
             var studentId = await _appUserService.GetAuthenticatedAppUserAsync();
 
-            if (studyRoute.StudentId != studentId.Id) { return Unauthorized(); }
+            if (studyRoute?.StudentId != studentId.Id) { return Unauthorized(); }
 
             if (studyRoute == null) { return NotFound(); }
 
