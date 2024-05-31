@@ -1,12 +1,9 @@
-﻿using KeuzeWijzerCore.Models;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using KeuzeWijzerApi.DAL.Repositories;
-using KeuzeWijzerApi.DAL.Repositories.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using KeuzeWijzerApi.DAL.DataEntities;
-using Microsoft.AspNetCore.Authorization;
+using KeuzeWijzerApi.DAL.Repositories.Interfaces;
+using KeuzeWijzerCore.AuthorizationPolicies;
+using KeuzeWijzerCore.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
@@ -41,7 +38,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<StudyrouteDto>(studyRoute));
         }
 
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<StudyrouteDto>> PostStudyroute(StudyrouteDto studyRouteDto)
@@ -53,7 +50,7 @@ namespace KeuzeWijzerApi.Controllers
             return CreatedAtAction("GetStudyroute", new { id = createdStudyrouteDto.Id }, createdStudyrouteDto);
         }
 
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudyroute(int id, StudyrouteDto studyRouteDto)
@@ -70,7 +67,7 @@ namespace KeuzeWijzerApi.Controllers
             return NoContent();
         }
 
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudyroute(int id)

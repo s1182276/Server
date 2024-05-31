@@ -5,6 +5,7 @@ using KeuzeWijzerCore.Models;
 using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
+using KeuzeWijzerCore.AuthorizationPolicies;
 
 namespace KeuzeWijzerApi.Controllers
 {
@@ -40,7 +41,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(schoolYear);
         }
 
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSchoolYear(int id, SchoolYear schoolYear)
@@ -58,7 +59,7 @@ namespace KeuzeWijzerApi.Controllers
 
         // POST: api/SchoolYears
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<SchoolYear>> PostSchoolYear(SchoolYear schoolYear)
@@ -70,7 +71,7 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         // DELETE: api/SchoolYears/5
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSchoolYear(int id)

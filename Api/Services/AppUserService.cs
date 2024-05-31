@@ -1,19 +1,30 @@
 ﻿using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Services.Interfaces;
+using KeuzeWijzerCore.Enums;
 using Microsoft.Graph;
 
 namespace KeuzeWijzerApi.Services
 {
     public class AppUserService : IAppUserService
     {
+        private readonly IConfigurationSection _groupsConfigurationSection;
         private readonly IAppUserRepo _appUserRepo;
         private readonly GraphServiceClient _graphServiceClient;
+        private readonly Dictionary<string, AppUserRole> _groupsAppUserRoleTranslation;
 
-        public AppUserService(IAppUserRepo appUserRepo, GraphServiceClient graphServiceClient)
+        public AppUserService(IConfiguration configuration, IAppUserRepo appUserRepo, GraphServiceClient graphServiceClient)
         {
+            _groupsConfigurationSection = configuration.GetRequiredSection("Groups");
             _appUserRepo = appUserRepo;
             _graphServiceClient = graphServiceClient;
+
+            _groupsAppUserRoleTranslation = new Dictionary<string, AppUserRole>()
+            {
+                { _groupsConfigurationSection["StudentGroupId"]!, AppUserRole.Student },
+                { _groupsConfigurationSection["StudentSupervisorGroupId"]!, AppUserRole.StudentSupervisor },
+                { _groupsConfigurationSection["AdministratorGroupId"]!, AppUserRole.Administrator }
+            };
         }
 
         public bool Exists(int userId)
@@ -43,17 +54,27 @@ namespace KeuzeWijzerApi.Services
 
             // Extend information using data returned by graph
             appUser.DisplayName = currentUser.DisplayName;
-
-            var userAppRoleAssignments = await _graphServiceClient.Me.AppRoleAssignments.Request().GetAsync();
-
-            appUser.AppRoles = userAppRoleAssignments.Select(x => x.ResourceDisplayName).ToArray();
+            appUser.AppUserRole = await GetAuthenticatedAppUserRole();
 
             return appUser;
         }
+
 
         public async Task UpdateAsync(AppUser appUser)
         {
             await _appUserRepo.Update(appUser);
         }
+
+        private async Task<AppUserRole> GetAuthenticatedAppUserRole()
+        {
+            var userGroups = await _graphServiceClient.Me.CheckMemberGroups(GetAllConfiguredGroups()).Request().PostAsync();
+            var userRole = (AppUserRole)userGroups.Distinct()
+                .Select(groupId => _groupsAppUserRoleTranslation[groupId])
+                .Sum(appUserRole => (int)appUserRole);
+
+            return userRole;
+        }
+
+        private IEnumerable<string> GetAllConfiguredGroups() => _groupsConfigurationSection.AsEnumerable().Where(x => x.Value != null).Select(x => x.Value);
     }
 }

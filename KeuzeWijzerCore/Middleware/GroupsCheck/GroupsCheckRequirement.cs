@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace KeuzeWijzerApi.Middleware
+namespace KeuzeWijzerCore.Middleware.GroupsCheck
 {
     public class GroupsCheckRequirement : IAuthorizationRequirement
     {
@@ -8,7 +8,7 @@ namespace KeuzeWijzerApi.Middleware
 
         public GroupsCheckRequirement(IEnumerable<string> groupIds)
         {
-            this.GroupIds = groupIds;
+            GroupIds = groupIds;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using KeuzeWijzerCore.Models;
+﻿using KeuzeWijzerCore.AuthorizationPolicies;
+using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services.Interfaces;
 using KeuzeWijzerMvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KeuzeWijzerMvc.Controllers
 {
-    [Authorize]
+    [AuthorizeIsInStudentSupervisorGroup]
     public class SchoolYearController : Controller
     {
         private readonly IService<SchoolYearDto> _schoolYearSvc;

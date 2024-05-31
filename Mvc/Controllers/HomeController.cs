@@ -5,10 +5,11 @@ using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Client;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication;
+using KeuzeWijzerCore.AuthorizationPolicies;
 
 namespace KeuzeWijzerMvc.Controllers
 {
-    [Authorize]
+    [AuthorizeIsInAdministratorGroup]
     public class HomeController : Controller
     {
         private readonly ITokenAcquisition _tokenAcquisition;

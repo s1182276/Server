@@ -1,3 +1,5 @@
+using KeuzeWijzerCore.AuthorizationPolicies;
+using KeuzeWijzerCore.Middleware.GroupsCheck;
 using KeuzeWijzerCore.Models;
 using KeuzeWijzerMvc.Services;
 using KeuzeWijzerMvc.Services.Interfaces;
@@ -17,7 +19,13 @@ builder.Services.AddHttpClient("ApiClient");
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
         .EnableTokenAcquisitionToCallDownstreamApi()
-            .AddInMemoryTokenCaches();
+        .AddInMemoryTokenCaches();
+
+builder.Services.AddAuthorization(options =>
+{
+    new IsInGroupAuthorizationPolicy(builder.Configuration.GetSection("Groups")).AddPolicies(options);
+});
+builder.Services.AddScoped<IAuthorizationHandler, GroupsCheckHandler>();
 
 builder.Services.AddControllersWithViews(options =>
 {

@@ -2,6 +2,7 @@
 using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Repositories.Interfaces;
+using KeuzeWijzerCore.AuthorizationPolicies;
 using KeuzeWijzerCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +45,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<SchoolModuleDto>(module));
         }
 
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutModule(int id, SchoolModuleDto moduleDto)
@@ -65,7 +66,7 @@ namespace KeuzeWijzerApi.Controllers
             return NotFound();
         }
 
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<SchoolModuleDto>> PostModule(SchoolModuleDto moduleDto)
@@ -80,7 +81,7 @@ namespace KeuzeWijzerApi.Controllers
             return CreatedAtAction(nameof(GetModule), new { id = createdModuleDto.Id }, createdModuleDto);
         }
 
-        [Authorize(Policy = "IsAdminGroup")]
+        [AuthorizeIsInAdministratorGroup]
         [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)

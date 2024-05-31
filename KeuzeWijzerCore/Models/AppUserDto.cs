@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using KeuzeWijzerCore.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KeuzeWijzerCore.Models
 {
@@ -11,6 +12,6 @@ namespace KeuzeWijzerCore.Models
         public int? EcPoints { get; set; }
         public bool HasPropedeuse { get; set; }
         public bool IsFirstSignIn { get; set; }
-        public string[] AppRoles { get; set; }
+        public AppUserRole AppUserRole { get; set; }
     }
 }
