@@ -68,9 +68,9 @@ namespace KeuzeWijzerApi.Services
         private async Task<AppUserRole> GetAuthenticatedAppUserRole()
         {
             var userGroups = await _graphServiceClient.Me.CheckMemberGroups(GetAllConfiguredGroups()).Request().PostAsync();
-            var userRole = (AppUserRole)userGroups.Distinct()
+            var userRole = userGroups.Distinct()
                 .Select(groupId => _groupsAppUserRoleTranslation[groupId])
-                .Sum(appUserRole => (int)appUserRole);
+                .Aggregate((prev, next) => prev | next);
 
             return userRole;
         }
