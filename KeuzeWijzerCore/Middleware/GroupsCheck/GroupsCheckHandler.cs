@@ -10,7 +10,9 @@ namespace KeuzeWijzerCore.Middleware.GroupsCheck
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, GroupsCheckRequirement requirement)
         {
             var result = GetGroups(context.User);
-            if (requirement.GroupIds.All(groupId => result.Contains(groupId)))
+            if (requirement.MustIncludeAll 
+                ? requirement.GroupIds.All(groupId => result.Contains(groupId)) 
+                : requirement.GroupIds.Any(groupId => result.Contains(groupId)))
             {
                 context.Succeed(requirement);
             }

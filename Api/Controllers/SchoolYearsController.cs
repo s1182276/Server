@@ -22,6 +22,7 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         // GET: api/SchoolYears
+        [AuthorizeIsInAdministratorGroup]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SchoolYear>>> GetSchoolYears()
         {
@@ -30,6 +31,7 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         // GET: api/SchoolYears/5
+        [AuthorizeIsInAdministratorGroup]
         [HttpGet("{id}")]
         public async Task<ActionResult<SchoolYear>> GetSchoolYear(int id)
         {
@@ -41,7 +43,6 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [AuthorizeIsInAdministratorGroup]
-        [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSchoolYear(int id, SchoolYear schoolYear)
         {
@@ -59,7 +60,6 @@ namespace KeuzeWijzerApi.Controllers
         // POST: api/SchoolYears
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [AuthorizeIsInAdministratorGroup]
-        [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<SchoolYear>> PostSchoolYear(SchoolYear schoolYear)
         {
@@ -71,7 +71,6 @@ namespace KeuzeWijzerApi.Controllers
 
         // DELETE: api/SchoolYears/5
         [AuthorizeIsInAdministratorGroup]
-        [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSchoolYear(int id)
         {

@@ -24,6 +24,7 @@ namespace KeuzeWijzerApi.Controllers
             _appUserService = appUserService;
         }
 
+        [AuthorizeIsInStudentOrStudentSupervisorGroup]
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<StudyrouteDto>>> GetStudyroutes()
         {
@@ -33,6 +34,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<IEnumerable<StudyrouteDto>>(result));
         }
 
+        [AuthorizeIsInStudentOrStudentSupervisorGroup]
         [HttpGet("{id}")]
         public async Task<ActionResult<StudyrouteDto>> GetStudyroute(int id)
         {
@@ -46,8 +48,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<StudyrouteDto>(studyRoute));
         }
 
-        [AuthorizeIsInAdministratorGroup]
-        [RequiredScope("All")]
+        [AuthorizeIsInStudentOrStudentSupervisorGroup]
         [HttpPost]
         public async Task<ActionResult<StudyrouteDto>> PostStudyroute(StudyrouteDto studyRouteDto)
         {
@@ -60,8 +61,7 @@ namespace KeuzeWijzerApi.Controllers
             return CreatedAtAction("GetStudyroute", new { id = createdStudyrouteDto.Id }, createdStudyrouteDto);
         }
 
-        [AuthorizeIsInAdministratorGroup]
-        [RequiredScope("All")]
+        [AuthorizeIsInStudentOrStudentSupervisorGroup]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudyroute(int id, StudyrouteDto studyRouteDto)
         {
@@ -80,7 +80,7 @@ namespace KeuzeWijzerApi.Controllers
             return NoContent();
         }
 
-        [AuthorizeIsInAdministratorGroup]
+        [AuthorizeIsInStudentOrStudentSupervisorGroup]
         [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudyroute(int id)

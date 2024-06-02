@@ -9,7 +9,6 @@ using Microsoft.Identity.Web.Resource;
 namespace KeuzeWijzerApi.Controllers
 {
     [Authorize]
-    [RequiredScope("All")]
     [ApiController]
     [Route("[controller]")]
     public class AppUserController : Controller

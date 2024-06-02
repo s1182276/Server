@@ -10,6 +10,7 @@ namespace KeuzeWijzerCore.AuthorizationPolicies
         public const string IsInAdministratorGroupPolicyName = "IsInAdminGroup";
         public const string IsInStudentGroupPolicyName = "IsInStudentGroup";
         public const string IsInStudentSupervisorGroupPolicyName = "IsInStudentSupervisorGroup";
+        public const string IsInStudentOrStudentSupervisorGroupPolicyName = "IsInStudentOrStudentSupervisorGroup";
 
         private readonly Groups _options = new();
 
@@ -28,6 +29,7 @@ namespace KeuzeWijzerCore.AuthorizationPolicies
             options.AddPolicy(IsInAdministratorGroupPolicyName, policy => policy.Requirements.Add(new GroupsCheckRequirement([_options.AdministratorGroupId!])));
             options.AddPolicy(IsInStudentGroupPolicyName, policy => policy.Requirements.Add(new GroupsCheckRequirement([_options.StudentGroupId!])));
             options.AddPolicy(IsInStudentSupervisorGroupPolicyName, policy => policy.Requirements.Add(new GroupsCheckRequirement([_options.StudentSupervisorGroupId!])));
+            options.AddPolicy(IsInStudentOrStudentSupervisorGroupPolicyName, policy => policy.Requirements.Add(new GroupsCheckRequirement([_options.StudentGroupId!, _options.StudentSupervisorGroupId!], false)));
         }
 
         private class Groups
@@ -63,6 +65,14 @@ namespace KeuzeWijzerCore.AuthorizationPolicies
         public AuthorizeIsInStudentSupervisorGroupAttribute()
         {
             Policy = IsInGroupAuthorizationPolicy.IsInStudentSupervisorGroupPolicyName;
+        }
+    }
+
+    public class AuthorizeIsInStudentOrStudentSupervisorGroupAttribute : AuthorizeAttribute
+    {
+        public AuthorizeIsInStudentOrStudentSupervisorGroupAttribute()
+        {
+            Policy = IsInGroupAuthorizationPolicy.IsInStudentOrStudentSupervisorGroupPolicyName;
         }
     }
     #endregion

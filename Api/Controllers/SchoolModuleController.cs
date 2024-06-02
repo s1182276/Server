@@ -24,6 +24,7 @@ namespace KeuzeWijzerApi.Controllers
             _ermRepo = ermRepo;
         }
 
+        [AuthorizeIsInAdministratorGroup]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SchoolModuleDto>>> GetModules()
         {
@@ -31,6 +32,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<IEnumerable<SchoolModuleDto>>(modules));
         }
 
+        [AuthorizeIsInAdministratorGroup]
         [HttpGet("{id}")]
         public async Task<ActionResult<SchoolModuleDto>> GetModule(int id)
         {
@@ -45,7 +47,6 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [AuthorizeIsInAdministratorGroup]
-        [RequiredScope("All")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutModule(int id, SchoolModuleDto moduleDto)
         {
@@ -66,7 +67,6 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [AuthorizeIsInAdministratorGroup]
-        [RequiredScope("All")]
         [HttpPost]
         public async Task<ActionResult<SchoolModuleDto>> PostModule(SchoolModuleDto moduleDto)
         {
@@ -81,7 +81,6 @@ namespace KeuzeWijzerApi.Controllers
         }
 
         [AuthorizeIsInAdministratorGroup]
-        [RequiredScope("All")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
