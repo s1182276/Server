@@ -2,8 +2,10 @@
 using KeuzeWijzerApi.DAL.DataEntities;
 using KeuzeWijzerApi.DAL.Repositories.Interfaces;
 using KeuzeWijzerApi.Repositories.Interfaces;
+using KeuzeWijzerCore.AuthorizationPolicies;
 using KeuzeWijzerCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 
 namespace KeuzeWijzerApi.Controllers
 {
@@ -22,6 +24,7 @@ namespace KeuzeWijzerApi.Controllers
             _ermRepo = ermRepo;
         }
 
+        [AuthorizeIsInAdministratorGroup]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SchoolModuleDto>>> GetModules()
         {
@@ -29,6 +32,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<IEnumerable<SchoolModuleDto>>(modules));
         }
 
+        [AuthorizeIsInAdministratorGroup]
         [HttpGet("{id}")]
         public async Task<ActionResult<SchoolModuleDto>> GetModule(int id)
         {
@@ -42,6 +46,7 @@ namespace KeuzeWijzerApi.Controllers
             return Ok(_mapper.Map<SchoolModuleDto>(module));
         }
 
+        [AuthorizeIsInAdministratorGroup]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutModule(int id, SchoolModuleDto moduleDto)
         {
@@ -61,6 +66,7 @@ namespace KeuzeWijzerApi.Controllers
             return NotFound();
         }
 
+        [AuthorizeIsInAdministratorGroup]
         [HttpPost]
         public async Task<ActionResult<SchoolModuleDto>> PostModule(SchoolModuleDto moduleDto)
         {
@@ -74,6 +80,7 @@ namespace KeuzeWijzerApi.Controllers
             return CreatedAtAction(nameof(GetModule), new { id = createdModuleDto.Id }, createdModuleDto);
         }
 
+        [AuthorizeIsInAdministratorGroup]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {

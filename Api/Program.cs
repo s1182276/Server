@@ -6,7 +6,10 @@ using KeuzeWijzerApi.Repositories;
 using KeuzeWijzerApi.Repositories.Interfaces;
 using KeuzeWijzerApi.Services;
 using KeuzeWijzerApi.Services.Interfaces;
+using KeuzeWijzerCore.AuthorizationPolicies;
+using KeuzeWijzerCore.Middleware.GroupsCheck;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -18,8 +21,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
     .EnableTokenAcquisitionToCallDownstreamApi()
-        .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
-        .AddInMemoryTokenCaches();
+    .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
+    .AddInMemoryTokenCaches();
+
+builder.Services.AddAuthorization(options =>
+{
+    new IsInGroupAuthorizationPolicy(builder.Configuration.GetSection("Groups")).AddPolicies(options);
+});
+builder.Services.AddScoped<IAuthorizationHandler, GroupsCheckHandler>();
 
 // Fix recursive lookups
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
@@ -81,7 +90,6 @@ else
     builder.Services.AddDbContext<KeuzeWijzerContext>(options =>
        options.UseSqlite(builder.Configuration.GetConnectionString("DeveloptmentConnection")));
 }
-
 
 builder.Services.AddCors(options =>
 {

@@ -9,7 +9,6 @@ using Microsoft.Identity.Web.Resource;
 namespace KeuzeWijzerApi.Controllers
 {
     [Authorize]
-    [RequiredScope("All", "AppUser")]
     [ApiController]
     [Route("[controller]")]
     public class AppUserController : Controller
@@ -40,7 +39,7 @@ namespace KeuzeWijzerApi.Controllers
                 appUser.EcPoints = studyProgressRequestDto.EcPoints.Value;
             }
 
-            if(studyProgressRequestDto.StartingYear.HasValue)
+            if (studyProgressRequestDto.StartingYear.HasValue)
             {
                 appUser.StartingYear = studyProgressRequestDto.StartingYear.Value;
             }

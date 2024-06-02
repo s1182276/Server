@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using KeuzeWijzerCore.Enums;
 
 namespace KeuzeWijzerApi.DAL.DataEntities
 {
@@ -16,5 +17,14 @@ namespace KeuzeWijzerApi.DAL.DataEntities
 
         [NotMapped]
         public string? DisplayName { get; set; }
+        [NotMapped]
+        public bool IsFirstSignIn { get; set; }
+        [NotMapped]
+        public AppUserRole AppUserRole { get; set; }
+
+        public bool HasRole(AppUserRole appUserRole)
+        {
+            return AppUserRole.HasFlag(appUserRole);
+        }
     }
 }
