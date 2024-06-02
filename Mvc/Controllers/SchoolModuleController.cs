@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KeuzeWijzerMvc.Controllers
 {
-    [AuthorizeIsInStudentSupervisorGroup]
+    [AuthorizeIsInAdministratorGroup]
     public class SchoolModuleController : Controller
     {
         private readonly IService<SchoolModuleDto> _moduleSvc;

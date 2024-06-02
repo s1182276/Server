@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KeuzeWijzerMvc.Controllers
 {
-    [AuthorizeIsInStudentSupervisorGroup]
+    [AuthorizeIsInAdministratorGroup]
     public class SchoolYearController : Controller
     {
         private readonly IService<SchoolYearDto> _schoolYearSvc;
