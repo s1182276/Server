@@ -97,8 +97,8 @@ namespace KeuzeWijzerApi.DAL
             );
 
             _modelBuilder.Entity<Studyroute>().HasData(
-                new Studyroute { Id = 1, Name = "Studieroute1", HistoricalRoute = false, StudentId = 1234 },
-                new Studyroute { Id = 2, Name = "Studieroute2", HistoricalRoute = true, StudentId = 1234 }
+                new Studyroute { Id = 1, Name = "Studieroute1", HistoricalRoute = false, StudentId = 1 },
+                new Studyroute { Id = 2, Name = "Studieroute2", HistoricalRoute = true, StudentId = 1 }
             );
 
             _modelBuilder.Entity<StudyrouteSemester>().HasData(

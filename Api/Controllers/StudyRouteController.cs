@@ -73,6 +73,8 @@ namespace KeuzeWijzerApi.Controllers
             if (studyRouteEntity == null) return NotFound();
             if (studyRouteEntity.StudentId != studentId.Id) return Unauthorized();
 
+            studyRouteDto.StudentId = studentId.Id;
+
             _mapper.Map(studyRouteDto, studyRouteEntity);
 
             await _studyRouteRepo.Update(studyRouteEntity);
